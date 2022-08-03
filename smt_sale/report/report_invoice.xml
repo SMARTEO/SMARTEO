@@ -39,13 +39,13 @@
                     <div>
                         <span>NIF :</span>
                         <span t-field="o.partner_id.nif" />
-                        <br />
+                        /
                         <span>STAT :</span>
                         <span t-field="o.partner_id.stat" />
                         <br />
                         <span>RCS :</span>
                         <span t-field="o.partner_id.rcs" />
-                        <br />
+                        /
                         <span>CIF :</span>
                         <span t-field="o.partner_id.cif" />
                     </div>

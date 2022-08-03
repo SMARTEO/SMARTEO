@@ -74,16 +74,16 @@
                     <div t-field="doc.partner_invoice_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" />
                     <div>
                         <span>NIF :</span>
-                        <span t-field="doc.partner_invoice_id.nif" />
-                        <br />
+                        <span t-field="o.partner_id.nif" />
+                        /
                         <span>STAT :</span>
-                        <span t-field="doc.partner_invoice_id.stat" />
+                        <span t-field="o.partner_id.stat" />
                         <br />
                         <span>RCS :</span>
-                        <span t-field="doc.partner_invoice_id.rcs" />
-                        <br />
+                        <span t-field="o.partner_id.rcs" />
+                        /
                         <span>CIF :</span>
-                        <span t-field="doc.partner_invoice_id.cif" />
+                        <span t-field="o.partner_id.cif" />
                     </div>
                     <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
                         <strong>Shipping Address:</strong>
