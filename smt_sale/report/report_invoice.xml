@@ -13,7 +13,7 @@
                         &#160;
                     </div>
                     <div>
-                        <strong>Methode de payement</strong>
+                        <strong>Mode de paiement</strong>
                         :
                         <span t-field="o.invoice_payment_term_id.note" />
                     </div>
