@@ -21,6 +21,8 @@
         # 'security/ir.model.access.csv',
         "views/views.xml",
         "views/templates.xml",
+        "report/layout_boxed.xml",
+        "report/report_invoice.xml",
         "report/report_sale_order.xml",
     ],
     # only loaded in demonstration mode

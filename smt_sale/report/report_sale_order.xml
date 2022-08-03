@@ -28,6 +28,7 @@
             <xpath expr="//t[@t-set='information_block']/.." position="attributes">
                 <attribute name="t-if">doc.partner_id or doc.partner_shipping_id or doc.partner_invoice_id</attribute>
             </xpath>
+
             <xpath expr="//div[@id='total']/div" position="attributes">
                 <attribute name="t-attf-class">#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'}</attribute>
             </xpath>
@@ -60,44 +61,37 @@
             <xpath expr="//table[hasclass('o_main_table')]/thead/tr[1]" position="attributes">
                 <attribute name="style">font-size: 10px !important;</attribute>
             </xpath>
-
             <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()]" position="replace">
                 <th name="th_subtotal" class="text-right">
                     <t groups="account.group_show_line_subtotals_tax_excluded">Montant HT</t>
                     <t groups="account.group_show_line_subtotals_tax_included">Total Price</t>
                 </th>
             </xpath>
-        </template>
-        <template id="external_layout_boxed_nexources" inherit_id="web.external_layout_boxed">
-            <xpath expr="//div[hasclass('o_boxed_header')]" position="replace">
-                <div class="o_boxed_header">
-                    <div class="row mb8">
-                        <div class="col-6">
-                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" />
-                        </div>
-                        <div class="col-6 text-right mb4">
-                            <h4 class="mt0" t-field="company.name" />
-                            <div class="mb4">
-                                <div>
-                                    <span t-field="company.street" />
-                                </div>
-                                <div>
-                                    <span t-field="company.street2" />
-                                    &#160;
-                                    <span t-field="company.city" />
-                                    &#160;
-                                    <span t-field="company.state_id.name" />
-                                    &#160;
-                                    <span t-field="company.zip" />
-                                    &#160;
-                                    <span t-field="company.country_id.name" />
-                                </div>
-                            </div>
-                            <h5 class="mt0" t-field="company.report_header" />
-                        </div>
+            <xpath expr="//t[@t-set='information_block']" position="replace">
+                <t t-set="information_block">
+                    <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Addresse de livraison et de facturation:</strong>
+                    <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Addresse de facturation:</strong>
+                    <div t-field="doc.partner_invoice_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" />
+                    <div>
+                        <span>NIF :</span>
+                        <span t-field="doc.partner_invoice_id.nif" />
+                        <br />
+                        <span>STAT :</span>
+                        <span t-field="doc.partner_invoice_id.stat" />
+                        <br />
+                        <span>RCS :</span>
+                        <span t-field="doc.partner_invoice_id.rcs" />
+                        <br />
+                        <span>CIF :</span>
+                        <span t-field="doc.partner_invoice_id.cif" />
                     </div>
-                </div>
+                    <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
+                        <strong>Shipping Address:</strong>
+                        <div t-field="doc.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" />
+                    </t>
+                </t>
             </xpath>
         </template>
+
     </data>
 </odoo>
