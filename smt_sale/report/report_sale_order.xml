@@ -89,6 +89,8 @@
                         <span t-if="doc.partner_id.rcs">/</span>
                         <span t-if="doc.partner_id.cif">CIF :</span>
                         <span t-field="doc.partner_id.cif" />
+                        <br />
+                        <br />
                     </div>
                     <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
                         <strong>Addresse de livraison:</strong>
