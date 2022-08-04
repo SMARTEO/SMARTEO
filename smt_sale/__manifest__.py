@@ -25,7 +25,11 @@
         "report/report_invoice.xml",
         "report/report_sale_order.xml",
     ],
-    # only loaded in demonstration mode
+    "assets": {
+        "web.assets_backend": [
+            "smt_sale/static/src/scss/custom_layout.scss",
+        ],
+    },
     "demo": [
         "demo/demo.xml",
     ],

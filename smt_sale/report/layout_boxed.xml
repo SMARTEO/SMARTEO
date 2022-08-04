@@ -1,6 +1,6 @@
 <odoo>
     <data>
-        <template id="external_layout_boxed_nexources" inherit_id="web.external_layout_boxed">
+        <template id="external_layout_boxed_nexource" inherit_id="web.external_layout_boxed">
             <xpath expr="//div[hasclass('o_boxed_header')]" position="replace">
                 <div class="o_boxed_header">
                     <div class="row mb8">
@@ -32,7 +32,7 @@
             </xpath>
             <xpath expr="//div[hasclass('text-center')]" position="replace">
                 <div class="text-center">
-                    <div style="font-size:11px !important;" t-field="company.report_footer" />
+                    <div style="font-size:11px !important; margin-top: 20px !important;" t-field="company.report_footer" />
                     <div t-if="report_type == 'pdf'">
                         <span class=" page" />
                         /
