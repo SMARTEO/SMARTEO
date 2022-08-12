@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <template id="report_purchase_order_inherit" inherit_id="purchase.report_purchaseorder_document">
+            <xpath expr="//h2[2]" position="replace">
+                <!-- t-if="o.state in ['purchase', 'done']" -->
+                <h2>
+                    Bon de commande :
+                    <span t-field="o.name" />
+                </h2>
+            </xpath>
+            <xpath expr="//div[@id='informations']" position="inside">
+                <div t-if="o.origin" class="col-3 bm-2">
+                    <strong>Document d'origine:</strong>
+                    <p t-field="o.origin" class="m-0" />
+                </div>
+            </xpath>
+            <!-- <xpath expr="//span[@t-field='o.amount_tax']/../.." position="replace"></xpath> -->
+            <!-- <xpath expr="//span[@t-field='o.amount_total']/../.." position="before">
+                <t t-set="vats" t-value="o.get_taxes_values()" />
+                <t t-foreach="vats.keys()" t-as="k">
+                    <tr>
+                        <td>
+                            VAT
+                            <span t-esc="o.env['account.tax'].browse(vats[k]['tax_id']).amount" />
+                            %
+                        </td>
+                        <td class="text-right">
+                            <span t-esc="vats[k]['amount']" t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
+                        </td>
+                    </tr>
+                </t>
+            </xpath> -->
+            <xpath expr="//div[@id='total']/div" position="before">
+                <div class="col-8">
+                    <div>
+                        <strong>Methode de paiement :</strong>
+                        <span t-field="o.payment_term_id.note" />
+                    </div>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>
