@@ -98,8 +98,21 @@
                 </t>
             </xpath>
             <xpath expr="//table[hasclass('o_main_table')]/thead/tr[1]" position="attributes">
-                <attribute name="style">font-size: 11px !important;</attribute>
+                <attribute name="style">font-size: 11px !important; </attribute>
             </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]/thead/tr" position="attributes">
+                <attribute name="style">page-break-inside: avoid !important; page-break-after: auto;</attribute>
+            </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]/tbody/t/tr" position="attributes">
+                <attribute name="style">page-break-inside: avoid !important; page-break-after: auto;</attribute>
+            </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]/thead" position="attributes">
+                <attribute name="style">display: table-header-group;</attribute>
+            </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]/thead" position="attributes">
+                <attribute name="style">page-break-inside: auto;</attribute>
+            </xpath>
+
         </template>
 
     </data>
