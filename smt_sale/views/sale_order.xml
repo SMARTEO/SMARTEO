@@ -11,6 +11,9 @@
                 <xpath expr="//group[@name='order_details']/field[@name='date_order']" position="attributes">
                     <attribute name="groups">base.group_user</attribute>
                 </xpath>
+                <xpath expr="//button[@name='action_quotation_send']" position="after">
+                    <button name="update_all_margin" type="object" string="MAJ MARGE" invisible="1"/>
+                </xpath>
             </field>
         </record>
     </data>
