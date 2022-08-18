@@ -25,9 +25,9 @@
                                     <span t-field="company.country_id.name" />
                                 </div>
                             </div>
-                            <h3>
+                            <h5>
                                 <span t-field="company.report_header" />
-                            </h3>
+                            </h5>
                         </div>
                     </div>
                 </div>
