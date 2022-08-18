@@ -24,6 +24,7 @@
         "report/layout_boxed.xml",
         "report/report_invoice.xml",
         "report/report_sale_order.xml",
+        "views/sale_order.xml",
     ],
     "assets": {
         "web.assets_backend": [
