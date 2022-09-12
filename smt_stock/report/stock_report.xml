@@ -3,10 +3,10 @@
     <data>
 
         <template id="report_stock_report" inherit_id="stock.report_delivery_document">
-
             <xpath expr="//div[@name='signature']" position="before">
                 <span t-if="o.note != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
-                    <span>NOTE : </span> <span t-esc="o.note"/>
+                    <span>NOTE : </span>
+                    <span t-esc="o.note" />
                 </span>
             </xpath>
         </template>

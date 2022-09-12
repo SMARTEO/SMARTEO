@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record id="stock_valuation_layer_pivot_inherit" model="ir.ui.view">
+            <field name="name">stock.valuation.layer.pivot.inherit</field>
+            <field name="model">stock.valuation.layer</field>
+            <field name="inherit_id" ref="stock_account.stock_valuation_layer_pivot" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='quantity']" position="after">
+                    <field name="product_id" />
+                    <field name="categ_id" />
+                </xpath>
+            </field>
+        </record>
+        <record id="stock_account.stock_valuation_layer_action" model="ir.actions.act_window">
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="view_id" ref="stock_account.stock_valuation_layer_tree" />
+        </record>
+    </data>
+</odoo>
