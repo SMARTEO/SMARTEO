@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from ast import Store
 from odoo import models, fields, api
 
 
@@ -13,5 +14,8 @@ class StockValuationLayerInherit(models.Model):
     )
 
     standard_price = fields.Float(
-        related="product_id.standard_price", store=True, string="Prix unitaire"
+        related="product_id.standard_price",
+        store=True,
+        string="Prix unitaire",
+        group_operator="avg",
     )
