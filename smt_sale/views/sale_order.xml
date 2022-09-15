@@ -12,7 +12,10 @@
                     <attribute name="groups">base.group_user</attribute>
                 </xpath>
                 <xpath expr="//button[@name='action_quotation_send']" position="after">
-                    <button name="update_all_margin" type="object" string="MAJ MARGE" invisible="1"/>
+                    <button name="update_all_margin" type="object" string="MAJ MARGE" invisible="1" />
+                </xpath>
+                <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                    <attribute name="string">Prix unitaire HT</attribute>
                 </xpath>
             </field>
         </record>
