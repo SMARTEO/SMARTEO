@@ -15,7 +15,7 @@
     "category": "Uncategorized",
     "version": "0.1",
     # any module necessary for this one to work correctly
-    "depends": ["base", "sale", "web", "sale_margin"],
+    "depends": ["base", "sale", "web", "sale_margin", "sale_management"],
     # always loaded
     "data": [
         # 'security/ir.model.access.csv',

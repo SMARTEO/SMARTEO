@@ -112,6 +112,13 @@
                 <attribute name="style">font-size: 11px !important;</attribute>
             </xpath>
         </template>
+        <template id="sale_management_report_templates_inh_nexources" inherit_id="sale_management.report_saleorder_document_inherit_sale_management">
+            <xpath expr="//div/table[@name='table_optional_products']/thead/tr/th[@name='th_option_price_unit']" position="replace">
+                <th name="th_option_price_unit" class="text-right">
+                    <span style="font-size:11px !important;">Prix unitaire HT</span>
+                </th>
+            </xpath>
+        </template>
 
     </data>
 </odoo>
