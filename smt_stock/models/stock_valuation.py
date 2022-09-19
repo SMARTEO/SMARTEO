@@ -19,3 +19,12 @@ class StockValuationLayerInherit(models.Model):
         string="Prix unitaire",
         group_operator="avg",
     )
+
+    values = fields.Float(
+        string="Valeur", store=True, readonly=True, compute="_compute_value"
+    )
+
+    @api.depends("quantity", "standard_price")
+    def _compute_value(self):
+        for record in self:
+            record.values = record.quantity * record.standard_price

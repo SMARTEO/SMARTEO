@@ -9,6 +9,10 @@
                     <field name="product_id" />
                     <field name="categ_id" />
                 </xpath>
+                <xpath expr="//field[@name='value']" position="replace">
+                    <field name="standard_price" type="measure" />
+                    <field name="values" type="measure" />
+                </xpath>
             </field>
         </record>
         <record id="stock_account.stock_valuation_layer_action" model="ir.actions.act_window">
