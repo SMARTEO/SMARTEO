@@ -15,11 +15,12 @@
     "category": "Uncategorized",
     "version": "0.1",
     # any module necessary for this one to work correctly
-    "depends": ["base", "stock", "stock_account"],
+    "depends": ["base", "product", "stock", "stock_account"],
     # always loaded
     "data": [
         # 'security/ir.model.access.csv',
         "views/stock_quant.xml",
+        "views/product_product.xml",
         "views/views.xml",
         "views/stock_valuation.xml",
         "report/stock_report.xml",
