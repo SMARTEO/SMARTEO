@@ -15,7 +15,7 @@ class StockQuant(models.Model):
     category_id = fields.Many2one(
         "product.category",
         related="product_id.categ_id",
-        string="Catégorie",
+        string="Catégorie d'article",
         readonly=True,
         store=True,
     )

@@ -14,14 +14,13 @@
                 </xpath>
             </field>
         </record>
-
         <record id="stock_quant_search_inherit" model="ir.ui.view">
             <field name="name">stock.quant.search.inherit</field>
             <field name="model">stock.quant</field>
             <field name="inherit_id" ref="stock.quant_search_view" />
             <field name="arch" type="xml">
                 <xpath expr="//group[2]" position="inside">
-                    <filter string="Categorie" name="category" domain="[]" context="{'group_by':'category_id'}" />
+                    <filter string="Categorie d'article" name="category" domain="[]" context="{'group_by':'category_id'}" />
                 </xpath>
             </field>
         </record>
