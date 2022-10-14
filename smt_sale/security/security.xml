@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <record id="group_hide_security" model="res.groups">
-            <field name="name">Security sale</field>
+            <field name="name">Confirmation des devis en commande</field>
         </record>
     </data>
 </odoo>
