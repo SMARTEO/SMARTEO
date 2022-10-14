@@ -17,6 +17,9 @@
                 <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
                     <attribute name="string">Prix unitaire HT</attribute>
                 </xpath>
+                <xpath expr="//header/button[@name='action_confirm'][2]" position="attributes">
+                    <attribute name="groups">smt_sale.group_hide_security</attribute>
+                </xpath>
             </field>
         </record>
     </data>

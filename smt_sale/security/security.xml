@@ -1,0 +1,7 @@
+<odoo>
+    <data>
+        <record id="group_hide_security" model="res.groups">
+            <field name="name">Security sale</field>
+        </record>
+    </data>
+</odoo>
