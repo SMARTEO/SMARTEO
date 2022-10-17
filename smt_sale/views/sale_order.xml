@@ -20,6 +20,9 @@
                 <xpath expr="//header/button[@name='action_confirm'][2]" position="attributes">
                     <attribute name="groups">smt_sale.group_hide_security</attribute>
                 </xpath>
+                <xpath expr="//header/button[@name='action_confirm'][1]" position="attributes">
+                    <attribute name="groups">smt_sale.group_hide_security</attribute>
+                </xpath>
             </field>
         </record>
     </data>
