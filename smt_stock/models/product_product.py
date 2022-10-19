@@ -4,7 +4,7 @@ from odoo import api, fields, models, _
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    values = fields.Float(compute="_compute_values", string="Valeur total", store=True)
+    values = fields.Float(compute="_compute_values", string="Valeur total", store=False)
 
     @api.depends("qty_available", "standard_price")
     def _compute_values(self):
