@@ -6,7 +6,6 @@ class ProductProduct(models.Model):
 
     values = fields.Float(compute="_compute_values", string="Valeur total", store=False)
 
-    @api.depends("qty_available", "standard_price")
     def _compute_values(self):
         for record in self:
             record.values = record.qty_available * record.standard_price
