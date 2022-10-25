@@ -57,7 +57,7 @@
                 <th class="text-right" style="min-width: 11em !important;">Prix unitaire HT</th>
             </xpath>
             <xpath expr="//div[@id='informations']/div[last()]" position="after">
-                <div class="col-auto col-3 mw-100 mb-2">div[@id='informations']
+                <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Conditions de paiement:</strong>
                     <p class="m-0" t-field="doc.payment_term_id" />
                 </div>
