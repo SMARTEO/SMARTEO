@@ -22,7 +22,7 @@
         "security/security.xml",
         "views/views.xml",
         "views/templates.xml",
-        "report/layout_boxed.xml",
+        # "report/layout_boxed.xml",
         "report/report_invoice.xml",
         "report/report_sale_order.xml",
         "views/sale_order.xml",

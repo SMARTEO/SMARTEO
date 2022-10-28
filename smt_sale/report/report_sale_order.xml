@@ -56,7 +56,7 @@
             <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[3]" position="replace">
                 <th class="text-right" style="min-width: 11em !important;">Prix unitaire HT</th>
             </xpath>
-            <xpath expr="//div[@id='informations']/div[6]" position="after">
+            <xpath expr="//div[@id='informations']/div[last()]" position="after">
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>Conditions de paiement:</strong>
                     <p class="m-0" t-field="doc.payment_term_id" />
