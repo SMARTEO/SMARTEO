@@ -16,7 +16,11 @@
                 </h2>
             </xpath>
             <xpath expr="//div[@id='informations']" position="inside">
-                <div t-if="o.origin" class="col-3 bm-2">
+                <t t-set="origin_col" t-value="3"/>
+                <t t-if="not o.partner_ref" t-set="origin_col" t-value="origin_col + 3"/>
+                <t t-if="not o.user_id" t-set="origin_col" t-value="origin_col + 3"/>
+
+                <div t-if="o.origin" t-attf-class="col-{{origin_col}} bm-2 text-left">
                     <strong>Document d'origine:</strong>
                     <p t-field="o.origin" class="m-0" />
                 </div>
