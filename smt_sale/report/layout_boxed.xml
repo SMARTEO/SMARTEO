@@ -37,9 +37,9 @@
                 <div class="text-center">
                     <div style="font-size:11px !important; margin-top: 20px !important;" t-field="company.report_footer" />
                     <div t-if="report_type == 'pdf'" style="font-size:10px !important;">
-                        <span class=" page" />
+                        <span class="page" />
                         /
-                        <span class=" topage" />
+                        <span class="topage" />
                     </div>
                 </div>
             </xpath>
