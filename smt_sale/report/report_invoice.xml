@@ -41,7 +41,9 @@
                         <span t-if="o.partner_id.stat">STAT :</span>
                         <span t-field="o.partner_id.stat" />
                         <br />
-                        <span t-if="o.partner_id.rcs">RCS :</span>
+                        <span t-if="o.partner_id.rcs">RCS :</span>Description sur la facture
+
+                        Condition de paiement : 30 jours 
                         <span t-field="o.partner_id.rcs" />
                         <span t-if="o.partner_id.rcs">/</span>
                         <span t-if="o.partner_id.cif">CIF :</span>
@@ -129,15 +131,15 @@
                     <div class="row">
                         <div class="col-auto mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
                             <strong>Date de la facture:</strong>
-                            <p class="m-0" t-field="o.invoice_date" />
+                            <p class="m-0" t-esc="o.invoice_date.strftime('%d/%m/%Y')" />
                         </div>
                         <div name="reference" class="col-auto mw-100 mb-2" t-if="o.ref">
                             <strong>Référence:</strong>
                             <p class="m-0" t-field="o.ref" />
                         </div>
-                        <div class="col-auto mw-100 mb-2" t-if="o.invoice_date_due and o.move_type == 'out_invoice' and o.state in ('open', 'in_payment', 'paid')" name="due_date">
+                        <div class="col-auto mw-100 mb-2" t-if="o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted'" name="due_date">
                             <strong>Date d'échéance:</strong>
-                            <p class="m-0" t-field="o.invoice_date_due" />
+                            <p class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
                         </div>
                         <div class="col-auto mw-100 mb-2" t-if="o.invoice_origin" name="origin">
                             <strong>Origine:</strong>
@@ -147,13 +149,26 @@
                             <strong>Numéro de client:</strong>
                             <p class="m-0" t-field="o.partner_id.ref" />
                         </div>
-                        <div class="col-auto mw-100 mb-2" t-if="o.name" name="description">
-                            <strong>Description:</strong>
-                            <p class="m-0" t-field="o.name" />
-                        </div>
                     </div>
-
                 </div>
+            </xpath>
+            <xpath expr="//p[@name='payment_term']/span[@t-field='o.invoice_payment_term_id.note']" position="replace">
+                <t t-if="o.invoice_payment_term_id.payment_method">
+                    <t t-if="o.invoice_payment_term_id.default_description and o.invoice_date_due">
+                        <span t-if="o.invoice_payment_term_id.payment_method == 'transaction'">
+                            Paiement par virement le <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                        </span>
+                        <span t-if="o.invoice_payment_term_id.payment_method == 'check'">
+                            Paiement par chèque bancaire le <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                        </span>
+                        <span t-if="o.invoice_payment_term_id.payment_method == 'cash'">
+                            Paiement en espèce le <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                        </span>
+                    </t>
+                    <t t-else="">
+                        <span t-field="o.invoice_payment_term_id.note"/>
+                    </t>
+                </t>
             </xpath>
             <xpath expr="//div[hasclass('page')]" position="attributes">
                 <attribute name="style">font-size: 12px !important;</attribute>
