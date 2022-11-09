@@ -41,9 +41,7 @@
                         <span t-if="o.partner_id.stat">STAT :</span>
                         <span t-field="o.partner_id.stat" />
                         <br />
-                        <span t-if="o.partner_id.rcs">RCS :</span>Description sur la facture
-
-                        Condition de paiement : 30 jours 
+                        <span t-if="o.partner_id.rcs">RCS :</span>
                         <span t-field="o.partner_id.rcs" />
                         <span t-if="o.partner_id.rcs">/</span>
                         <span t-if="o.partner_id.cif">CIF :</span>
