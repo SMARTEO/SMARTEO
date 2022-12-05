@@ -52,8 +52,8 @@
 
             <xpath expr="//p[@name='payment_communication']" position="replace">
                 <p t-if="o.move_type in ('out_invoice', 'in_refund') and o.payment_reference" name="payment_communication">
-                    Lors de votre paiement, merci d'indiquer le numéro de votre facture :
                     <b>
+                        Lors de votre paiement, merci d'indiquer le numéro de votre facture :
                         <span t-field="o.payment_reference" />
                     </b>
                 </p>
@@ -154,17 +154,20 @@
                 <t t-if="o.invoice_payment_term_id.payment_method">
                     <t t-if="o.invoice_payment_term_id.default_description and o.invoice_date_due">
                         <span t-if="o.invoice_payment_term_id.payment_method == 'transaction'">
-                            Paiement par virement au plus tard le <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                            <span class="font-weight-bolder">Paiement par virement au plus tard le </span>
+                            <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
                         </span>
                         <span t-if="o.invoice_payment_term_id.payment_method == 'check'">
-                            Paiement par chèque bancaire le <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                            <span class="font-weight-bolder">Paiement par chèque bancaire le </span>
+                            <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
                         </span>
                         <span t-if="o.invoice_payment_term_id.payment_method == 'cash'">
-                            Paiement en espèce le <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                            <span class="font-weight-bolder">Paiement en espèce le </span>
+                            <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
                         </span>
                     </t>
                     <t t-else="">
-                        <span t-field="o.invoice_payment_term_id.note"/>
+                        <span t-field="o.invoice_payment_term_id.note" />
                     </t>
                 </t>
             </xpath>
