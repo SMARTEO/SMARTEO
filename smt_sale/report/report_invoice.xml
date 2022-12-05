@@ -154,7 +154,7 @@
                 <t t-if="o.invoice_payment_term_id.payment_method">
                     <t t-if="o.invoice_payment_term_id.default_description and o.invoice_date_due">
                         <span t-if="o.invoice_payment_term_id.payment_method == 'transaction'">
-                            Paiement par virement le <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                            Paiement par virement au plus tard le <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
                         </span>
                         <span t-if="o.invoice_payment_term_id.payment_method == 'check'">
                             Paiement par chèque bancaire le <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
