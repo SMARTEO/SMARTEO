@@ -70,8 +70,8 @@
             </xpath>
             <xpath expr="//t[@t-set='information_block']" position="replace">
                 <t t-set="information_block">
-                    <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Addresse de livraison et de facturation:</strong>
-                    <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Addresse de facturation:</strong>
+                    <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Adresse de livraison et de facturation:</strong>
+                    <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Adresse de facturation:</strong>
                     <div t-field="doc.partner_invoice_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" />
                     <div>
                         <span t-if="doc.partner_id.nif">NIF :</span>
@@ -88,7 +88,7 @@
                     </div>
                     <br />
                     <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
-                        <strong>Addresse de livraison:</strong>
+                        <strong>Adresse de livraison:</strong>
                         <div t-field="doc.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" />
                     </t>
                 </t>
