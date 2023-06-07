@@ -23,6 +23,7 @@
         "views/product_product.xml",
         "views/views.xml",
         "views/stock_valuation.xml",
+        "views/stock_picking_views.xml",
         "report/stock_report.xml",
     ],
     # only loaded in demonstration mode

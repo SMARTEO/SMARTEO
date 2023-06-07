@@ -9,7 +9,7 @@
                     <span t-esc="o.note" />
                 </span>
             </xpath>
-            <xpath expr="//t[@t-set='address']/div[@name='div_outgoing_address']/div[@t-if='o.move_ids_without_package and o.move_ids_without_package[0].partner_id and o.move_ids_without_package[0].partner_id != partner']" position="replace">
+            <xpath expr="//div[@name='div_outgoing_address']/div[1]" position="replace">
                 <div t-if="o.move_ids_without_package and o.move_ids_without_package[0].partner_id and o.move_ids_without_package[0].partner_id != partner">
                     <span><strong>Delivery Address:</strong></span>
                     <div>
