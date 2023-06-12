@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <record id="group_show_stock_picking_planing" model="res.groups">
-            <field name="name">Inventaire/Réception/Problèmes de planning</field>
+            <field name="name">Extraire Inventaire-Réception-Problèmes de planning</field>
         </record>
     </data>
     <record model="ir.rule" id="res_partner_portal_public_rule">
