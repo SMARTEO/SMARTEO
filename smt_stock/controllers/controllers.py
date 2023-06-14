@@ -16,7 +16,8 @@ class SmtStock(http.Controller):
     #     response = model.export_data_planning_issu()
     #     return response(environ=request.httprequest.environ)
     def _get_display_name(self, record, field_name):
-        return getattr(record, field_name).display_name if field_name.endswith("_id") else str(getattr(record, field_name))
+        x = getattr(record, field_name).display_name if field_name.endswith("_id") else str(getattr(record, field_name))
+        return x
     @http.route('/stock_picking/export/xlsx', type='http', auth='user')
     def export_xlsx_handler(self, ids):
         output = io.BytesIO()
@@ -26,7 +27,11 @@ class SmtStock(http.Controller):
         header_bold = workbook.add_format({'bold': True, 'pattern': 1, 'bg_color': '#AAAAAA'})
         header_plain = workbook.add_format({'pattern': 1, 'bg_color': '#AAAAAA'})
         bold = workbook.add_format({'bold': True})
-        headers = request.env['stock.picking']._fields.keys()
+        filtered_keys = filter(lambda f: f in ('name', 'location_id', 'location_dest_id', 'partner_id','scheduled_date','origin','state'),request.env['stock.picking']._fields.keys())
+        # headers = filter(lambda k: k.startswith('name', 'location_id', 'location_dest_id', 'partner_id','scheduled_date','origin','state'), request.env['stock.picking']._fields.keys())
+
+
+        headers = list(filtered_keys)
         for c, header in enumerate(headers):
             worksheet.write(0, c, header, header_bold)
         records = request.env['stock.picking'].browse(ids)
