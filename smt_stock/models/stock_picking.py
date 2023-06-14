@@ -10,7 +10,7 @@ import os
 import base64
 import re
 import io
-from openpyxl import Workbook
+# from openpyxl import Workbook
 from odoo.http import request
 from werkzeug.wrappers import Response
 from odoo.http import Controller
@@ -94,38 +94,38 @@ class StockPicking(models.Model):
 
 
 
-    def export_data_planning_issu(self):
-
-        records = self.search([])
-
-        workbook = Workbook()
-
-        sheet = workbook.active
-
-        headers = ['Champ 1', 'Champ 2', 'Champ 3']
-        sheet.append(headers)
-
-        for record in records:
-            data = [record.name, record.name, record.name]
-            sheet.append(data)
-        file_stream = io.BytesIO()
-        workbook.save(file_stream)
-        file_stream.seek(0)
-
-        file_content = base64.b64encode(file_stream.read()).decode('utf-8')
-
-
-        filename = 'export_data.xlsx'
-
-        # Renvoyer le fichier Excel en tant que réponse HTTP pour le téléchargement automatique
-        response = Response(
-            file_content,
-            headers=[
-                ('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
-                ('Content-Disposition', 'attachment; filename=%s' % filename),
-            ]
-        )
-        return response
+    # def export_data_planning_issu(self):
+    #
+    #     records = self.search([])
+    #
+    #     workbook = Workbook()
+    #
+    #     sheet = workbook.active
+    #
+    #     headers = ['Champ 1', 'Champ 2', 'Champ 3']
+    #     sheet.append(headers)
+    #
+    #     for record in records:
+    #         data = [record.name, record.name, record.name]
+    #         sheet.append(data)
+    #     file_stream = io.BytesIO()
+    #     workbook.save(file_stream)
+    #     file_stream.seek(0)
+    #
+    #     file_content = base64.b64encode(file_stream.read()).decode('utf-8')
+    #
+    #
+    #     filename = 'export_data.xlsx'
+    #
+    #     # Renvoyer le fichier Excel en tant que réponse HTTP pour le téléchargement automatique
+    #     response = Response(
+    #         file_content,
+    #         headers=[
+    #             ('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+    #             ('Content-Disposition', 'attachment; filename=%s' % filename),
+    #         ]
+    #     )
+    #     return response
 
     def exp_button(self):
         # data = self.export_data(self._fields.keys())
