@@ -103,8 +103,8 @@
         <field name="arch" type="xml">
             <tree string="Picking list" js_class="lazy_column_list" multi_edit="1" sample="1" export_xlsx="1">
                 <header>
-                    <button name="do_unreserve" type="object" string="Unreserve"/>
-                    <button name="action_assign" type="object" string="Check Availability"/>
+                    <button name="do_unreserve" type="object" string="Annuler la réservation"/>
+                    <button name="action_assign" type="object" string="Vérifier la disponibilité"/>
                     <button name="exp_button" string="Exporter les données" type="object" class="oe_highlight"/>
 <!--                    <button name="exp" type="button" class="btn btn-secondary fa fa-download o_list_export_xlsx" title="Export All" aria-label="Export All"/>-->
                 </header>
