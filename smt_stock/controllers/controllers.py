@@ -2,11 +2,21 @@
 from collections import deque
 import io
 import json
-
+import base64
 from odoo import http, _
 from odoo.http import content_disposition, request
 from odoo.tools import ustr, osutil
 from odoo.tools.misc import xlsxwriter
+from openpyxl import Workbook
+from werkzeug.wrappers import Response
+from openpyxl.styles import Font
+
+import functools
+
+SUB_FIELDS_TO_GET = {
+    'sale_id': 'name',
+    'move_lines': ['name', 'product_qty']
+}
 
 class SmtStock(http.Controller):
 
@@ -15,10 +25,10 @@ class SmtStock(http.Controller):
     #     model = request.env['stock.picking']
     #     response = model.export_data_planning_issu()
     #     return response(environ=request.httprequest.environ)
-    def _get_display_name(self, record, field_name):
-        x = getattr(record, field_name).display_name if field_name.endswith("_id") else str(getattr(record, field_name))
+    def _get_display_name(self, record, field_name, subfield_name='display_name'):
+        x = getattr(getattr(record, field_name), subfield_name) if field_name.endswith("_id") else str(getattr(record, field_name))
         return x
-    @http.route('/stock_picking/export/xlsx', type='http', auth='user')
+    @http.route('/stock_picking/export/xlsx/test', type='http', auth='user')
     def export_xlsx_handler(self, ids):
         output = io.BytesIO()
         ids = [int(id) for id in ids.strip('][').split(', ')]
@@ -27,8 +37,7 @@ class SmtStock(http.Controller):
         header_bold = workbook.add_format({'bold': True, 'pattern': 1, 'bg_color': '#AAAAAA'})
         header_plain = workbook.add_format({'pattern': 1, 'bg_color': '#AAAAAA'})
         bold = workbook.add_format({'bold': True})
-        filtered_keys = filter(lambda f: f in ('name', 'location_id', 'location_dest_id', 'partner_id','scheduled_date','origin','state'),request.env['stock.picking']._fields.keys())
-        # headers = filter(lambda k: k.startswith('name', 'location_id', 'location_dest_id', 'partner_id','scheduled_date','origin','state'), request.env['stock.picking']._fields.keys())
+        filtered_keys = filter(lambda f: f in ('partner_id', 'origin', 'sale_id', 'move_lines.name','move_lines.product_qty','scheduled_date'),request.env['stock.picking']._fields.keys())
 
 
         headers = list(filtered_keys)
@@ -49,6 +58,46 @@ class SmtStock(http.Controller):
                                          )
 
         return response
+
+    @http.route('/stock_picking/export/xlsx', type='http', auth='user')
+    def export_xlsx_handler(self, ids):
+        ids = [int(id) for id in ids.strip('][').split(', ')]
+        records = request.env['stock.picking'].browse(ids)
+
+        workbook = Workbook()
+
+        sheet = workbook.active
+
+        headers = ['Nom du partenaire', 'Document d origine', 'Date de la commande','Description du mouvement de stock','Quantité', 'Date prévue']
+        sheet.append(headers)
+        header_row = sheet[1]
+        for cell in header_row:
+            cell.font = Font(bold=True)
+        for record in records:
+            for st_move in record.move_lines:
+                st_name = st_move.name
+                st_product_qty = st_move.product_qty
+            data = [record.partner_id.name, record.origin, record.date.strftime("%d-%m-%Y"), st_name, st_product_qty, record.scheduled_date.strftime("%d-%m-%Y")]
+            sheet.append(data)
+        file_stream = io.BytesIO()
+        workbook.save(file_stream)
+        file_stream.seek(0)
+
+        file_content = file_stream.read()
+
+
+        filename = 'export_data.xlsx'
+
+        # Renvoyer le fichier Excel en tant que réponse HTTP pour le téléchargement automatique
+        response = Response(
+            file_content,
+            headers=[
+                ('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+                ('Content-Disposition', 'attachment; filename=%s' % filename),
+            ]
+        )
+        return response
+
     #@http.route('/smt_stock/smt_stock', auth='public')
     # def index(self, **kw):
     #     return "Hello, world"
