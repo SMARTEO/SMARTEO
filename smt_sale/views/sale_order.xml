@@ -32,6 +32,12 @@
                 <xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
                     <attribute name="attrs">{'readonly': ['|', ('qty_invoiced', '&gt;', 0), ('is_set_desc_lines', '=', False)]}</attribute>
                 </xpath>
+                <xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': ['|', ('qty_invoiced', '&gt;', 0), ('is_set_desc_lines', '=', False)]}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('is_set_desc_lines', '=', False)]}</attribute>
+                </xpath>
             </field>
         </record>
     </data>

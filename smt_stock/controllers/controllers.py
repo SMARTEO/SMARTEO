@@ -86,7 +86,7 @@ class SmtStock(http.Controller):
         file_content = file_stream.read()
 
 
-        filename = 'export_data.xlsx'
+        filename = 'probleme_planning_data.xlsx'
 
         # Renvoyer le fichier Excel en tant que réponse HTTP pour le téléchargement automatique
         response = Response(

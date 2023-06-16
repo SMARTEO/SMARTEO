@@ -4,7 +4,7 @@
             <field name="name">Confirmation des devis en commande</field>
         </record>
         <record id="is_set_desc_lines_security" model="res.groups">
-            <field name="name">Modification de la description des Devis/commande/facture</field>
+            <field name="name">Modification des information sur devis/commande/facture</field>
         </record>
     </data>
 </odoo>
