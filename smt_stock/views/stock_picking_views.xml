@@ -142,7 +142,7 @@
         <field name="res_model">stock.picking</field>
         <field name="type">ir.actions.act_window</field>
         <field name="view_mode">tree,kanban,form,calendar</field>
-        <field name="domain">['|', ('delay_alert_date', '!=', False), '&amp;', ('scheduled_date','&lt;', time.strftime('%Y-%m-%d %H:%M:%S')), ('state', 'in', ('assigned', 'waiting', 'confirmed'))]</field>
+        <field name="domain">['|', ('delay_alert_date', '!=', False), '&amp;', ('scheduled_date','&lt;', time.strftime('%Y-%m-%d %H:%M:%S')),'&amp;', ('picking_type_code', '=', 'incoming'), ('state', 'in', ('assigned', 'waiting', 'confirmed'))]</field>
         <field name="context">{'contact_display': 'partner_address'}</field> <!--,'search_default_planning_issues':1}-->
         <field name="view_id" ref="smt_stock.vpicktreeplanning_issu"/>
         <field name="search_view_id" ref="stock.view_picking_internal_search"/>
