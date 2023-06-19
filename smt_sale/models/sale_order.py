@@ -9,6 +9,14 @@ class SaleOrderLine(models.Model):
         string='Cost', compute="_compute_purchase_price_subtotal",
         digits='Product Price', store=True, readonly=False,
         groups="base.group_user")
+    is_set_desc_lines = fields.Boolean(compute='_is_set_des_lines')
+
+    def _is_set_des_lines(self):
+        # res_user = self.env['res.users'].search([('id', '=', self._uid)])
+        if self.env.user.has_group('smt_sale.is_set_desc_lines_security'):
+            self.is_set_desc_lines = True
+        else:
+            self.is_set_desc_lines = False
 
     @api.depends("purchase_price", "product_uom_qty")
     def _compute_purchase_price_subtotal(self):
