@@ -43,5 +43,15 @@
                 </xpath>
             </field>
         </record>
+        <record id="sale_view_inherit123_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.sale</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_crm.sale_view_inherit123"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='opportunity_id']" position="attributes">
+                    <attribute name="groups"></attribute>
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>
