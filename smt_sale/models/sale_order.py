@@ -34,6 +34,24 @@ class SaleOrderLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    def action_open_crm(self):
+        self.ensure_one()
+        crm_id = self.opportunity_id
+        action = self.env["ir.actions.actions"]._for_xml_id("crm.crm_lead_action_pipeline")
+        if len(crm_id) > 1:
+            action['domain'] = [('id', 'in', crm_id.ids)]
+        elif len(crm_id) == 1:
+            form_view = [(self.env.ref('crm.crm_lead_view_form').id, 'form')]
+            if 'views' in action:
+                action['views'] = form_view + [(state,view) for state,view in action['views'] if view != 'form']
+            else:
+                action['views'] = form_view
+            action['res_id'] = crm_id.ids[0]
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+        action['context'] = dict(self._context, create=False)
+        return action
+
     @api.depends('order_line.margin', 'amount_untaxed')
     def _compute_margin(self):
         if not all(self._ids):

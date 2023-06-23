@@ -38,6 +38,9 @@
                 <xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='discount']" position="attributes">
                     <attribute name="attrs">{'readonly': [('is_set_desc_lines', '=', False)]}</attribute>
                 </xpath>
+                <xpath expr="//div[hasclass('oe_button_box')]/button[last()]" position="after">
+                    <button class="oe_stat_button" name="action_open_crm" string="CRM" type="object" icon="fa-user" attrs="{'invisible': [('opportunity_id', '=', False)]}"></button>
+                </xpath>
             </field>
         </record>
     </data>
