@@ -19,8 +19,19 @@
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='date_order']" position="attributes">
-                    <attribute name="widget">date</attribute>
+<!--                <xpath expr="//field[@name='date_order']" position="attributes">-->
+<!--                    <attribute name="widget">date</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='date_order']" position="replace">-->
+<!--                    <field name="date_order" attrs="{'invisible': ['|', '|', ('state', '=', 'purchase'), ('state', '=', 'done'), ('state', '=', 'cancel')]}"-->
+<!--                           invisible="not context.get('quotation_only', False)" widget="date" optional="show" string="Date de commande/d'approbation"/>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='date_order']" position="after">-->
+<!--                    <field name="date_approve" attrs="{'invisible': [('state', '!=', 'purchase')]}"-->
+<!--                           invisible="not context.get('quotation_only', False)" widget="date" optional="show" string="Date de commande/d'approbation"/>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='date_order']" position="replace">
+                    <field name="dateorder_dateapprove" optional="show" string="Date de commande/d'approbation"/>
                 </xpath>
             </field>
         </record>
