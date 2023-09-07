@@ -4,13 +4,5 @@
             <field name="name">Extraire Inventaire-Réception-Problèmes de planning</field>
         </record>
     </data>
-    <!--    <record model="ir.rule" id="res_partner_portal_public_rule">-->
-    <!--        <field name="name">res_partner: portal/public: read access on my commercial partner</field>-->
-    <!--        <field name="model_id" ref="stock.model_stock_picking"/>-->
-    <!--        <field name="domain_force">['|', ('delay_alert_date', '!=', False), '&amp;', ('scheduled_date','&lt;', time.strftime('%Y-%m-%d %H:%M:%S')), ('state', 'in', ('assigned', 'waiting', 'confirmed'))]</field>-->
-    <!--        <field name="groups" eval="[Command.link(ref('smt_stock.group_show_stock_picking_planing'))]"/>-->
-    <!--        &lt;!&ndash;<field name="perm_create" eval="False"/>-->
-    <!--        <field name="perm_unlink" eval="False"/>-->
-    <!--        <field name="perm_write" eval="False"/>&ndash;&gt;-->
-    <!--    </record>-->
+
 </odoo>
