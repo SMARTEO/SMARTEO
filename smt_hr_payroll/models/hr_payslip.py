@@ -26,6 +26,14 @@ class HrPayslip(models.Model):
     balance_to_date = fields.Float(compute='_get_remaining_leaves')
     gain_on_current_month = fields.Selection([('0', '0'), ('2', '2')], default='2')
     balance_on_pay_slip = fields.Float(compute='_get_balance_remaining_leaves')
+    is_after_create = fields.Boolean()
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super(HrPayslip, self).create(vals_list)
+        if res:
+            res.is_after_create = True
+        return res
 
     def _get_remaining_leaves(self):
         for paye in self:

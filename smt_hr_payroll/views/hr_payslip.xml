@@ -13,7 +13,8 @@
                     <field name="is_balance_all_account" string="Solde tout compte"/>
 
                     <field name="balance_to_date" string="Solde à date" readonly="1"/>
-                    <field name="gain_on_current_month" string="Gain sur le mois actuel" attrs="{'readonly': [('state', '!=', ('draft'))]}"/>
+                    <field name="is_after_create" invisible="1" />
+                    <field name="gain_on_current_month" string="Gain sur le mois actuel" attrs="{'readonly': [('is_after_create', '!=', False)]}"/>
                     <field name="balance_on_pay_slip" string="Solde sur la fiche de paie" readonly="1"/>
                 </xpath>
                 <xpath expr="//notebook/page[@name='salary_computation']/field/tree/field[@name='rate']" position="after">
