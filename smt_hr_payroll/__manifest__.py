@@ -12,6 +12,7 @@
         "views/base_external_layout.xml",
         "views/hr_payslip.xml",
         "views/payslip_report.xml",
+        "views/hr_salary_rule_views.xml",
     ],
     'license': 'LGPL-3',
 }

@@ -337,7 +337,7 @@
                             <span t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)"
                                   t-as="line">
 
-<!--                                <t t-if="(line.salary_rule_id.is_total == false)">-->
+                                <t t-if="(line.salary_rule_id.is_total == false)">
                                     <tr>
                                         <td colspan="2"><span t-field="line.name"/></td>
                                         <td colspan="2"><span
@@ -349,22 +349,21 @@
                                             <span t-esc="o.company_id.currency_id.symbol"/>
                                         </td>
                                     </tr>
-<!--                                </t>-->
-<!--                                <t t-else="">-->
-<!--                                    <tr>-->
-<!--                                        <td colspan="4"-->
-<!--                                            style="background-color:#eeece1; text-align:center; font-weight:bold;"><span-->
-<!--                                                t-field="line.name"/></td>-->
-<!--                                        <td colspan="4"-->
-<!--                                            style="background-color:#eeece1; text-align:center; font-weight:bold;">-->
-<!--                                            <span-->
-<!--                                                    t-esc="'{0:,.2f}'.format(int(line.total)).replace(',', ' ')"/>-->
-<!--                                            <span t-esc="o.company_id.currency_id.symbol"/>-->
-<!--                                        </td>-->
-<!--                                    </tr>-->
-<!--                                </t>-->
+                                </t>
+                                <t t-else="">
+                                    <tr>
+                                        <td colspan="4"
+                                            style="background-color:#eeece1; text-align:center; font-weight:bold;"><span
+                                                t-field="line.name"/></td>
+                                        <td colspan="4"
+                                            style="background-color:#eeece1; text-align:center; font-weight:bold;">
+                                            <span
+                                                    t-esc="'{0:,.2f}'.format(int(line.total)).replace(',', ' ')"/>
+                                            <span t-esc="o.company_id.currency_id.symbol"/>
+                                        </td>
+                                    </tr>
+                                </t>
 
-                                <!--valisoa-->
                             </span>
 
 
