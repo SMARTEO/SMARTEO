@@ -181,14 +181,15 @@
                             </tr>
                             <tr>
                                 <td class="tgv-0pky" colspan="2" style="text-align:center;">
-                                    <t t-if="o.paid_date">
+                                    <div t-if="o.paid_date">
                                         <span style="font-weight:400;font-style:normal"><span
                                                 t-esc="o.paid_date.strftime('%d/%m/%Y')"/></span>
-                                    </t>
-                                    <t t-else="">
+                                    </div>
 
-                                    </t>
-
+                                    <div t-if="o.payment_method_in_pdf">
+                                        <div>Payé par : <span style="font-weight:400;font-style:normal"><span
+                                                t-esc="o.payment_method_in_pdf"/></span></div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>

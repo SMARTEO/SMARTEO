@@ -27,6 +27,7 @@ class HrPayslip(models.Model):
     gain_on_current_month = fields.Selection([('0', '0'), ('2', '2')], default='2')
     balance_on_pay_slip = fields.Float(compute='_get_balance_remaining_leaves')
     is_after_create = fields.Boolean()
+    payment_method_in_pdf = fields.Char()
 
     @api.model_create_multi
     def create(self, vals_list):

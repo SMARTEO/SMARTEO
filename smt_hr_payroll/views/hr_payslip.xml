@@ -11,7 +11,7 @@
                     <field name="commentaire" />
                     <field name="paid_date" />
                     <field name="is_balance_all_account" string="Solde tout compte"/>
-
+                    <field name="payment_method_in_pdf" string="Méthode de paiement"/>
                     <field name="balance_to_date" string="Solde à date" readonly="1"/>
                     <field name="is_after_create" invisible="1" />
                     <field name="gain_on_current_month" string="Gain sur le mois actuel" attrs="{'readonly': [('is_after_create', '!=', False)]}"/>
