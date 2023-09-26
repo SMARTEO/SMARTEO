@@ -1,20 +1,20 @@
 <odoo>
     <data>
         <template id="report_purchase_order_inherit" inherit_id="purchase.report_purchaseorder_document">
-<!--            <xpath expr="//h2[2]" position="replace">-->
-<!--                &lt;!&ndash; " &ndash;&gt;-->
-<!--                <h2 t-if="o.state in ['purchase', 'done']">-->
-<!--                    Bon de commande :-->
-<!--                    <span t-field="o.name" />-->
-<!--                </h2>-->
-<!--            </xpath>-->
-<!--            <xpath expr="//h2[1]" position="replace">-->
-<!--                &lt;!&ndash; " &ndash;&gt;-->
-<!--                <h2 t-if="o.state not in ['purchase', 'done']">-->
-<!--                    Demande de prix :-->
-<!--                    <span t-field="o.name" />-->
-<!--                </h2>-->
-<!--            </xpath>-->
+            <xpath expr="//h2[2]" position="replace">
+                <!-- " -->
+                <h2 t-if="o.state in ['purchase', 'done']">
+                    Bon de commande :
+                    <span t-field="o.name" />
+                </h2>
+            </xpath>
+            <xpath expr="//h2[1]" position="replace">
+                <!-- " -->
+                <h2 t-if="o.state not in ['purchase', 'done']">
+                    Demande de prix :
+                    <span t-field="o.name" />
+                </h2>
+            </xpath>
             <xpath expr="//div[@id='informations']" position="inside">
                 <t t-set="origin_col" t-value="3"/>
                 <t t-if="not o.partner_ref" t-set="origin_col" t-value="origin_col + 3"/>
