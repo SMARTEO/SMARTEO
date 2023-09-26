@@ -13,5 +13,5 @@
     "data": [
         "views/hr_leave_type_views.xml",
     ],
-
+    'license': 'LGPL-3',
 }

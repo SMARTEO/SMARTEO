@@ -13,4 +13,5 @@
     "installable": True,
     "depends": ["stock"],
     "data": ["data/stock_data.xml", "view/pull_rule.xml", "view/warehouse.xml"],
+
 }
