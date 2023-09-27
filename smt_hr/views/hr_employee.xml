@@ -13,9 +13,6 @@
                     <attribute name="readonly">False</attribute>
                     <attribute name="force_save">1</attribute>
                 </xpath>
-                <xpath expr="//page[@name='personal_information']/group/group[4]" position="attributes">
-                    <attribute name="invisible">True</attribute>
-                </xpath>
                 <xpath expr="//page[@name='personal_information']/group/group[5]" position="after">
                     <group string="Information paie">
                         <field name="ostie" string="N° OSTIE"/>

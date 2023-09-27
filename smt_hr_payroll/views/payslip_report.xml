@@ -41,7 +41,7 @@
                                 <t t-else="">
                                     <td class="tgv-0pky" colspan="2"
                                         style="text-align:center; vertical-align:middle;font-weight:bold; font-size:21px;">
-                                        BULLETIND DE PAIE
+                                        BULLETIN DE PAIE
                                     </td>
                                 </t>
                                 <td colspan="6">
@@ -158,7 +158,7 @@
                             <tr>
                                 <td class="tgv-0pky" colspan="6" rowspan="3">
                                     <span>Nom et prénom: </span> <span t-esc="o.employee_id.name"/> <br/>
-                                    <span>Adresse: </span> <span t-esc="o.employee_id.address_home_id.name"/> <br/> <!--street-->
+                                    <span>Adresse: </span> <span t-esc="o.employee_id.address_home_id.street"/> <br/> <!--street-->
                                     <span>N°CIN: </span> <span t-esc="o.employee_id.identification_id"/> <br/>
                                     <div style="width:100%; overflow: hidden;">
                                         <div style="float: left;">
@@ -238,13 +238,13 @@
                                             Jours</div>
 
                                     </div>
-                                    <div>
-                                        <div class="col-6">Restant : <t t-set="foo"
-                                                                        t-value="float(o.employee_id.allocation_display) - float(o.employee_id.allocation_used_display)" t-if="o.employee_id.allocation_display and o.employee_id.allocation_used_display"/>
-                                            <t t-out="foo"/> Jours
-                                        </div>
+<!--                                    <div>-->
+<!--                                        <div class="col-6">Restant : <t t-set="foo"-->
+<!--                                                                        t-value="float(o.employee_id.allocation_display) - float(o.employee_id.allocation_used_display)" t-if="o.employee_id.allocation_display and o.employee_id.allocation_used_display"/>-->
+<!--                                            <t t-out="foo"/> Jours-->
+<!--                                        </div>-->
 
-                                    </div>
+<!--                                    </div>-->
 
                                 </td>
                                 <td class="tgv-0pky"><span t-esc="o.employee_id.matricule"/></td>
@@ -283,11 +283,11 @@
                                 <td class="tgv-0pky" colspan="6" rowspan="3">
                                     <!-- TODO: set div side by side -->
                                     <div style="width:100%; overflow: hidden;">
-                                        <div style="float: left;">
-                                            <span>Nombre d'heure mensuel : </span>
-                                            <!-- PUT:set number of hour on contract -->
-                                            <span t-esc="o.get_spent_monthly_hours(o.contract_id.resource_calendar_id.full_time_required_hours)"/>
-                                        </div>
+<!--                                        <div style="float: left;">-->
+<!--                                            <span>Nombre d'heure mensuel : </span>-->
+<!--                                            &lt;!&ndash; PUT:set number of hour on contract &ndash;&gt;-->
+<!--                                            <span t-esc="o.get_spent_monthly_hours(o.contract_id.resource_calendar_id.full_time_required_hours)"/>-->
+<!--                                        </div>-->
                                         <div style="margin-left: 250px;">
                                             <span>Salaire de base : </span>
                                             <!-- PUT:set number of hour on contract -->
@@ -299,17 +299,17 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <span>
-                                            Nombre de jours travaillé :
-                                        </span>
-                                        <!-- PUT:set number of day worked -->
-                                        <span t-foreach="o.worked_days_line_ids" t-as="worked_days">
-                                            <!-- <span t-esc="worked_days.code" /> -->
-                                            <t t-if="worked_days.code == 'WORK100'">
+<!--                                        <span>-->
+<!--                                            Nombre de jours travaillé :-->
+<!--                                        </span>-->
+<!--                                        &lt;!&ndash; PUT:set number of day worked &ndash;&gt;-->
+<!--                                        <span t-foreach="o.worked_days_line_ids" t-as="worked_days">-->
+<!--                                            &lt;!&ndash; <span t-esc="worked_days.code" /> &ndash;&gt;-->
+<!--                                            <t t-if="worked_days.code == 'WORK100'">-->
 
-                                                <span t-esc="worked_days.number_of_days"/>
-                                            </t>
-                                        </span>
+<!--                                                <span t-esc="worked_days.number_of_days"/>-->
+<!--                                            </t>-->
+<!--                                        </span>-->
 
                                     </div>
                                 </td>

@@ -22,8 +22,8 @@ class Contract(models.Model):
     month_12_last_salary = fields.Monetary('Salaire moyen des 12 derniers mois')
     allow_transport = fields.Monetary('Indemnité de transport')
     allow_family = fields.Monetary('Allocations familiales')
-    allow_logement = fields.Monetary('Indemnité de logement')
-    other_allow = fields.Monetary('Autres ndemnités')
+    allow_logement = fields.Monetary('Indemnités de repas')
+    other_allow = fields.Monetary('Autres indemnités')
     wage = fields.Monetary('Wage', required=True, tracking=True, help="Employee's monthly gross wage.",
                            compute='_compute_base_salary')
 
