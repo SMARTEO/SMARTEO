@@ -10,12 +10,18 @@
                 <xpath expr="//field[@name='payslip_run_id']" position="after">
                     <field name="commentaire" />
                     <field name="paid_date" />
-                    <field name="is_balance_all_account" string="Solde tout compte"/>
                     <field name="payment_method_in_pdf" string="Méthode de paiement"/>
-                    <field name="balance_to_date" string="Solde à date" readonly="1"/>
-                    <field name="is_after_create" invisible="1" />
-                    <field name="gain_on_current_month" string="Gain sur le mois actuel" attrs="{'readonly': [('is_after_create', '!=', False)]}"/>
-                    <field name="balance_on_pay_slip" string="Solde sur la fiche de paie" readonly="1"/>
+
+                </xpath>
+                <xpath expr="//field[@name='struct_id']" position="after">
+                    <field name="is_balance_all_account" string="Solde tout compte"/>
+                </xpath>
+                <xpath expr="//sheet/group[1]" position="after">
+                    <group string="Situation des congés payés" col="8">
+                        <field name="gain_on_current_month" string="Gain sur le mois actuel" />
+                        <field name="balance_to_date" string="Solde à date" readonly="1"/>
+                        <field name="balance_on_pay_slip" string="Solde sur la fiche de paie" readonly="1"/>
+                    </group>
                 </xpath>
                 <xpath expr="//notebook/page[@name='salary_computation']/field/tree/field[@name='rate']" position="after">
                     <field name="nombre" />

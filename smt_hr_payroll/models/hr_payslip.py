@@ -23,42 +23,61 @@ class HrPayslip(models.Model):
 
     paid_date = fields.Date(string="Date de paie ", required=False, readonly=True)
     is_balance_all_account = fields.Boolean()
-    balance_to_date = fields.Float(compute='_get_remaining_leaves')
-    gain_on_current_month = fields.Selection([('0', '0'), ('2', '2')], default='2')
-    balance_on_pay_slip = fields.Float(compute='_get_balance_remaining_leaves')
-    is_after_create = fields.Boolean()
+    # balance_to_date = fields.Float(compute='_get_remaining_leaves', store=True)
+    balance_to_date = fields.Float()
+    gain_on_current_month = fields.Selection([('0', '0'), ('2.5', '2,5')], default='2.5')
+    # balance_on_pay_slip = fields.Float(compute='_get_balance_remaining_leaves', store=True)
+    balance_on_pay_slip = fields.Float()
     payment_method_in_pdf = fields.Char()
 
     @api.model_create_multi
     def create(self, vals_list):
         res = super(HrPayslip, self).create(vals_list)
-        if res:
-            res.is_after_create = True
+        if res.employee_id and res.gain_on_current_month:
+            res.balance_to_date = res.employee_id.leaves_count
+            if res.gain_on_current_month == '2.5':
+                res.balance_on_pay_slip = res.employee_id.leaves_count + 2.5
+            else:
+                res.balance_on_pay_slip = res.employee_id.leaves_count
         return res
 
-    def _get_remaining_leaves(self):
-        for paye in self:
-            paye.balance_to_date = paye.employee_id.leaves_count
+    def write(self, vals):
+        res = super().write(vals)
+        if 'gain_on_current_month' in vals and vals['gain_on_current_month']:
+            for slip in self:
+                if vals['gain_on_current_month'] == '2.5':
+                    slip.balance_on_pay_slip = slip.balance_to_date + 2.5
+                else:
+                    slip.balance_on_pay_slip = slip.balance_to_date
+        return res
 
-    def _get_balance_remaining_leaves(self):
-        for paye in self:
-            if paye.gain_on_current_month == "2":
-                paye.balance_on_pay_slip = paye.employee_id.leaves_count + 2
-            elif paye.gain_on_current_month == "0":
-                paye.balance_on_pay_slip = paye.employee_id.leaves_count
+    # def _get_remaining_leaves(self):
+    #     for paye in self:
+    #         paye.balance_to_date = paye.employee_id.leaves_count
+
+    # def _get_balance_remaining_leaves(self):
+    #     for paye in self:
+    #         if paye.gain_on_current_month == "2":
+    #             paye.balance_on_pay_slip = paye.balance_to_date + 2.5
+    #         elif paye.gain_on_current_month == "0":
+    #             paye.balance_on_pay_slip = paye.balance_to_date
 
     @api.onchange('employee_id')
     def get_balance_to_date(self):
         for paye in self:
             paye.balance_to_date = paye.employee_id.leaves_count
+            if paye.gain_on_current_month == "2.5":
+                paye.balance_on_pay_slip = paye.balance_to_date + 2.5
+            elif paye.gain_on_current_month == "0":
+                paye.balance_on_pay_slip = paye.balance_to_date
 
     @api.onchange('gain_on_current_month','employee_id')
     def change_gain_on_current_month(self):
         for paye in self:
-            if paye.gain_on_current_month == "2":
-                paye.balance_on_pay_slip = paye.employee_id.leaves_count + 2
+            if paye.gain_on_current_month == "2.5":
+                paye.balance_on_pay_slip = paye.balance_to_date + 2.5
             elif paye.gain_on_current_month == "0":
-                paye.balance_on_pay_slip = paye.employee_id.leaves_count
+                paye.balance_on_pay_slip = paye.balance_to_date
 
     def compute_sheet(self):
         payslips = self.filtered(lambda slip: slip.state in ["draft", "verify"])
