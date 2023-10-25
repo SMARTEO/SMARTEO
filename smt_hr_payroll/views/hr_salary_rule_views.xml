@@ -9,9 +9,26 @@
             <field name="priority" eval="8" />
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='general_conditions']" position="inside">
+                    <label for="salary_rule_nombre" />
+                    <div class="row" style="display: flex;">
+
+                        <div class="col">
+                            <field name="salary_rule_nombre" />
+                        </div>
+                        <div class="col">
+                            <field name="currency_name" readonly="1"/>
+                        </div>
+                    </div>
+                    <label for="salary_rule_base" />
+                    <div class="row" style="display: flex;">
+                        <div class="col">
+                            <field name="salary_rule_base" />
+                        </div>
+                        <div class="col">
+                            <field name="currency_name" readonly="1"/>
+                        </div>
+                    </div>
                     <group colspan="4">
-                        <field name="salary_rule_nombre" />
-                        <field name="salary_rule_base" />
                         <field name="is_total" widget="boolean_toggle" string="Total" />
                     </group>
                 </xpath>

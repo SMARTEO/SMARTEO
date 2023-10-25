@@ -342,9 +342,21 @@
                                     <tr>
                                         <td colspan="2"><span t-field="line.name"/></td>
                                         <td colspan="2"><span
-                                                t-esc="'{0:,.2f}'.format(float(line.nombre)).replace(',', ' ')"/></td>
+                                                t-esc="'{0:,.2f}'.format(float(line.nombre)).replace(',', ' ')" t-if="line.nombre != 0"/>
+                                            <span t-else="">
+                                            </span>
+                                            <span t-esc="o.company_id.currency_id.symbol" t-if="line.nombre != 0"/>
+                                            <span t-else="">
+                                            </span>
+                                        </td>
                                         <td colspan="2"><span
-                                                t-esc="'{0:,.2f}'.format(float(line.base)).replace(',', ' ')"/></td>
+                                                t-esc="'{0:,.2f}'.format(float(line.base)).replace(',', ' ')" t-if="line.base != 0"/>
+                                            <span t-else="">
+                                            </span>
+                                            <span t-esc="o.company_id.currency_id.symbol" t-if="line.base != 0"/>
+                                            <span t-else="">
+                                            </span>
+                                        </td>
                                         <td colspan="2"><span
                                                 t-esc="'{0:,.2f}'.format(float(line.total)).replace(',', ' ')"/>
                                             <span t-esc="o.company_id.currency_id.symbol"/>
