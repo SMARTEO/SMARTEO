@@ -345,7 +345,7 @@
                                                 t-esc="'{0:,.2f}'.format(float(line.nombre)).replace(',', ' ')" t-if="line.nombre != 0"/>
                                             <span t-else="">
                                             </span>
-                                            <span t-esc="o.company_id.currency_id.symbol" t-if="line.nombre != 0"/>
+                                            <span t-esc="line.salary_rule_id.currency_salary_rule_nombre" t-if="line.nombre != 0"/>
                                             <span t-else="">
                                             </span>
                                         </td>
@@ -353,7 +353,7 @@
                                                 t-esc="'{0:,.2f}'.format(float(line.base)).replace(',', ' ')" t-if="line.base != 0"/>
                                             <span t-else="">
                                             </span>
-                                            <span t-esc="o.company_id.currency_id.symbol" t-if="line.base != 0"/>
+                                            <span t-esc="line.salary_rule_id.currency_salary_rule_base" t-if="line.base != 0"/>
                                             <span t-else="">
                                             </span>
                                         </td>

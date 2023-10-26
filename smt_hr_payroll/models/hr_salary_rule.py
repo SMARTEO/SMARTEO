@@ -18,12 +18,16 @@ class HrSalaryRule(models.Model):
 
     is_total = fields.Boolean(string="Total", help="Pour faciliter le format du report")
 
+    def _get_currency_salary_rule_nombre(self):
+        return self.env.company.currency_id.symbol
 
-    currency_name = fields.Char(compute='_get_currency_name')
+    def _get_currency_salary_rule_base(self):
+        return self.env.company.currency_id.symbol
 
-    def _get_currency_name(self):
-        self.ensure_one()
-        self.currency_name = self.env.company.currency_id.symbol
+    currency_salary_rule_nombre = fields.Char(default=_get_currency_salary_rule_nombre)
+    currency_salary_rule_base = fields.Char(default=_get_currency_salary_rule_base)
+
+
 
     def write(self, vals):
         res = super().write(vals)
