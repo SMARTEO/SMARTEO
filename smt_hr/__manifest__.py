@@ -18,11 +18,14 @@
     "depends": ["base", "hr"],
     # always loaded
     "data": [
-        # 'security/ir.model.access.csv',
+        "security/ir.model.access.csv",
         "views/hr_employee.xml",
+        "views/hr_classification.xml",
+
     ],
     # only loaded in demonstration mode
     "demo": [
         "demo/demo.xml",
     ],
+    'license': 'LGPL-3',
 }

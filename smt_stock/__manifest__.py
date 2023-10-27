@@ -25,10 +25,12 @@
         "views/views.xml",
         "views/stock_valuation.xml",
         "views/stock_picking_views.xml",
+        "views/stock_move_views.xml",
         "report/stock_report.xml",
     ],
     # only loaded in demonstration mode
     "demo": [
         "demo/demo.xml",
     ],
+    'license': 'LGPL-3',
 }

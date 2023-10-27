@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="hr_classification_action" model="ir.actions.act_window">
+        <field name="name">Classification</field>
+        <field name="res_model">hr.classification</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="hr_classification_menu"
+            name="Classification"
+            action="hr_classification_action"
+            parent="hr.menu_human_resources_configuration_employee"
+            sequence="4"
+    />
+</odoo>

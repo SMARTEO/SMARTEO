@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_salary_rule_form_inherit" model="ir.ui.view">
+            <field name="name">hr.salary.rule.form.inherit</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form" />
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='general_conditions']" position="inside">
+                    <label for="salary_rule_nombre" />
+                    <div class="row" style="display: flex;">
+
+                        <div class="col">
+                            <field name="salary_rule_nombre" />
+                        </div>
+                        <div class="col">
+                            <field name="currency_salary_rule_nombre" readonly="0"/>
+                        </div>
+                    </div>
+                    <label for="salary_rule_base" />
+                    <div class="row" style="display: flex;">
+                        <div class="col">
+                            <field name="salary_rule_base" />
+                        </div>
+                        <div class="col">
+                            <field name="currency_salary_rule_base" readonly="0"/>
+                        </div>
+                    </div>
+                    <group colspan="4">
+                        <field name="is_total" widget="boolean_toggle" string="Total" />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

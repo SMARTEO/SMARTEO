@@ -13,6 +13,29 @@
                     <attribute name="readonly">False</attribute>
                     <attribute name="force_save">1</attribute>
                 </xpath>
+                <xpath expr="//page[@name='personal_information']/group/group[5]" position="after">
+                    <group string="Information paie">
+                        <field name="ostie" string="N° OSTIE"/>
+                        <field name="cnaps" string="N° CNaPS"/>
+                        <field name="matricule" string="Matricule"/>
+                        <field name="classification_id" string="Classification"/>
+                    </group>
+                </xpath>
+                <xpath expr="//page[@name='hr_settings']" position="before">
+                    <page name="childs" string="Enfants à charge">
+                        <field name="children_ids">
+                            <tree string="Enfants à charge" editable="bottom">
+                                <control>
+                                    <create name="add_line_control" string="Ajouter une ligne"/>
+                                </control>
+                                <field name="name"/>
+                                <field name="birthday"/>
+                                <field name="child_age" readonly="1" decoration-danger="child_age > 21"/>
+                                <field name="state" string="Etat" widget="badge" decoration-info="state == 'dependent'" decoration-danger="state == 'not_dependent'" readonly="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
             </field>
         </record>
     </data>
