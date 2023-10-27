@@ -225,7 +225,7 @@
 
                                 <td class="tgv-0pky" colspan="2" rowspan="4">
                                     <div>
-                                        <div>Solde à date : <span t-esc="o.balance_to_date" t-if="o.balance_to_date"/>
+                                        <div>Ancien solde : <span t-esc="o.balance_to_date" t-if="o.balance_to_date"/>
                                             Jours</div>
                                     </div>
                                     <div>
@@ -234,7 +234,7 @@
 
                                     </div>
                                     <div>
-                                        <div>Solde: <span t-esc="o.balance_on_pay_slip" t-if="o.balance_on_pay_slip"/>
+                                        <div>Nouveau solde : <span t-esc="o.balance_on_pay_slip" t-if="o.balance_on_pay_slip"/>
                                             Jours</div>
 
                                     </div>
