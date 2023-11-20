@@ -33,13 +33,14 @@ class HrPayslip(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         res = super(HrPayslip, self).create(vals_list)
-        if res.employee_id and res.gain_on_current_month:
-            res.balance_to_date = res.employee_id.leaves_count
-            if res.gain_on_current_month == '2.5':
-                res.balance_on_pay_slip = res.employee_id.leaves_count + 2.5
-            else:
-                res.balance_on_pay_slip = res.employee_id.leaves_count
-        return res
+        for payslip in res:
+            if payslip.employee_id and payslip.gain_on_current_month:
+                payslip.balance_to_date = payslip.employee_id.leaves_count
+                if payslip.gain_on_current_month == '2.5':
+                    payslip.balance_on_pay_slip = payslip.employee_id.leaves_count + 2.5
+                else:
+                    payslip.balance_on_pay_slip = payslip.employee_id.leaves_count
+            return payslip
 
     def write(self, vals):
         res = super().write(vals)
