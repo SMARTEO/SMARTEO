@@ -12,11 +12,9 @@ class SaleOrderLine(models.Model):
     is_set_desc_lines = fields.Boolean(compute='_is_set_des_lines')
 
     def _is_set_des_lines(self):
-        # res_user = self.env['res.users'].search([('id', '=', self._uid)])
-        if self.env.user.has_group('smt_sale.is_set_desc_lines_security'):
-            self.is_set_desc_lines = True
-        else:
-            self.is_set_desc_lines = False
+        can_edit = self.env.user.has_group('smt_sale.is_set_desc_lines_security')
+        for line in self:
+            line.is_set_desc_lines = can_edit or line.display_type in ('line_section', 'line_note')
 
     @api.depends("purchase_price", "product_uom_qty")
     def _compute_purchase_price_subtotal(self):
