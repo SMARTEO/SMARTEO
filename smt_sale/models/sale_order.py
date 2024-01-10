@@ -11,6 +11,7 @@ class SaleOrderLine(models.Model):
         groups="base.group_user")
     is_set_desc_lines = fields.Boolean(compute='_is_set_des_lines')
 
+    @api.depends('display_type')
     def _is_set_des_lines(self):
         can_edit = self.env.user.has_group('smt_sale.is_set_desc_lines_security')
         for line in self:
