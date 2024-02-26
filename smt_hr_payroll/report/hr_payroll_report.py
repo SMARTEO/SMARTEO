@@ -40,7 +40,7 @@ class HrPayrollReport(models.Model):
     rbstcnaps_wage = fields.Float('Remboursement CNAPS', readonly=True)
     totpopcom_wage = fields.Float('Total opérations complémentaires', readonly=True)
     ajustnet_wage = fields.Float('Ajustement de salaire net', readonly=True)
-
+    gross_gross_wage = fields.Float('Salaire brut réel', invisible=True, readonly=True)
 
 
     def _select(self):
@@ -72,7 +72,8 @@ class HrPayrollReport(models.Model):
                 CASE WHEN wd.id = min_id.min_line THEN avansp.total ELSE 0 END as avansp_wage,
                 CASE WHEN wd.id = min_id.min_line THEN rbstcnaps.total ELSE 0 END as rbstcnaps_wage,
                 CASE WHEN wd.id = min_id.min_line THEN totpopcom.total ELSE 0 END as totpopcom_wage,
-                CASE WHEN wd.id = min_id.min_line THEN ajustnet.total ELSE 0 END as ajustnet_wage
+                CASE WHEN wd.id = min_id.min_line THEN ajustnet.total ELSE 0 END as ajustnet_wage,
+                CASE WHEN wd.id = min_id.min_line THEN gross.total ELSE 0 END as gross_gross_wage
                 """
 
     def _from(self):
@@ -105,6 +106,7 @@ class HrPayrollReport(models.Model):
                 left join hr_payslip_line rbstcnaps on (rbstcnaps.slip_id = p.id and rbstcnaps.code = 'RBSTCNAPS')
                 left join hr_payslip_line totpopcom on (totpopcom.slip_id = p.id and totpopcom.code = 'TOTPOPCOM')
                 left join hr_payslip_line ajustnet on (ajustnet.slip_id = p.id and ajustnet.code = 'AJUSTNET')
+                left join hr_payslip_line gross on (gross.slip_id = p.id and gross.code = 'SBRUT')
                 """
 
     def _group_by(self):
@@ -136,5 +138,6 @@ class HrPayrollReport(models.Model):
                 avansp.total,
                 rbstcnaps.total,
                 totpopcom.total,
-                ajustnet.total
+                ajustnet.total,
+                gross.total
                 """
