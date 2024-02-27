@@ -12,7 +12,9 @@
                         <field name="department_id" type="row"/>
                         <field name="basic_wage" string="Salaire de base" type="measure"/>
                         <field name="allocp_wage" type="measure"/>
+                        <field name="allocp_wage_number" type="measure"/>
                         <field name="abs_wage" type="measure"/>
+                        <field name="abs_wage_number" type="measure"/>
                         <field name="idemnlog_wage" type="measure"/>
                         <field name="idemnrepas_wage" type="measure"/>
                         <field name="tnh30_wage_base" type="measure"/>
