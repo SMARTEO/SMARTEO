@@ -190,7 +190,7 @@ class HrPayrollReport(models.Model):
                 left join hr_payslip_line fraisbanc on (fraisbanc.slip_id = p.id and fraisbanc.code = 'FRAISBANC')
                 left join hr_payslip_line alloc on (alloc.slip_id = p.id and alloc.code = 'ALLOC')
                 left join hr_payslip_line allocbase on (allocbase.slip_id = p.id and allocbase.code = 'ALLOC')
-                left join hr_payslip_line ava15 on (ava15.slip_id = p.id and ava15.code = 'ava15')
+                left join hr_payslip_line ava15 on (ava15.slip_id = p.id and ava15.code = 'AVA15')
                 left join hr_payslip_line avansp on (avansp.slip_id = p.id and avansp.code = 'AVANSP')
                 left join hr_payslip_line rbstcnaps on (rbstcnaps.slip_id = p.id and rbstcnaps.code = 'RBSTCNAPS')
                 left join hr_payslip_line totpopcom on (totpopcom.slip_id = p.id and totpopcom.code = 'TOTPOPCOM')
