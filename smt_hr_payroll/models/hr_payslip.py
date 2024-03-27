@@ -40,10 +40,10 @@ class HrPayslip(models.Model):
                     payslip.balance_on_pay_slip = payslip.employee_id.leaves_count + 2.5
                 else:
                     payslip.balance_on_pay_slip = payslip.employee_id.leaves_count
-            return payslip
+        return res
 
     def write(self, vals):
-        res = super().write(vals)
+        res = super(HrPayslip, self).write(vals)
         if 'gain_on_current_month' in vals and vals['gain_on_current_month']:
             for slip in self:
                 if vals['gain_on_current_month'] == '2.5':
