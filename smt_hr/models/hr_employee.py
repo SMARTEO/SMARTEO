@@ -31,6 +31,9 @@ class HrEmployeePublic(models.Model):
     cnaps = fields.Char()
     ostie = fields.Char()
     matricule = fields.Char()
+    classification_id = fields.Many2one('hr.classification')
+    children_ids = fields.One2many('hr.child', 'employe_public_id', string="Enfants à charge", store=1)
+
 
 class HrEmployeeClassification(models.Model):
     _name = 'hr.classification'

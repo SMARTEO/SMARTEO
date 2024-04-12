@@ -7,6 +7,7 @@ class HrChildren(models.Model):
     _name = 'hr.child'
     _description = 'Description'
     employe_id = fields.Many2one('hr.employee')
+    employe_public_id = fields.Many2one('hr.employee.public')
     name = fields.Char(string="Nom")
     child_age = fields.Integer(string="Age", compute='_compute_age', store=True)
     birthday = fields.Date('Date de naissance')
