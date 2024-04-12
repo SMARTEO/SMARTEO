@@ -25,7 +25,12 @@ class HrEmployeeInherit(models.Model):
     classification_id = fields.Many2one('hr.classification')
     children_ids = fields.One2many('hr.child', 'employe_id', string="Enfants à charge", store=1)
 
+class HrEmployeePublic(models.Model):
+    _inherit = "hr.employee.public"
 
+    cnaps = fields.Char()
+    ostie = fields.Char()
+    matricule = fields.Char()
 
 class HrEmployeeClassification(models.Model):
     _name = 'hr.classification'
