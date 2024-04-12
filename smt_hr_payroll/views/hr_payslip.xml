@@ -21,6 +21,9 @@
                         <field name="gain_on_current_month" string="Gain sur le mois actuel" />
                         <field name="balance_to_date" string="Solde à date" readonly="1"/>
                         <field name="balance_on_pay_slip" string="Solde sur la fiche de paie" readonly="1"/>
+                        <field name="previous_paid_leave_balance" string="Solde antérieur" invisible="1"/>
+                        <field name="days_taken_in_the_month" string="Jours pris dans le mois" invisible="1"/>
+                        <field name="new_balance_in_the_month" string="Nouveau solde" invisible="1"/>
                     </group>
                 </xpath>
                 <xpath expr="//notebook/page[@name='salary_computation']/field/tree/field[@name='rate']" position="attributes">

@@ -225,18 +225,34 @@
 
                                 <td class="tgv-0pky" colspan="2" rowspan="4">
                                     <div>
-                                        <div>Ancien solde : <span t-esc="o.balance_to_date" t-if="o.balance_to_date"/>
+                                        <div>Ancien solde : <span t-esc="o.balance_to_date" t-if="o.balance_to_date"/><span t-else="">0 </span>
                                             Jours</div>
                                     </div>
-                                    <div>
+                                    <!--<div>
                                         <div class="col-6">Gain sur le mois <span t-esc="o.gain_on_current_month" t-if="o.gain_on_current_month"/>
                                         Jours</div>
 
-                                    </div>
-                                    <div>
+                                    </div>-->
+                                    <!--<div>
                                         <div>Nouveau solde : <span t-esc="o.balance_on_pay_slip" t-if="o.balance_on_pay_slip"/>
                                             Jours</div>
-
+                                    </div>-->
+                                    <!-- new solde -->
+                                    <div>
+                                        <div>Solde antérieur : <span t-esc="o.previous_paid_leave_balance" t-if="o.previous_paid_leave_balance"/><span t-else="">0 </span>
+                                            Jours</div>
+                                    </div>
+                                    <div>
+                                        <div class="col-6">Jours acquis : <span t-esc="o.gain_on_current_month" t-if="o.gain_on_current_month"/><span t-else="">0 </span>
+                                            Jours</div>
+                                    </div>
+                                    <div>
+                                        <div>Jours pris dans le mois : <span t-esc="o.days_taken_in_the_month" t-if="o.days_taken_in_the_month"/><span t-else="">0 </span>
+                                            Jours</div>
+                                    </div>
+                                    <div>
+                                        <div>Nouveau solde : <span t-esc="o.new_balance_in_the_month" t-if="o.new_balance_in_the_month"/><span t-else="">0 </span>
+                                            Jours</div>
                                     </div>
 <!--                                    <div>-->
 <!--                                        <div class="col-6">Restant : <t t-set="foo"-->
