@@ -68,10 +68,13 @@ class HrPayslip(models.Model):
                     if payslip_precedent:
                         payes.previous_paid_leave_balance = self.env['hr.payslip'].browse(payslip_precedent.id).balance_on_pay_slip
                     else:
-                        payes.previous_paid_leave_balance = 0
+                        payes.previous_paid_leave_balance = 0.0
                 paye.days_taken_in_the_month = sum(paye.worked_days_line_ids.filtered(lambda w: w.work_entry_type_id.code == 'LEAVE100').mapped('number_of_days'))
                 paye.new_balance_in_the_month = (paye.previous_paid_leave_balance + float(paye.gain_on_current_month)) - paye.days_taken_in_the_month
-
+            else:
+                paye.previous_paid_leave_balance = 0.0
+                paye.days_taken_in_the_month = 0.0
+                paye.new_balance_in_the_month = 0.0
 
     # def _get_remaining_leaves(self):
     #     for paye in self:
