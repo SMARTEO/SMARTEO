@@ -57,17 +57,20 @@ class HrPayslip(models.Model):
 
     def _get_previous_paid_leave_balance(self):
         for paye in self:
-            self.env['hr.payslip'].search([('employee_id', '=', paye.employee_id.id), ('state', '=', 'paid')], order='id asc', limit=1).write({'previous_paid_leave_balance': 0})
-            for payes in paye.employee_id.slip_ids:
-                payslip_precedent = self.env['hr.payslip'].search([
-                    ('id', '<', paye.id),
-                    ('employee_id', '=', paye.employee_id.id),
-                    ('state', '=', 'paid')
-                ], order='id desc', limit=1)
-                if payslip_precedent:
-                    payes.previous_paid_leave_balance = self.env['hr.payslip'].browse(payslip_precedent.id).balance_on_pay_slip
+            if paye.employee_id:
+                last_payroll = self.env['hr.payslip'].search([
+                        ('employee_id', '=', paye.employee_id.id),
+                    ], order='date_to desc', limit=1)
+
+                previous_payroll = self.env['hr.payslip'].search([
+                        ('employee_id', '=', paye.employee_id.id),
+                        ('date_from', '<', paye.date_from),
+                        ('date_to', '<', last_payroll.date_from)
+                    ], order='date_to desc', limit=1)
+                if previous_payroll:
+                    paye.previous_paid_leave_balance = previous_payroll.balance_on_pay_slip
                 else:
-                    payes.previous_paid_leave_balance = 0.0
+                    paye.previous_paid_leave_balance = 0.0
             paye.days_taken_in_the_month = sum(paye.worked_days_line_ids.filtered(lambda w: w.work_entry_type_id.code == 'LEAVE100').mapped('number_of_days'))
             paye.new_balance_in_the_month = (paye.previous_paid_leave_balance + float(paye.gain_on_current_month)) - paye.days_taken_in_the_month
 
