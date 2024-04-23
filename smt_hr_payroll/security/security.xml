@@ -1,0 +1,8 @@
+<odoo>
+    <data>
+        <record id="group_can_modif_balance_payroll" model="res.groups">
+            <field name="name">Modification Solde antérieur dans fiche de paie</field>
+        </record>
+    </data>
+
+</odoo>

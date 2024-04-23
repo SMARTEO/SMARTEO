@@ -9,6 +9,7 @@
     "depends": ["base", "hr_payroll", "hr_holidays"],
 
     "data": [
+        "security/security.xml",
         "views/base_external_layout.xml",
         "views/hr_payslip.xml",
         "views/payslip_report.xml",
