@@ -32,7 +32,7 @@ class HrPayslip(models.Model):
     is_can_modif_all_balance = fields.Boolean(compute='_compute_is_can_modif_all_balance')
     previous_paid_leave_balance = fields.Float(compute='_get_previous_paid_leave_balance', store=True)
     days_taken_in_the_month = fields.Float(compute='_get_previous_paid_leave_balance', store=True)
-    new_balance_in_the_month = fields.Float()
+    new_balance_in_the_month = fields.Float(compute='_compute_new_balance_in_the_month')
 
 
     def _compute_is_can_modif_all_balance(self):
@@ -87,6 +87,13 @@ class HrPayslip(models.Model):
     def onchange_previous_paid_leave_balance(self):
         for paye in self:
             paye.new_balance_in_the_month = (paye.previous_paid_leave_balance + float(paye.gain_on_current_month)) - paye.days_taken_in_the_month
+
+    
+    def _compute_new_balance_in_the_month(self):
+        for paye in self:
+            paye.new_balance_in_the_month = (paye.previous_paid_leave_balance + float(paye.gain_on_current_month)) - paye.days_taken_in_the_month
+
+
 
 
     # def _get_remaining_leaves(self):

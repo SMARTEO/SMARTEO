@@ -15,7 +15,7 @@
                 </xpath>
                 <xpath expr="//field[@name='struct_id']" position="after">
                     <field name="is_balance_all_account" string="Solde tout compte"/>
-                    <field name="is_can_modif_all_balance" invisible="0"/>
+                    <field name="is_can_modif_all_balance" invisible="1"/>
                 </xpath>
                 <xpath expr="//sheet/group[1]" position="after">
                     <group string="Situation des congés payés" col="8">
