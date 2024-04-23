@@ -30,8 +30,8 @@ class HrPayslip(models.Model):
     balance_on_pay_slip = fields.Float()
     payment_method_in_pdf = fields.Char()
     is_can_modif_all_balance = fields.Boolean(compute='_compute_is_can_modif_all_balance')
-    previous_paid_leave_balance = fields.Float(compute='_get_previous_paid_leave_balance', store=True)
-    days_taken_in_the_month = fields.Float(compute='_get_previous_paid_leave_balance', store=True)
+    previous_paid_leave_balance = fields.Float()
+    days_taken_in_the_month = fields.Float()
     new_balance_in_the_month = fields.Float(compute='_compute_new_balance_in_the_month')
 
 
