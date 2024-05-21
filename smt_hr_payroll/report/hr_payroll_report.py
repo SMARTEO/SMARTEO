@@ -57,6 +57,7 @@ class HrPayrollReport(models.Model):
 
     #base
     allocp_wage_base = fields.Float('Allocation des Congés payés (Base)', readonly=True)
+    absmal3_wage_base = fields.Float('Congés maternité CNaPs (Base)', readonly=True)
     basic_wage_base = fields.Float('Salaire de Base (Base)', readonly=True)
     abs_wage_base = fields.Float('Absences (Base)', readonly=True)
     tnh30_wage_base = fields.Float('TNH à 30% (Base)', readonly=True)
@@ -85,6 +86,7 @@ class HrPayrollReport(models.Model):
 
     #nombre
     allocp_wage_number = fields.Float('Allocation des Congés payés (Nombre)', readonly=True)
+    absmal3_number = fields.Float('Congés maternité CNaPs (Nombre)', readonly=True)
     abs_wage_number = fields.Float('Absences (Nombre)', readonly=True)
     paid_sick_number = fields.Float('Congés maladie payés (Nombre)', readonly=True)
     public_holidays_not_worked_and_paid = fields.Float('Jours fériés non travaillés et payés', readonly=True)
@@ -131,7 +133,9 @@ class HrPayrollReport(models.Model):
                 CASE WHEN wd.id = min_id.min_line THEN gross.total ELSE 0 END as gross_gross_wage,
                 CASE WHEN wd.id = min_id.min_line THEN allocp.total ELSE 0 END as allocp_wage,
                 CASE WHEN wd.id = min_id.min_line THEN allocpnbr.nombre ELSE 0 END as allocp_wage_number,
+                CASE WHEN wd.id = min_id.min_line THEN absmal3nbr.nombre ELSE 0 END as absmal3_number,
                 CASE WHEN wd.id = min_id.min_line THEN allocpbase.base ELSE 0 END as allocp_wage_base,
+                CASE WHEN wd.id = min_id.min_line THEN absmal3base.base ELSE 0 END as absmal3_wage_base,
                 CASE WHEN wd.id = min_id.min_line THEN basicbase.base ELSE 0 END as basic_wage_base,
                 CASE WHEN wd.id = min_id.min_line THEN abs.total ELSE 0 END as abs_wage,
                 CASE WHEN wd.id = min_id.min_line THEN absbase.base ELSE 0 END as abs_wage_base,
@@ -208,7 +212,9 @@ class HrPayrollReport(models.Model):
                 left join hr_payslip_line gross on (gross.slip_id = p.id and gross.code = 'SBRUT')
                 left join hr_payslip_line allocp on (allocp.slip_id = p.id and allocp.code = 'ALLOCP')
                 left join hr_payslip_line allocpbase on (allocpbase.slip_id = p.id and allocpbase.code = 'ALLOCP')
+                left join hr_payslip_line absmal3base on (absmal3base.slip_id = p.id and absmal3base.code = 'ABSMAL3')
                 left join hr_payslip_line allocpnbr on (allocpnbr.slip_id = p.id and allocpnbr.code = 'ALLOCP')
+                left join hr_payslip_line absmal3nbr on (absmal3nbr.slip_id = p.id and absmal3nbr.code = 'ABSMAL3')
                 left join hr_payslip_line basicbase on (basicbase.slip_id = p.id and basicbase.code = 'BASIC')
                 left join hr_payslip_line abs on (abs.slip_id = p.id and abs.code = 'ABSC')
                 left join hr_payslip_line absbase on (absbase.slip_id = p.id and absbase.code = 'ABSC')
@@ -285,7 +291,9 @@ class HrPayrollReport(models.Model):
                 gross.total,
                 allocp.total,
                 allocpbase.base,
+                absmal3base.base,
                 allocpnbr.nombre,
+                absmal3nbr.nombre,
                 basicbase.base,
                 abs.total,
                 absbase.base,
