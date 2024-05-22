@@ -1,0 +1,286 @@
+<odoo>
+    <data>
+        <template id="report_invoice_document_inh" inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@id='total']/div" position="attributes">
+                <t t-if="o.company_id.name=='SOFTEO'">
+                    <attribute name="t-attf-class">#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'}</attribute>
+                </t>
+            </xpath>
+            <xpath expr="//div[@id='total']/div" position="before">
+                <t t-if="o.company_id.name=='SOFTEO'">
+                    <div t-att-class="'col-8' if report_type != 'html' else 'col-sm-5 col-md-7'">
+                        <div>
+                            <strong>Arrêté la presente facture à la somme de</strong>
+                            &#160;
+                            <span t-esc="o.currency_id.with_context(lang=o.partner_id.lang or 'en_US').amount_to_text(o.amount_total).upper()" />
+                            &#160;
+                        </div>
+                    </div>
+                </t>
+            </xpath>
+            <xpath expr="//div[hasclass('page')]" position="before">
+                <t t-if="o.company_id.name=='SOFTEO'">
+                    <t t-set="information_block">
+                        <div t-if="o.partner_shipping_id">
+                            <strong>Adresse de livraison:</strong>
+                            <div t-field="o.partner_shipping_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                        </div>
+                    </t>
+                </t>
+            </xpath>
+            <xpath expr="//div[hasclass('page')]" position="attributes">
+                <t t-if="o.company_id.name=='SOFTEO'">
+                    <attribute name="style">padding-top:1px !important; color :black !important;</attribute>
+                </t>
+            </xpath>
+            <!--<xpath expr="//t[@t-set='address']" position="replace">
+                <t t-set="address">
+                    <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                    <div t-if="o.partner_id.vat" class="mt16" id="partner_vat_address_not_same_as_shipping">
+                        <t t-if="o.company_id.account_fiscal_country_id.vat_label" t-esc="o.company_id.account_fiscal_country_id.vat_label" id="inv_tax_id_label" />
+                        <t t-else="">Tax ID</t>
+                        :
+                        <span t-field="o.partner_id.vat" />
+                    </div>
+                    <div>
+                        <span t-if="o.partner_id.nif">NIF :</span>
+                        <span t-field="o.partner_id.nif" />
+                        <span t-if="o.partner_id.nif">/</span>
+                        <span t-if="o.partner_id.stat">STAT :</span>
+                        <span t-field="o.partner_id.stat" />
+                        <br />
+                        <span t-if="o.partner_id.rcs">RCS :</span>
+                        <span t-field="o.partner_id.rcs" />
+                        <span t-if="o.partner_id.rcs">/</span>
+                        <span t-if="o.partner_id.cif">CIF :</span>
+                        <span t-field="o.partner_id.cif" />
+                    </div>
+                </t>
+            </xpath>-->
+            <xpath expr="//t[@t-set='address']" position="replace">
+                <t t-if="o.company_id.name=='SOFTEO'">
+                    <t t-set="address">
+                        <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                        <div t-if="o.partner_id.vat" class="mt16" id="partner_vat_address_not_same_as_shipping">
+                            <t t-if="o.company_id.account_fiscal_country_id.vat_label" t-esc="o.company_id.account_fiscal_country_id.vat_label" id="inv_tax_id_label" />
+                            <t t-else="">Tax ID</t>
+                            :
+                            <span t-field="o.partner_id.vat" />
+                        </div>
+                        <div>
+                            <span t-if="o.partner_id.nif">NIF :</span>
+                            <span t-field="o.partner_id.nif" />
+                            <span t-if="o.partner_id.nif">/</span>
+                            <span t-if="o.partner_id.stat">STAT :</span>
+                            <span t-field="o.partner_id.stat" />
+                            <br />
+                            <span t-if="o.partner_id.rcs">RCS :</span>
+                            <span t-field="o.partner_id.rcs" />
+                            <span t-if="o.partner_id.rcs">/</span>
+                            <span t-if="o.partner_id.cif">CIF :</span>
+                            <span t-field="o.partner_id.cif" />
+                        </div>
+                    </t>
+                </t>
+            </xpath>
+            <xpath expr="//t[@t-set='address']" position="replace">
+                <t t-if="o.company_id.name=='SOFTEO'">
+                    <t t-set="address">
+                        <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                        <div t-if="o.partner_id.vat" class="mt16" id="partner_vat_address_same_as_shipping">
+                            <t t-if="o.company_id.account_fiscal_country_id.vat_label" t-esc="o.company_id.account_fiscal_country_id.vat_label" id="inv_tax_id_label" />
+                            <t t-else="">Tax ID</t>
+                            :
+                            <span t-field="o.partner_id.vat" />
+                        </div>
+                        <div>
+                            <span t-if="o.partner_id.nif">NIF :</span>
+                            <span t-field="o.partner_id.nif" />
+                            <span t-if="o.partner_id.nif">/</span>
+                            <span t-if="o.partner_id.stat">STAT :</span>
+                            <span t-field="o.partner_id.stat" />
+                            <br />
+                            <span t-if="o.partner_id.rcs">RCS :</span>
+                            <span t-field="o.partner_id.rcs" />
+                            <span t-if="o.partner_id.rcs">/</span>
+                            <span t-if="o.partner_id.cif">CIF :</span>
+                            <span t-field="o.partner_id.cif" />
+                        </div>
+                    </t>
+                </t>
+            </xpath>
+            <!-- <xpath expr="//div[@name='no_shipping']/t[@t-set='address']" position="replace">
+                <t t-set="address">
+                    <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                    <div t-if="o.partner_id.vat" class="mt16" id="partner_vat_no_shipping">
+                        <t t-if="o.company_id.account_fiscal_country_id.vat_label" t-esc="o.company_id.account_fiscal_country_id.vat_label" id="inv_tax_id_label" />
+                        <t t-else="">Tax ID</t>
+                        :
+                        <span t-field="o.partner_id.vat" />
+                    </div>
+                    <div>
+                        <span t-if="o.partner_id.nif">NIF :</span>
+                        <span t-field="o.partner_id.nif" />
+                        <span t-if="o.partner_id.nif">/</span>
+                        <span t-if="o.partner_id.stat">STAT :</span>
+                        <span t-field="o.partner_id.stat" />
+                        <br />
+                        <span t-if="o.partner_id.rcs">RCS :</span>
+                        <span t-field="o.partner_id.rcs" />
+                        <span t-if="o.partner_id.rcs">/</span>
+                        <span t-if="o.partner_id.cif">CIF :</span>
+                        <span t-field="o.partner_id.cif" />
+                    </div>
+                </t>
+            </xpath> -->
+
+            <xpath expr="//p[@name='payment_communication']" position="replace">
+                <t t-if="o.company_id.name=='SOFTEO'">
+                    <p t-if="o.move_type in ('out_invoice', 'in_refund') and o.payment_reference" name="payment_communication">
+                        <b>
+                            Lors de votre paiement, merci d'indiquer le numéro de votre facture :
+                            <span t-field="o.payment_reference" />
+                        </b>
+                    </p>
+                </t>
+            </xpath>
+
+            <!-- <xpath expr="//tr[hasclass('o_subtotal')]" position="replace">
+                <t t-if="not o.tmp">
+                    <tr class="border-black o_subtotal" style="">
+                        <td class="border border-dark">
+                            <strong>Total HT</strong>
+                        </td>
+                        <td class="text-right border border-dark">
+                            <span t-field="o.amount_untaxed" />
+                        </td>
+                    </tr>
+                </t>
+            </xpath> -->
+
+            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()-1]" position="replace">
+                <t t-if="not o.tmp">
+                    <th name="th_taxes" t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                        <span>Taxes</span>
+                    </th>
+                </t>
+            </xpath> -->
+
+            <!-- <xpath expr="//t[@name='account_invoice_line_accountable']/td[last()-1]" position="replace">
+                <t t-if="not o.tmp">
+                    <td t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                        <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.invoice_line_tax_ids))" />
+                    </td>
+                </t>
+            </xpath> -->
+
+            <!-- <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[4]" position="replace">
+                <th name="th_priceunit" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" style="min-width: 11em !important;">
+                    <span>Prix unitaire HT</span>
+                </th>
+            </xpath>
+
+            <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[last()]" position="replace">
+                <th name="th_subtotal" class="text-right">
+                    <span groups="account.group_show_line_subtotals_tax_excluded">Montant HT</span>
+                    <span groups="account.group_show_line_subtotals_tax_included">Total Price</span>
+                </th>
+            </xpath> -->
+            <!-- 
+            <xpath expr="//tr[hasclass('o_total')]" position="replace">
+                <tr class="border-black o_total">
+                    <td>
+                        <strong>Total TTC à Payer</strong>
+                    </td>
+                    <td class="text-right">
+                        <span t-field="o.amount_total" />
+                    </td>
+                </tr>
+            </xpath> -->
+
+            <!-- <xpath expr="//t[@t-foreach='o.amount_by_group']" position="replace">
+                <tr t-if="not o.tmp">
+                    <t>
+                        <td>
+                            <strong>TVA</strong>
+                        </td>
+                        <td class="text-right o_price_total">
+                            <span t-field="o.amount_tax" t-option="{'widget': 'monetary'}" />
+                        </td>
+                    </t>
+                </tr>
+            </xpath> -->
+            <xpath expr="//div[@id='informations']" position="replace">
+                <t t-if="o.company_id.name=='SOFTEO'">
+                    <div id="informations" class="mt32 mb32">
+                        <div class="row">
+                            <div class="col-auto mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
+                                <strong>Date de la facture:</strong>
+                                <p class="m-0" t-esc="o.invoice_date.strftime('%d/%m/%Y')" />
+                            </div>
+                            <div name="reference" class="col-auto mw-100 mb-2" t-if="o.ref">
+                                <strong>Référence:</strong>
+                                <p class="m-0" t-field="o.ref" />
+                            </div>
+                            <div class="col-auto mw-100 mb-2" t-if="o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted'" name="due_date">
+                                <strong>Date d'échéance:</strong>
+                                <p class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                            </div>
+                            <div class="col-auto mw-100 mb-2" t-if="o.invoice_origin" name="origin">
+                                <strong>Origine:</strong>
+                                <p class="m-0" t-field="o.invoice_origin" />
+                            </div>
+                            <div class="col-auto mw-100 mb-2" t-if="o.partner_id.ref" name="customer_code">
+                                <strong>Numéro de client:</strong>
+                                <p class="m-0" t-field="o.partner_id.ref" />
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </xpath>
+            <xpath expr="//p[@name='payment_term']" position="replace">
+                <t t-if="o.company_id.name=='SOFTEO'">
+                    <t t-if="o.invoice_payment_term_id.payment_method">
+                        <t t-if="o.invoice_payment_term_id.default_description and o.invoice_date_due">
+                            <span t-if="o.invoice_payment_term_id.payment_method == 'transaction'">
+                                <span class="font-weight-bolder">Paiement par virement au plus tard le </span>
+                                <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                            </span>
+                            <span t-if="o.invoice_payment_term_id.payment_method == 'check'">
+                                <span class="font-weight-bolder">Paiement par chèque bancaire le </span>
+                                <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                            </span>
+                            <span t-if="o.invoice_payment_term_id.payment_method == 'cash'">
+                                <span class="font-weight-bolder">Paiement en espèce le </span>
+                                <t class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                            </span>
+                        </t>
+                        <t t-else="">
+                            <span t-field="o.invoice_payment_term_id.note" />
+                        </t>
+                    </t>
+                </t>
+            </xpath>
+            <xpath expr="//div[hasclass('page')]" position="attributes">
+                <t t-if="o.company_id.name=='SOFTEO'">
+                    <attribute name="style">font-size: 12px !important;</attribute>
+                </t>
+            </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]/thead/tr[1]" position="attributes">
+                <t t-if="o.company_id.name=='SOFTEO'">
+                    <attribute name="style">font-size: 11px !important;</attribute>
+                </t>
+            </xpath>
+
+            <!-- <xpath expr="//t[@t-foreach='o.invoice_line_ids']" position="attributes">
+                <attribute name="t-foreach">o.invoice_line_ids.filtered(lambda l: l.product_id.show_on_invoice_print)</attribute>
+            </xpath> -->
+            <!-- <tr >
+                <td ><strong style="color: white !important;">Montant dû</strong></td>
+                <td class="text-right">
+                    <span t-field="o.amount_residual"/>
+                </td>
+            </tr> -->
+        </template>
+    </data>
+</odoo>
