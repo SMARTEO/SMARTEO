@@ -34,6 +34,7 @@ class HrPayrollReport(models.Model):
 
     irsa02_wage = fields.Float('IRSA à payer', readonly=True)
     fraisbanc_wage = fields.Float('Frais bancaire', readonly=True)
+    paid_sick_leave_total = fields.Float('Congés maladie payé (Total)', readonly=True)
     alloc_wage = fields.Float('Allocation familiale', readonly=True)
     alloc_wage_base = fields.Float('Allocation familiale (Base)', readonly=True)
     ava15_wage = fields.Float('Avance sur salaire du 15', readonly=True)
@@ -123,6 +124,7 @@ class HrPayrollReport(models.Model):
                 CASE WHEN wd.id = min_id.min_line THEN irsa03base.base ELSE 0 END as irsa03_wage_base,
                 CASE WHEN wd.id = min_id.min_line THEN irsa02base.base ELSE 0 END as irsa02_wage_base,
                 CASE WHEN wd.id = min_id.min_line THEN fraisbanc.total ELSE 0 END as fraisbanc_wage,
+                CASE WHEN wd.id = min_id.min_line THEN paidsickleavetotal.total ELSE 0 END as paid_sick_leave_total,
                 CASE WHEN wd.id = min_id.min_line THEN alloc.total ELSE 0 END as alloc_wage,
                 CASE WHEN wd.id = min_id.min_line THEN allocbase.base ELSE 0 END as alloc_wage_base,
                 CASE WHEN wd.id = min_id.min_line THEN ava15.total ELSE 0 END as ava15_wage,
@@ -202,6 +204,7 @@ class HrPayrollReport(models.Model):
                 left join hr_payslip_line irsa03base on (irsa03base.slip_id = p.id and irsa03base.code = 'IRSA03')
                 left join hr_payslip_line irsa02base on (irsa02base.slip_id = p.id and irsa02base.code = 'IRSA02')
                 left join hr_payslip_line fraisbanc on (fraisbanc.slip_id = p.id and fraisbanc.code = 'FRAISBANC')
+                left join hr_payslip_line paidsickleavetotal on (paidsickleavetotal.slip_id = p.id and paidsickleavetotal.code = 'MALA')
                 left join hr_payslip_line alloc on (alloc.slip_id = p.id and alloc.code = 'ALLOC')
                 left join hr_payslip_line allocbase on (allocbase.slip_id = p.id and allocbase.code = 'ALLOC')
                 left join hr_payslip_line ava15 on (ava15.slip_id = p.id and ava15.code = 'AVA15')
@@ -281,6 +284,7 @@ class HrPayrollReport(models.Model):
                 irsa03base.base,
                 irsa02base.base,
                 fraisbanc.total,
+                paidsickleavetotal.total,
                 alloc.total,
                 allocbase.base,
                 ava15.total,
