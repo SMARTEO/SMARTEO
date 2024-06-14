@@ -274,12 +274,16 @@
 
                                 </td>
                                 <td class="tgv-0pky">
-                                    <span t-esc="o.contract_id.date_end"/>
+                                    <t t-if="o.contract_id.date_end">
+                                        <span t-esc="o.contract_id.date_end.strftime('%d/%m/%Y')"/>
+                                    </t>
+                                    <t t-else="">
+
+                                    </t>
                                 </td>
                                 <!-- TODO: get_length_of_service -->
                                 <td class="tgv-0pky">
-                                    <span t-esc="o.get_age(o.contract_id.date_start,o.contract_id.date_end)"/> <span>
-                                    ans</span>
+                                    <span t-esc="o.get_seniority_contract(o.contract_id.date_start,o.contract_id.date_end)"/>
                                 </td>
                                 <!-- TODO: get_age -->
                                 <td class="tgv-0pky">

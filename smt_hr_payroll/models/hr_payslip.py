@@ -148,6 +148,24 @@ class HrPayslip(models.Model):
         self.paid_date = datetime.now()
         return True
 
+    def get_seniority_contract(self, start_contract_date, date_bis):
+        years_months = ""
+        if start_contract_date:
+            today = date.today()
+            if date_bis:
+                diff_date = relativedelta(start_contract_date, date_bis)
+                if diff_date.years != 0:
+                    years_months = str(diff_date.years).replace('-','') + ' ans et ' + str(diff_date.months).replace('-','') + ' mois'
+                else:
+                    years_months = str(diff_date.months).replace('-','') + ' mois'
+            else:
+                diff_date_today = relativedelta(start_contract_date, today)
+                if diff_date_today.years != 0:
+                    years_months = str(diff_date_today.years).replace('-','') + ' ans et ' + str(diff_date_today.months).replace('-','') + ' mois'
+                else:
+                    years_months = str(diff_date_today.months).replace('-','') + ' mois'
+        return years_months
+
     def get_age(self, birth_date, date_bis):
         age = 0
         if birth_date:
