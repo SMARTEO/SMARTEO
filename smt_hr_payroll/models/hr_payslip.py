@@ -108,12 +108,37 @@ class HrPayslip(models.Model):
 	
 	def calculate_cumul_allocation(self, date):
 		holiday_status_id = self.env.ref('hr_holidays.holiday_status_cl')
-		allocation = self.env['hr.leave.allocation'].search(
-			[('state', '=', 'validate'), ('holiday_status_id', '=', holiday_status_id.id),
-			 ('date_from', '<=', date), ('employee_id', '=', self.employee_id.id)])
-		accrual_ids = allocation.mapped('accrual_plan_id')
-		levels = self.env['hr.leave.accrual.level'].search([('accrual_plan_id', 'in', accrual_ids.ids)])
-		return sum(levels.mapped('added_value'))
+		allocation_regulars = self.env['hr.leave.allocation'].search(
+			[('state', '=', 'validate'), ('allocation_type', '=', 'regular'),
+			 ('holiday_status_id', '=', holiday_status_id.id)
+				, ('employee_id', '=', self.employee_id.id),
+             ('date_from', '<=', date), '|', ('date_to', '>=', date), ('date_to', '=', False)])
+		allocation_accruals = self.env['hr.leave.allocation'].search(
+			[('state', '=', 'validate'), ('allocation_type', '=', 'accrual'),
+			 ('holiday_status_id', '=', holiday_status_id.id),
+			 ('employee_id', '=', self.employee_id.id),
+			 ('date_from', '<=', date), '|', ('date_to', '>=', date), ('date_to', '=', False)])
+		level_value = 0.00
+		for allocation_accrual in allocation_accruals:
+			accrual_id = allocation_accrual.accrual_plan_id
+			levels = self.env['hr.leave.accrual.level'].search([('accrual_plan_id', '=', accrual_id.id)])
+			for level in levels:
+				if level.frequency == 'daily':
+					coef = relativedelta(allocation_accrual.date_from - self.date_from).days
+				if level.frequency == 'weekly':
+					coef = relativedelta(allocation_accrual.date_from - self.date_from).days / 7
+				if level.frequency == 'bimonthly':
+					coef = relativedelta(allocation_accrual.date_from - self.date_from).months / 2
+				if level.frequency == 'monthly':
+					coef = relativedelta(allocation_accrual.date_from - self.date_from).months
+				if level.frequency == 'biyearly':
+					coef = relativedelta(allocation_accrual.date_from - self.date_from).years / 2
+				if level.frequency == 'yearly':
+					coef = relativedelta(allocation_accrual.date_from - self.date_from).years
+				value = level.added_value * coef if level.added_value_type == 'days' else level.added_value * coef / 24
+				level_value += value if level.maximum_leave >= value else level.maximum_leave
+		final_value = level_value + sum(allocation_regulars.mapped('number_of_days'))
+		return final_value
 	
 	@api.depends('employee_id', 'date_from')
 	def compute_previous_paid_leave_balance(self):
