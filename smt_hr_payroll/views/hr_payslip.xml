@@ -25,6 +25,8 @@
                         <field name="new_balance_in_the_month" string="Nouveau solde" readonly="1"/>
                         <field name="balance_to_date" string="Solde à date" invisible="1" readonly="1"/>
                         <field name="balance_on_pay_slip" string="Solde sur la fiche de paie" invisible="1" readonly="1"/>
+                        <button string="RAFRAÎCHIR"
+                            type="object" name="refresh_payslip_leave_situation" class="btn-primary"/>
                     </group>
                 </xpath>
                 <xpath expr="//notebook/page[@name='salary_computation']/field/tree/field[@name='rate']" position="attributes">
