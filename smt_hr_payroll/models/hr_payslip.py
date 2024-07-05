@@ -133,8 +133,7 @@ class HrPayslip(models.Model):
 					diff_years = relativedelta(self.date_from,allocation_accrual.date_from).years
 					diff_monts = relativedelta(self.date_from,allocation_accrual.date_from).months
 					diff_days = relativedelta(self.date_from,allocation_accrual.date_from).days
-					coef = diff_years * 12 + diff_monts + (diff_days/ 30)
-					coef = round(coef,2)
+					coef = diff_years * 12 + diff_monts + (diff_days/ 31)
 				if level.frequency == 'biyearly':
 					coef = relativedelta(self.date_from,allocation_accrual.date_from).years / 2
 				if level.frequency == 'yearly':
