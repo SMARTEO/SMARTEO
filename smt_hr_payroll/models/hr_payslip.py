@@ -5,7 +5,7 @@ from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, _
-from odoo.tools import html2plaintext
+from odoo.tools import html2plaintext, float_round
 
 
 class HrPayslip(models.Model):
@@ -134,6 +134,7 @@ class HrPayslip(models.Model):
 					diff_monts = relativedelta(self.date_from,allocation_accrual.date_from).months
 					diff_days = relativedelta(self.date_from,allocation_accrual.date_from).days
 					coef = diff_years * 12 + diff_monts + (diff_days/ 30)
+					coef = round(coef,2)
 				if level.frequency == 'biyearly':
 					coef = relativedelta(self.date_from,allocation_accrual.date_from).years / 2
 				if level.frequency == 'yearly':
