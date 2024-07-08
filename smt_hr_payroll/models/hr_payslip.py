@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, _
@@ -123,21 +123,22 @@ class HrPayslip(models.Model):
 			accrual_id = allocation_accrual.accrual_plan_id
 			levels = self.env['hr.leave.accrual.level'].search([('accrual_plan_id', '=', accrual_id.id)])
 			for level in levels:
+				date_from = self.date_from - timedelta(days=1)
+				diff_years = relativedelta(date_from, allocation_accrual.date_from).years
+				diff_months = relativedelta(date_from, allocation_accrual.date_from).months
+				diff_days = relativedelta(date_from, allocation_accrual.date_from).days
 				if level.frequency == 'daily':
-					coef = relativedelta(self.date_from,allocation_accrual.date_from).days
+					coef = diff_days
 				if level.frequency == 'weekly':
-					coef = relativedelta(self.date_from,allocation_accrual.date_from).days / 7
+					coef = diff_days / 7
 				if level.frequency == 'bimonthly':
-					coef = relativedelta(self.date_from,allocation_accrual.date_from).months / 2
+					coef = diff_months / 2
 				if level.frequency == 'monthly':
-					diff_years = relativedelta(self.date_from,allocation_accrual.date_from).years
-					diff_monts = relativedelta(self.date_from,allocation_accrual.date_from).months
-					diff_days = relativedelta(self.date_from,allocation_accrual.date_from).days
-					coef = diff_years * 12 + diff_monts + (diff_days/ 31)
+					coef = diff_years * 12 + diff_months + (diff_days/ 31)
 				if level.frequency == 'biyearly':
-					coef = relativedelta(self.date_from,allocation_accrual.date_from).years / 2
+					coef = diff_years / 2
 				if level.frequency == 'yearly':
-					coef = relativedelta(self.date_from,allocation_accrual.date_from).years
+					coef = diff_years
 				value = level.added_value * coef if level.added_value_type == 'days' else level.added_value * coef / 24
 				level_value += value if level.maximum_leave >= value else level.maximum_leave
 		final_value = level_value + sum(allocation_regulars.mapped('number_of_days'))
