@@ -124,22 +124,21 @@ class HrPayslip(models.Model):
 			levels = self.env['hr.leave.accrual.level'].search([('accrual_plan_id', '=', accrual_id.id)])
 			for level in levels:
 				date_from = self.date_from - timedelta(days=1)
-				diff_years = relativedelta(date_from, allocation_accrual.date_from).years
-				diff_months = relativedelta(date_from, allocation_accrual.date_from).months
-				diff_days = relativedelta(date_from, allocation_accrual.date_from).days
+				date_payslip_from = datetime.strptime(date_from.strftime("%d/%m/%Y"), "%d/%m/%Y")
+				date_accrual_from = datetime.strptime(allocation_accrual.date_from.strftime("%d/%m/%Y"), "%d/%m/%Y")
+				diff_days = (date_payslip_from -  date_accrual_from).days
 				if level.frequency == 'daily':
 					coef = diff_days
 				if level.frequency == 'weekly':
 					coef = diff_days / 7
 				if level.frequency == 'bimonthly':
-					coef = diff_months / 2
+					coef = (diff_days / 30.44) / 2
 				if level.frequency == 'monthly':
-					coef = diff_years * 12 + diff_months + (diff_days/ 31)
-					print('coef',coef)
+					coef = (diff_days/30.44)
 				if level.frequency == 'biyearly':
-					coef = diff_years / 2
+					coef = (diff_days/ 365.25) / 2
 				if level.frequency == 'yearly':
-					coef = diff_years
+					coef = (diff_days/ 365.25)
 				value = level.added_value * coef if level.added_value_type == 'days' else level.added_value * coef / 24
 				level_value += value if level.maximum_leave >= value else level.maximum_leave
 		final_value = level_value + sum(allocation_regulars.mapped('number_of_days'))
