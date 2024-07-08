@@ -132,9 +132,9 @@ class HrPayslip(models.Model):
 				if level.frequency == 'weekly':
 					coef = diff_days / 7
 				if level.frequency == 'bimonthly':
-					coef = (diff_days / 30.44) / 2
+					coef = (diff_days / 30.423) / 2
 				if level.frequency == 'monthly':
-					coef = (diff_days/30.44)
+					coef = (diff_days/30.423)
 				if level.frequency == 'biyearly':
 					coef = (diff_days/ 365.25) / 2
 				if level.frequency == 'yearly':
