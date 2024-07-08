@@ -135,6 +135,7 @@ class HrPayslip(models.Model):
 					coef = diff_months / 2
 				if level.frequency == 'monthly':
 					coef = diff_years * 12 + diff_months + (diff_days/ 31)
+					print('coef',coef)
 				if level.frequency == 'biyearly':
 					coef = diff_years / 2
 				if level.frequency == 'yearly':
