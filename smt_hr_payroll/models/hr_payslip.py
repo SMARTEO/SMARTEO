@@ -3,9 +3,10 @@
 
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
-
+from collections import defaultdict
 from odoo import api, fields, models, _
-from odoo.tools import html2plaintext, float_round
+from odoo.tools import html2plaintext
+from odoo.tools.date_utils import get_timedelta
 
 
 class HrPayslip(models.Model):
@@ -106,6 +107,36 @@ class HrPayslip(models.Model):
 		                                      ('request_date_to', '<=', date)])
 		return sum(leaves.mapped('number_of_days'))
 	
+	def exact_months_between(self,date1, date2):
+		# Ensure date1 is the earlier date
+		if date1 > date2:
+			date1, date2 = date2, date1
+		
+		# Calculate the difference in years and months
+		years_diff = date2.year - date1.year
+		months_diff = date2.month - date1.month
+		days_diff = date2.day - date1.day
+		
+		# Convert the difference in years to months and add the difference in months
+		total_months = years_diff * 12 + months_diff
+		
+		# Adjust for days
+		previous_month_days = 0
+		if days_diff < 0:
+			total_months -= 1
+			# Adjust days to get fraction of the month
+			previous_month = (date2.month - 1) if date2.month > 1 else 12
+			previous_month_year = date2.year if date2.month > 1 else date2.year - 1
+			previous_month_days = (datetime(previous_month_year, previous_month + 1, 1) - datetime(previous_month_year,
+			                                                                                       previous_month,
+			                                                                                       1)).days
+			days_diff += previous_month_days
+		
+		# Calculate fraction of the month
+		fraction_of_month = days_diff / previous_month_days if previous_month_days else 0
+		
+		return total_months + fraction_of_month
+	
 	def calculate_cumul_allocation(self, date):
 		holiday_status_id = self.env.ref('hr_holidays.holiday_status_cl')
 		allocation_regulars = self.env['hr.leave.allocation'].search(
@@ -120,29 +151,23 @@ class HrPayslip(models.Model):
 			 ('date_from', '<=', date), '|', ('date_to', '>=', date), ('date_to', '=', False)])
 		level_value = 0.00
 		for allocation_accrual in allocation_accruals:
+			
 			accrual_id = allocation_accrual.accrual_plan_id
 			levels = self.env['hr.leave.accrual.level'].search([('accrual_plan_id', '=', accrual_id.id)])
 			for level in levels:
 				date_from = self.date_from - timedelta(days=1)
-				date_payslip_from = datetime.strptime(date_from.strftime("%d/%m/%Y"), "%d/%m/%Y")
-				date_accrual_from = datetime.strptime(allocation_accrual.date_from.strftime("%d/%m/%Y"), "%d/%m/%Y")
-				diff_days = (date_payslip_from -  date_accrual_from).days
-				if level.frequency == 'daily':
-					coef = diff_days
-				if level.frequency == 'weekly':
-					coef = diff_days / 7
-				if level.frequency == 'bimonthly':
-					coef = (diff_days / 30.423) / 2
-				if level.frequency == 'monthly':
-					coef = (diff_days/30.423)
-				if level.frequency == 'biyearly':
-					coef = (diff_days/ 365.25) / 2
-				if level.frequency == 'yearly':
-					coef = (diff_days/ 365.25)
-				value = level.added_value * coef if level.added_value_type == 'days' else level.added_value * coef / 24
-				level_value += value if level.maximum_leave >= value else level.maximum_leave
-		final_value = level_value + sum(allocation_regulars.mapped('number_of_days'))
-		return final_value
+				first_level_start_date = allocation_accrual.date_from + get_timedelta(level.start_count,
+				                                                              level.start_type)
+				lastcall = first_level_start_date
+				nextcall = level._get_next_date(lastcall)
+				while nextcall <= date_from:
+					period_start = level._get_previous_date(lastcall)
+					period_end = level._get_next_date(lastcall)
+					level_value += allocation_accrual._process_accrual_plan_level(level,period_start,lastcall,period_end,nextcall)
+					new_nextcall = level._get_next_date(nextcall)
+					lastcall = nextcall
+					nextcall = new_nextcall
+		return level_value + sum(allocation_regulars.mapped('number_of_days'))
 	
 	@api.depends('employee_id', 'date_from')
 	def compute_previous_paid_leave_balance(self):
