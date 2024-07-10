@@ -1,11 +1,13 @@
 # -*- coding:utf-8 -*-
 
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
-
+from odoo.tools.date_utils import get_timedelta
+from collections import defaultdict
 from odoo import api, fields, models, _
 from odoo.tools import html2plaintext, float_round
+from odoo.addons.resource.models.resource import HOURS_PER_DAY
 
 
 class HrPayslip(models.Model):
@@ -105,7 +107,7 @@ class HrPayslip(models.Model):
 		                                      ('request_date_from', '<', date),
 		                                      ('request_date_to', '<=', date)])
 		return sum(leaves.mapped('number_of_days'))
-	
+		
 	def calculate_cumul_allocation(self, date):
 		holiday_status_id = self.env.ref('hr_holidays.holiday_status_cl')
 		allocation_regulars = self.env['hr.leave.allocation'].search(
@@ -119,29 +121,54 @@ class HrPayslip(models.Model):
 			 ('employee_id', '=', self.employee_id.id),
 			 ('date_from', '<=', date), '|', ('date_to', '>=', date), ('date_to', '=', False)])
 		level_value = 0.00
+		today = fields.Date.today()
 		for allocation_accrual in allocation_accruals:
-			accrual_id = allocation_accrual.accrual_plan_id
-			levels = self.env['hr.leave.accrual.level'].search([('accrual_plan_id', '=', accrual_id.id)])
-			for level in levels:
-				if level.frequency == 'daily':
-					coef = relativedelta(self.date_from,allocation_accrual.date_from).days
-				if level.frequency == 'weekly':
-					coef = relativedelta(self.date_from,allocation_accrual.date_from).days / 7
-				if level.frequency == 'bimonthly':
-					coef = relativedelta(self.date_from,allocation_accrual.date_from).months / 2
-				if level.frequency == 'monthly':
-					diff_years = relativedelta(self.date_from,allocation_accrual.date_from).years
-					diff_monts = relativedelta(self.date_from,allocation_accrual.date_from).months
-					diff_days = relativedelta(self.date_from,allocation_accrual.date_from).days
-					coef = diff_years * 12 + diff_monts + (diff_days/ 31)
-				if level.frequency == 'biyearly':
-					coef = relativedelta(self.date_from,allocation_accrual.date_from).years / 2
-				if level.frequency == 'yearly':
-					coef = relativedelta(self.date_from,allocation_accrual.date_from).years
-				value = level.added_value * coef if level.added_value_type == 'days' else level.added_value * coef / 24
-				level_value += value if level.maximum_leave >= value else level.maximum_leave
-		final_value = level_value + sum(allocation_regulars.mapped('number_of_days'))
-		return final_value
+			date_from = self.date_from - timedelta(days=1)
+			level_ids = allocation_accrual.accrual_plan_id.level_ids.sorted('sequence')
+			if not level_ids:
+				continue
+			first_level = level_ids[0]
+			first_level_start_date = allocation_accrual.date_from + get_timedelta(first_level.start_count,
+			                                                                      first_level.start_type)
+			if today < first_level_start_date:
+				continue
+			lastcall = first_level_start_date
+			nextcall = first_level._get_next_date(lastcall)
+			if len(level_ids) > 1:
+				second_level_start_date = allocation_accrual.date_from + get_timedelta(level_ids[1].start_count,
+				                                                                       level_ids[1].start_type)
+				nextcall = min(second_level_start_date, nextcall)
+			days_added_per_level = defaultdict(lambda: 0)
+			while nextcall <= date_from:
+				(current_level, current_level_idx) = allocation_accrual._get_current_accrual_plan_level_id(nextcall)
+				current_level_maximum_leave = current_level.maximum_leave if current_level.added_value_type == "days" else current_level.maximum_leave / (
+						allocation_accrual.employee_id.sudo().resource_id.calendar_id.hours_per_day or HOURS_PER_DAY)
+				new_nextcall = current_level._get_next_date(nextcall)
+				period_start = current_level._get_previous_date(lastcall)
+				period_end = current_level._get_next_date(lastcall)
+				if current_level_idx < (
+						len(level_ids) - 1) and allocation_accrual.accrual_plan_id.transition_mode == 'immediately':
+					next_level = level_ids[current_level_idx + 1]
+					current_level_last_date = allocation_accrual.date_from + get_timedelta(next_level.start_count,
+					                                                                       next_level.start_type)
+					if nextcall != current_level_last_date:
+						new_nextcall = min(new_nextcall, current_level_last_date)
+				days_added_per_level[current_level] += allocation_accrual._process_accrual_plan_level(
+					current_level, period_start, lastcall, period_end, nextcall)
+				if current_level_maximum_leave > 0 and sum(
+						days_added_per_level.values()) > current_level_maximum_leave:
+					days_added_per_level[current_level] -= sum(
+						days_added_per_level.values()) - current_level_maximum_leave
+				lastcall = nextcall
+				nextcall = new_nextcall
+			if days_added_per_level:
+				number_of_days_to_add = sum(days_added_per_level.values())
+				max_allocation_days = current_level_maximum_leave + (
+					allocation_accrual.leaves_taken if allocation_accrual.type_request_unit != "hour" else allocation_accrual.leaves_taken / (
+							allocation_accrual.employee_id.sudo().resource_id.calendar_id.hours_per_day or HOURS_PER_DAY))
+				level_value += min(number_of_days_to_add,
+				                   max_allocation_days) if current_level_maximum_leave > 0 else number_of_days_to_add
+		return level_value + sum(allocation_regulars.mapped('number_of_days'))
 	
 	@api.depends('employee_id', 'date_from')
 	def compute_previous_paid_leave_balance(self):
