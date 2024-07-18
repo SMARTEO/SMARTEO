@@ -1,6 +1,6 @@
 <odoo>
     <data>
-
+ 
         <template id="sale_report_templates_inh_nexources" inherit_id="sale.report_saleorder_document">
             <xpath expr="//t[@t-set='information_block']/.." position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
@@ -49,14 +49,14 @@
                         <strong>Conditions de paiement:</strong>
                         <p class="m-0" t-field="doc.payment_term_id" />
                     </div>
-                </t>
+                </t>  
             </xpath>
             <xpath expr="//th[@name='th_taxes']" position="replace"/>
             <xpath expr="//td[@name='td_taxes']" position="replace"/>
             <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()]" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <th name="th_subtotal" class="text-right">
-                        <t groups="account.group_show_line_subtotals_tax_excluded">Montant</t> 
+                        <t groups="account.group_show_line_subtotals_tax_excluded">Montant HT</t> 
                         <t groups="account.group_show_line_subtotals_tax_included">Total Price</t>
                     </th>
                 </t>
