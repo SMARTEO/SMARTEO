@@ -3,10 +3,17 @@
 
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
+<<<<<<< HEAD
 from collections import defaultdict
 from odoo import api, fields, models, _
 from odoo.tools import html2plaintext
 from odoo.tools.date_utils import get_timedelta
+=======
+from odoo.tools.date_utils import get_timedelta
+from collections import defaultdict
+from odoo import api, fields, models, _
+from odoo.tools import html2plaintext, float_round
+>>>>>>> ticket#1891
 from odoo.addons.resource.models.resource import HOURS_PER_DAY
 
 
@@ -107,7 +114,7 @@ class HrPayslip(models.Model):
 		                                      ('request_date_from', '<', date),
 		                                      ('request_date_to', '<=', date)])
 		return sum(leaves.mapped('number_of_days'))
-	
+		
 	def calculate_cumul_allocation(self, date):
 		holiday_status_id = self.env.ref('hr_holidays.holiday_status_cl')
 		allocation_regulars = self.env['hr.leave.allocation'].search(
@@ -129,20 +136,32 @@ class HrPayslip(models.Model):
 				continue
 			first_level = level_ids[0]
 			first_level_start_date = allocation_accrual.date_from + get_timedelta(first_level.start_count,
+<<<<<<< HEAD
 			                                                              first_level.start_type)
+=======
+			                                                                      first_level.start_type)
+>>>>>>> ticket#1891
 			if today < first_level_start_date:
 				continue
 			lastcall = first_level_start_date
 			nextcall = first_level._get_next_date(lastcall)
 			if len(level_ids) > 1:
 				second_level_start_date = allocation_accrual.date_from + get_timedelta(level_ids[1].start_count,
+<<<<<<< HEAD
 				                                                               level_ids[1].start_type)
+=======
+				                                                                       level_ids[1].start_type)
+>>>>>>> ticket#1891
 				nextcall = min(second_level_start_date, nextcall)
 			days_added_per_level = defaultdict(lambda: 0)
 			while nextcall <= date_from:
 				(current_level, current_level_idx) = allocation_accrual._get_current_accrual_plan_level_id(nextcall)
 				current_level_maximum_leave = current_level.maximum_leave if current_level.added_value_type == "days" else current_level.maximum_leave / (
+<<<<<<< HEAD
 							allocation_accrual.employee_id.sudo().resource_id.calendar_id.hours_per_day or HOURS_PER_DAY)
+=======
+						allocation_accrual.employee_id.sudo().resource_id.calendar_id.hours_per_day or HOURS_PER_DAY)
+>>>>>>> ticket#1891
 				new_nextcall = current_level._get_next_date(nextcall)
 				period_start = current_level._get_previous_date(lastcall)
 				period_end = current_level._get_next_date(lastcall)
@@ -150,12 +169,21 @@ class HrPayslip(models.Model):
 						len(level_ids) - 1) and allocation_accrual.accrual_plan_id.transition_mode == 'immediately':
 					next_level = level_ids[current_level_idx + 1]
 					current_level_last_date = allocation_accrual.date_from + get_timedelta(next_level.start_count,
+<<<<<<< HEAD
 					                                                               next_level.start_type)
+=======
+					                                                                       next_level.start_type)
+>>>>>>> ticket#1891
 					if nextcall != current_level_last_date:
 						new_nextcall = min(new_nextcall, current_level_last_date)
 				days_added_per_level[current_level] += allocation_accrual._process_accrual_plan_level(
 					current_level, period_start, lastcall, period_end, nextcall)
+<<<<<<< HEAD
 				if current_level_maximum_leave > 0 and sum(days_added_per_level.values()) > current_level_maximum_leave:
+=======
+				if current_level_maximum_leave > 0 and sum(
+						days_added_per_level.values()) > current_level_maximum_leave:
+>>>>>>> ticket#1891
 					days_added_per_level[current_level] -= sum(
 						days_added_per_level.values()) - current_level_maximum_leave
 				lastcall = nextcall
@@ -164,9 +192,15 @@ class HrPayslip(models.Model):
 				number_of_days_to_add = sum(days_added_per_level.values())
 				max_allocation_days = current_level_maximum_leave + (
 					allocation_accrual.leaves_taken if allocation_accrual.type_request_unit != "hour" else allocation_accrual.leaves_taken / (
+<<<<<<< HEAD
 								allocation_accrual.employee_id.sudo().resource_id.calendar_id.hours_per_day or HOURS_PER_DAY))
 				level_value += min(number_of_days_to_add,
 				                                max_allocation_days) if current_level_maximum_leave > 0 else number_of_days_to_add
+=======
+							allocation_accrual.employee_id.sudo().resource_id.calendar_id.hours_per_day or HOURS_PER_DAY))
+				level_value += min(number_of_days_to_add,
+				                   max_allocation_days) if current_level_maximum_leave > 0 else number_of_days_to_add
+>>>>>>> ticket#1891
 		return level_value + sum(allocation_regulars.mapped('number_of_days'))
 	
 	@api.depends('employee_id', 'date_from')
