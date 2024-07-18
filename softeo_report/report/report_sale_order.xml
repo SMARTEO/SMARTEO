@@ -36,7 +36,7 @@
                             &#160;
                         </div>
                     </div>
-                </t>
+                </t> 
             </xpath>
             <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[3]" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
@@ -51,10 +51,12 @@
                     </div>
                 </t>
             </xpath>
+            <xpath expr="//th[@name='th_taxes']" position="replace"/>
+            <xpath expr="//td[@name='td_taxes']" position="replace"/>
             <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()]" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <th name="th_subtotal" class="text-right">
-                        <t groups="account.group_show_line_subtotals_tax_excluded">Montant HT</t>
+                        <t groups="account.group_show_line_subtotals_tax_excluded">Montant</t> 
                         <t groups="account.group_show_line_subtotals_tax_included">Total Price</t>
                     </th>
                 </t>
