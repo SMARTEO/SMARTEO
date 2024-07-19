@@ -8,13 +8,13 @@
                 </t>
             </xpath>
 
-            <xpath expr="//td[@name='td_quantity']" position="replace">
+            <!-- <xpath expr="//td[@name='td_quantity']" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <td name="td_quantity" class="text-right">
                         <span t-field="line.product_uom_qty" />
                     </td>
                 </t>
-            </xpath>
+            </xpath> -->
             <xpath expr="//div[@id='total']/div" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="t-attf-class">#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'}</attribute>
@@ -38,11 +38,11 @@
                     </div>
                 </t> 
             </xpath>
-            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[3]" position="replace">
+            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[3]" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <th class="text-right" style="min-width: 11em !important;">Prix unitaire HT</th>
                 </t>
-            </xpath>
+            </xpath> -->
             <xpath expr="//div[@id='informations']/div[last()]" position="after">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <div class="col-auto col-3 mw-100 mb-2">
@@ -51,16 +51,20 @@
                     </div>
                 </t>  
             </xpath>
-            <xpath expr="//th[@name='th_taxes']" position="replace"/>
-            <xpath expr="//td[@name='td_taxes']" position="replace"/>
-            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()]" position="replace">
-                <t t-if="doc.company_id.name=='SOFTEO'">
+            <xpath expr="//th[@name='th_taxes']" position="attributes">
+                <attribute name="t-attf-style">display: {{ 'none' if doc.company_id.name == "SOFTEO" else "block" }}</attribute>
+            </xpath>
+            <xpath expr="//td[@name='td_taxes']" position="attributes">
+                <attribute name="t-attf-style">display: {{ 'none' if doc.company_id.name == "SOFTEO" else "block" }}</attribute>
+            </xpath>
+            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()]" position="replace">
+                <t t-if="doc.company_id.name='SOFTEO'">
                     <th name="th_subtotal" class="text-right">
                         <t groups="account.group_show_line_subtotals_tax_excluded">Montant HT</t> 
                         <t groups="account.group_show_line_subtotals_tax_included">Total Price</t>
                     </th>
                 </t>
-            </xpath>
+            </xpath> -->
             <xpath expr="//t[@t-set='information_block']" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <t t-set="information_block">
@@ -89,36 +93,36 @@
                     </t>
                 </t>
             </xpath>
-            <xpath expr="//table[hasclass('o_main_table')]/thead/tr" position="attributes">
+            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">page-break-inside: avoid !important; page-break-after: auto;</attribute>
                 </t>
-            </xpath>
-            <xpath expr="//table[hasclass('o_main_table')]/tbody/t/tr" position="attributes">
+            </xpath> -->
+            <!-- <xpath expr="//table[hasclass('o_main_table')]/tbody/t/tr" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">page-break-inside: avoid !important; page-break-after: auto;</attribute>
                 </t>
-            </xpath>
-            <xpath expr="//table[hasclass('o_main_table')]/thead" position="attributes">
+            </xpath> -->
+            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">display: table-header-group;</attribute>
                 </t>
-            </xpath>
-            <xpath expr="//table[hasclass('o_main_table')]/thead" position="attributes">
+            </xpath> -->
+            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">page-break-inside: auto;</attribute>
                 </t>
-            </xpath>
-            <xpath expr="//div[hasclass('page')]" position="attributes">
+            </xpath> -->
+            <!-- <xpath expr="//div[hasclass('page')]" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">font-size: 12px !important;</attribute>
                 </t>
-            </xpath>
-            <xpath expr="//table[hasclass('o_main_table')]/thead/tr[1]" position="attributes">
+            </xpath> -->
+            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr[1]" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">font-size: 11px !important;</attribute>
                 </t>
-            </xpath>
+            </xpath> -->
         </template>
         <template id="sale_management_report_templates_inh_nexources" inherit_id="sale_management.report_saleorder_document_inherit_sale_management">
             <xpath expr="//div/table[@name='table_optional_products']/thead/tr/th[@name='th_option_price_unit']" position="replace">
