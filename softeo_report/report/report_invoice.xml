@@ -107,8 +107,9 @@
             <xpath expr="//th[@name='th_taxes']" position="attributes">
                 <attribute name="t-attf-style">display: {{ 'none' if o.company_id.name == "SOFTEO" else "block" }}</attribute>
             </xpath>
+
             <xpath expr="//t[@name='account_invoice_line_accountable']/td[last()-1]" position="attributes">
-                <attribute name="t-attf-style">display: {{ 'none' if o.company_id.name == "SOFTEO" else "block" }}</attribute>
+                <attribute name="t-attf-style">display: {{'none' if o.company_id.name == "SOFTEO" else "block"}}</attribute>
             </xpath>
 
 
@@ -119,7 +120,7 @@
                 </th>
             </xpath> 
             <xpath expr="//div[@id='informations']" position="replace">
-                <t t-if="o.company_id.name=='SOFTEO'">
+                <t t-if="o.company_id.name=='SOFTEO'"> 
                     <div id="informations" class="mt32 mb32">
                         <div class="row">
                             <div class="col-auto mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
