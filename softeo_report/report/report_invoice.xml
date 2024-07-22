@@ -98,10 +98,18 @@
             </xpath>
 
 
-            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()-1]" position="replace">
+            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()-1]" position="replace">
             </xpath>
 
             <xpath expr="//t[@name='account_invoice_line_accountable']/td[last()-1]" position="replace">
+            </xpath> -->
+
+            <xpath expr="//th[@name='th_taxes']" position="attributes">
+                <attribute name="t-attf-style">display: {{ 'none' if o.company_id.name == "SOFTEO" else "block" }}</attribute>
+            </xpath>
+
+            <xpath expr="//t[@name='account_invoice_line_accountable']/td[last()-1]" position="attributes">
+                <attribute name="t-attf-style">display: {{'none' if o.company_id.name == "SOFTEO" else "block"}}</attribute>
             </xpath>
 
 
