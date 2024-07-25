@@ -47,7 +47,7 @@
             </xpath>
             <xpath expr="//div[@id='informations']/div[last()]" position="after">
                 <t t-if="doc.company_id.name=='SOFTEO'">
-                    <div class="col-auto col-3 mw-100 mb-2">
+                    <div class="col-auto col-3 mw-100 mb-2"> 
                         <strong>Conditions de paiement:</strong>
                         <p class="m-0" t-field="doc.payment_term_id" />
                     </div>
