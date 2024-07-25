@@ -57,14 +57,14 @@
             <xpath expr="//td[@name='td_taxes']" position="attributes">
                 <attribute name="t-attf-style">display: {{'none' if doc.company_id.name == 'SOFTEO' else 'grid'}}</attribute>
             </xpath>
-            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()]" position="replace">
-                <t t-if="doc.company_id.name='SOFTEO'">
+            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()]" position="replace">
+                <t t-if="doc.company_id.name=='SOFTEO'">
                     <th name="th_subtotal" class="text-right">
-                        <t groups="account.group_show_line_subtotals_tax_excluded">Montant HT</t> 
+                        <t groups="account.group_show_line_subtotals_tax_excluded">Montant</t> 
                         <t groups="account.group_show_line_subtotals_tax_included">Total Price</t>
                     </th>
                 </t> 
-            </xpath> -->
+            </xpath>
             <xpath expr="//t[@t-set='information_block']" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <t t-set="information_block">
