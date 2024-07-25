@@ -8,13 +8,7 @@
                 </t>
             </xpath>
 
-            <!-- <xpath expr="//td[@name='td_quantity']" position="replace">
-                <t t-if="doc.company_id.name=='SOFTEO'">
-                    <td name="td_quantity" class="text-right">
-                        <span t-field="line.product_uom_qty" />
-                    </td>
-                </t>
-            </xpath> -->
+
             <!-- <xpath expr="//div[@id='total']/div" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="t-attf-class">#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'}</attribute>
@@ -38,11 +32,11 @@
                     </div>
                 </t> 
             </xpath> -->
-            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[3]" position="replace">
+            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[3]" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
-                    <th class="text-right" style="min-width: 11em !important;">Prix unitaire HT</th>
+                    <th class="text-right" style="min-width: 11em !important;">Prix unitaire</th>
                 </t>
-            </xpath> -->
+            </xpath>
             <xpath expr="//div[@id='informations']/div[last()]" position="after">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <div class="col-auto col-3 mw-100 mb-2">
