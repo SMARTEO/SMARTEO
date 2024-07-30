@@ -30,7 +30,13 @@
                 </t>
             </xpath>
 
-
+            <!-- <xpath expr="//td[@name='td_quantity']" position="replace">
+                <t t-if="doc.company_id.name=='SOFTEO'">
+                    <td name="td_quantity" class="text-right">
+                        <span t-field="line.product_uom_qty" />
+                    </td>
+                </t>
+            </xpath> -->
             <!-- <xpath expr="//div[@id='total']/div" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="t-attf-class">#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'}</attribute>
@@ -54,11 +60,11 @@
                     </div>
                 </t> 
             </xpath> -->
-            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[3]" position="replace">
+            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[3]" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
-                    <th class="text-right" style="min-width: 11em !important;">Prix unitaire</th>
+                    <th class="text-right" style="min-width: 11em !important;">Prix unitaire HT</th>
                 </t>
-            </xpath>
+            </xpath> -->
             <xpath expr="//div[@id='informations']/div[last()]" position="after">
                 <t t-if="doc.company_id.name == 'SOFTEO'">
                     <div class="col-auto col-3 mw-100 mb-2">
@@ -119,28 +125,28 @@
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">page-break-inside: avoid !important; page-break-after: auto;</attribute>
                 </t>
-            </xpath> -->
-            <!-- <xpath expr="//table[hasclass('o_main_table')]/tbody/t/tr" position="attributes">
+            </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]/tbody/t/tr" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">page-break-inside: avoid !important; page-break-after: auto;</attribute>
                 </t>
-            </xpath> -->
-            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead" position="attributes">
+            </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]/thead" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">display: table-header-group;</attribute>
                 </t>
-            </xpath> -->
-            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead" position="attributes">
+            </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]/thead" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">page-break-inside: auto;</attribute>
                 </t>
-            </xpath> -->
-            <!-- <xpath expr="//div[hasclass('page')]" position="attributes">
+            </xpath>
+            <xpath expr="//div[hasclass('page')]" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">font-size: 12px !important;</attribute>
                 </t>
-            </xpath> -->
-            <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr[1]" position="attributes">
+            </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]/thead/tr[1]" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">font-size: 11px !important;</attribute>
                 </t>
