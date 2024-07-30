@@ -96,7 +96,28 @@
                     </p>
                 </t>
             </xpath>
-
+            <xpath expr="//div[@class='page']//h2" position="replace">
+                <h2>
+                    <t t-if="o.company_id.name == 'SOFTEO'">
+                        <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">Softeo - Invoice</span>
+                        <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">Softeo - Draft Invoice</span>
+                        <span t-if="o.move_type == 'out_invoice' and o.state == 'cancel'">Softeo - Cancelled Invoice</span>
+                        <span t-if="o.move_type == 'out_refund'">Softeo - Credit Note</span>
+                        <span t-if="o.move_type == 'in_refund'">Vendor Credit Note</span>
+                        <span t-if="o.move_type == 'in_invoice'">Vendor Bill</span>
+                        <span t-if="o.name != '/'" t-field="o.name"/>
+                    </t>
+                    <t t-else="">
+                        <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">Invoice</span>
+                        <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
+                        <span t-if="o.move_type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
+                        <span t-if="o.move_type == 'out_refund'">Credit Note</span>
+                        <span t-if="o.move_type == 'in_refund'">Vendor Credit Note</span>
+                        <span t-if="o.move_type == 'in_invoice'">Vendor Bill</span>
+                        <span t-if="o.name != '/'" t-field="o.name"/>
+                    </t>
+                </h2>
+            </xpath>
 
             <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()-1]" position="replace">
             </xpath>
