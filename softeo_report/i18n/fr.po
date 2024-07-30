@@ -1,0 +1,218 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* softeo_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e-20240603\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-29 14:55+0000\n"
+"PO-Revision-Date: 2024-07-29 14:55+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "<span class=\"font-weight-bolder\">Paiement en espèce le </span>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "<span class=\"font-weight-bolder\">Paiement par chèque bancaire le </span>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid ""
+"<span class=\"font-weight-bolder\">Paiement par virement au plus tard le "
+"</span>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.external_layout_boxed_nexource
+msgid ""
+"<span class=\"page\"/>\n"
+"                        /\n"
+"                        <span class=\"topage\"/>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid ""
+"<span groups=\"account.group_show_line_subtotals_tax_excluded\">Montant HT</span>\n"
+"                        <span groups=\"account.group_show_line_subtotals_tax_included\">Prix total</span>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "<span>Montant</span>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "<span>Pro-Forma Invoice # </span>"
+msgstr "<span>Facture pro-forma n° </span>"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "<span>Softeo - Pro-Forma Invoice # </span>"
+msgstr "<span>Softeo - Facture pro-forma n° </span>"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "<strong>Adresse de livraison:</strong>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "<strong>Arrêté la presente facture à la somme de</strong>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "<strong>Conditions de paiement:</strong>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "<strong>Date d'échéance:</strong>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "<strong>Date de la facture:</strong>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "<strong>Numéro de client:</strong>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "<strong>Origine:</strong>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "<strong>Référence:</strong>"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "Adresse de facturation:"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "Adresse de livraison et de facturation:"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "CIF :"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "Cancelled Invoice"
+msgstr "Facture annulée"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "Credit Note"
+msgstr "Avoir"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "Draft Invoice"
+msgstr "Facture brouillon"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "Lors de votre paiement, merci d'indiquer le numéro de votre facture :"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "NIF :"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "Order #"
+msgstr "Commande #"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "Quotation #"
+msgstr "Devis N°"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "RCS :"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "STAT :"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "Softeo - Cancelled Invoice"
+msgstr "Softeo - Facture annulé"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "Softeo - Credit Note"
+msgstr "Softeo - Facture d'avoir"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "Softeo - Draft Invoice"
+msgstr "Softeo - Facture brouillon"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "Softeo - Invoice"
+msgstr "Softeo - Facture"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "Softeo - Order #"
+msgstr "Softeo - Commande #"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.sale_report_templates_inh_nexources
+msgid "Softeo - Quotation #"
+msgstr "Softeo - Devis N°"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "Tax ID"
+msgstr ""
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "Vendor Bill"
+msgstr "Avoir de fournisseur"
+
+#. module: softeo_report
+#: model_terms:ir.ui.view,arch_db:softeo_report.report_invoice_document_inh
+msgid "Vendor Credit Note"
+msgstr "Facture fournisseur"
