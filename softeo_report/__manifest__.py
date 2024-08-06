@@ -13,7 +13,7 @@ You can track your vendors, customers and other contacts.
 """,
     'depends': ['sale','account'],
     'data': [
-        'report/layout_boxed.xml',
+        # 'report/layout_boxed.xml',
         'report/report_invoice.xml',
         'report/report_sale_order.xml',
     ],
