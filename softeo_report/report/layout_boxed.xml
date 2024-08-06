@@ -11,9 +11,9 @@
                     </div>
                 </div>
             </xpath>
-            <xpath expr="//img" position="attributes">
+            <!-- <xpath expr="//img" position="attributes">
                 <attribute name="style">width: 150px; min-height: 150px !important;</attribute>
-            </xpath>
+            </xpath> -->
         </template>
     </data>
 </odoo>
