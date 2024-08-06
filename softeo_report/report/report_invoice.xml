@@ -30,41 +30,39 @@
             </xpath>
             
             <xpath expr="//t[@t-set='address']" position="replace">
-                <!-- <t t-if="o.company_id.name=='SOFTEO'"> -->
-                    <t t-set="address">
-                        <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
-                        <div t-if="o.partner_id.vat" class="mt16" id="partner_vat_address_same_as_shipping">
-                            <t t-if="o.company_id.account_fiscal_country_id.vat_label" t-esc="o.company_id.account_fiscal_country_id.vat_label" id="inv_tax_id_label" />
-                            <t t-else="">Tax ID</t>
-                            :
-                            <span t-field="o.partner_id.vat" />
-                        </div>
-                        <div>
-                            <span t-if="o.partner_id.nif">NIF :</span>
-                            <span t-field="o.partner_id.nif" />
-                            <span t-if="o.partner_id.nif">/</span>
-                            <span t-if="o.partner_id.stat">STAT :</span>
-                            <span t-field="o.partner_id.stat" />
-                            <br />
-                            <span t-if="o.partner_id.rcs">RCS :</span>
-                            <span t-field="o.partner_id.rcs" />
-                            <span t-if="o.partner_id.rcs">/</span>
-                            <span t-if="o.partner_id.cif">CIF :</span>
-                            <span t-field="o.partner_id.cif" />
-                        </div>
-                    </t>
-                <!-- </t> -->
+                <t t-set="address">
+                    <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                    <div t-if="o.partner_id.vat" class="mt16" id="partner_vat_address_same_as_shipping">
+                        <t t-if="o.company_id.account_fiscal_country_id.vat_label" t-esc="o.company_id.account_fiscal_country_id.vat_label" id="inv_tax_id_label" />
+                        <t t-else="">Tax ID</t>
+                        :
+                        <span t-field="o.partner_id.vat" />
+                    </div>
+                    <div>
+                        <span t-if="o.partner_id.nif">NIF :</span>
+                        <span t-field="o.partner_id.nif" />
+                        <span t-if="o.partner_id.nif">/</span>
+                        <span t-if="o.partner_id.stat">STAT :</span>
+                        <span t-field="o.partner_id.stat" />
+                        <br />
+                        <span t-if="o.partner_id.rcs">RCS :</span>
+                        <span t-field="o.partner_id.rcs" />
+                        <span t-if="o.partner_id.rcs">/</span>
+                        <span t-if="o.partner_id.cif">CIF :</span>
+                        <span t-field="o.partner_id.cif" />
+                    </div>
+                </t>
             </xpath>
 
             <xpath expr="//p[@name='payment_communication']" position="replace">
-                <t t-if="o.company_id.name=='SOFTEO'">
+                <!-- <t t-if="o.company_id.name=='SOFTEO'"> -->
                     <p t-if="o.move_type in ('out_invoice', 'in_refund') and o.payment_reference" name="payment_communication">
                         <b>
                             Lors de votre paiement, merci d'indiquer le numéro de votre facture :
                             <span t-field="o.payment_reference" />
                         </b>
                     </p>
-                </t>
+                <!-- </t> -->
             </xpath>
             <xpath expr="//div[@class='page']//h2" position="replace">
                 <h2>
@@ -98,32 +96,30 @@
             </xpath>
 
             <xpath expr="//div[@id='informations']" position="replace">
-                <t t-if="o.company_id.name=='SOFTEO'"> 
-                    <div id="informations" class="mt32 mb32">
-                        <div class="row">
-                            <div class="col-auto mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
-                                <strong>Date de la facture:</strong>
-                                <p class="m-0" t-esc="o.invoice_date.strftime('%d/%m/%Y')" />
-                            </div>
-                            <div name="reference" class="col-auto mw-100 mb-2" t-if="o.ref">
-                                <strong>Référence:</strong>
-                                <p class="m-0" t-field="o.ref" />
-                            </div>
-                            <div class="col-auto mw-100 mb-2" t-if="o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted'" name="due_date">
-                                <strong>Date d'échéance:</strong>
-                                <p class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
-                            </div>
-                            <div class="col-auto mw-100 mb-2" t-if="o.invoice_origin" name="origin">
-                                <strong>Origine:</strong>
-                                <p class="m-0" t-field="o.invoice_origin" />
-                            </div>
-                            <div class="col-auto mw-100 mb-2" t-if="o.partner_id.ref" name="customer_code">
-                                <strong>Numéro de client:</strong>
-                                <p class="m-0" t-field="o.partner_id.ref" />
-                            </div>
+                <div id="informations" class="mt32 mb32">
+                    <div class="row">
+                        <div class="col-auto mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
+                            <strong>Date de la facture:</strong>
+                            <p class="m-0" t-esc="o.invoice_date.strftime('%d/%m/%Y')" />
+                        </div>
+                        <div name="reference" class="col-auto mw-100 mb-2" t-if="o.ref">
+                            <strong>Référence:</strong>
+                            <p class="m-0" t-field="o.ref" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2" t-if="o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted'" name="due_date">
+                            <strong>Date d'échéance:</strong>
+                            <p class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2" t-if="o.invoice_origin" name="origin">
+                            <strong>Origine:</strong>
+                            <p class="m-0" t-field="o.invoice_origin" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2" t-if="o.partner_id.ref" name="customer_code">
+                            <strong>Numéro de client:</strong>
+                            <p class="m-0" t-field="o.partner_id.ref" />
                         </div>
                     </div>
-                </t>
+                </div>
             </xpath>
             <xpath expr="//p[@name='payment_term']" position="replace">
                 <t t-if="o.company_id.name=='SOFTEO'">
