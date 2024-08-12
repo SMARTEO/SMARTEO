@@ -95,13 +95,13 @@ class HrPayrollReport(models.Model):
     public_holidays_not_worked_and_paid_base = fields.Float('Jours fériés non travaillés et payés(Base)', readonly=True)
     hsup = fields.Float(string="Heures supplémentaires",readonly=True)
     nuithabt = fields.Float(string="Heures de nuit habituelles",readonly=True)
-    nuitocc = fields.Float(string="Heures de nuit habituelles",readonly=True)
+    nuitocc = fields.Float(string="Heures de nuit occasionnelles",readonly=True)
     hdim = fields.Float(string="Heures travaillées le dimanche",readonly=True)
     htjf = fields.Float(string="Heures travaillées en jour férié",readonly=True)
     hsupp30 = fields.Float(string="Heures supplémentaires 30%",readonly=True)
     hsupp50 = fields.Float(string="Heures supplémentaires 50%",readonly=True)
     hsuppnon30 = fields.Float(string="Heures supplémentaires NON IMPOSABLE 30%",readonly=True)
-    hsuppnon50 = fields.Float(string="eures supplémentaires NON IMPOSABLE 30%",readonly=True)
+    hsuppnon50 = fields.Float(string="Heures supplémentaires NON IMPOSABLE 50%",readonly=True)
 
     def _select(self):
         return super()._select() + """,
