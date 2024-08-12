@@ -29,7 +29,7 @@
                     </t>
                 </t>
             </xpath>
-
+            
             <xpath expr="//div[@id='informations']/div[last()]" position="after">
                 <t t-if="doc.company_id.name == 'SOFTEO'">
                     <div class="col-auto col-3 mw-100 mb-2">
@@ -87,6 +87,5 @@
                 </t>
             </xpath>
         </template>
-
     </data>
 </odoo>
