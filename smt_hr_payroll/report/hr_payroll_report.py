@@ -102,6 +102,8 @@ class HrPayrollReport(models.Model):
     hsupp50 = fields.Float(string="Heures supplémentaires 50%",readonly=True)
     hsuppnon30 = fields.Float(string="Heures supplémentaires NON IMPOSABLE 30%",readonly=True)
     hsuppnon50 = fields.Float(string="Heures supplémentaires NON IMPOSABLE 50%",readonly=True)
+    regsal = fields.Float(string="Régul Salaire",readonly=True)
+    primoc = fields.Float(string="Prime conditionnelle",readonly=True)
 
     def _select(self):
         return super()._select() + """,
@@ -189,7 +191,9 @@ class HrPayrollReport(models.Model):
                 CASE WHEN wd.id = min_id.min_line THEN hsupp30.amount ELSE 0 END as hsupp30,
                 CASE WHEN wd.id = min_id.min_line THEN hsupp50.amount ELSE 0 END as hsupp50,
                 CASE WHEN wd.id = min_id.min_line THEN hsuppnon30.amount ELSE 0 END as hsuppnon30,
-                CASE WHEN wd.id = min_id.min_line THEN hsuppnon50.amount ELSE 0 END as hsuppnon50
+                CASE WHEN wd.id = min_id.min_line THEN hsuppnon50.amount ELSE 0 END as hsuppnon50,
+                CASE WHEN wd.id = min_id.min_line THEN regsal.amount ELSE 0 END as regsal,
+                CASE WHEN wd.id = min_id.min_line THEN primoc.amount ELSE 0 END as primoc
                 """
 
     def _from(self):
@@ -279,6 +283,8 @@ class HrPayrollReport(models.Model):
                 left join hr_payslip_input hsupp50 on (hsupp50.payslip_id = p.id and hsupp50.code = 'HSUPP50')
                 left join hr_payslip_input hsuppnon30 on (hsuppnon30.payslip_id = p.id and hsuppnon30.code = 'HSUPPNON30')
                 left join hr_payslip_input hsuppnon50 on (hsuppnon50.payslip_id = p.id and hsuppnon50.code = 'HSUPPNON50')
+                left join hr_payslip_input regsal on (regsal.payslip_id = p.id and regsal.code = 'REGSAL')
+                left join hr_payslip_input primoc on (primoc.payslip_id = p.id and primoc.code = 'PRIMOC')
                 """
 
     def _group_by(self):
@@ -367,5 +373,7 @@ class HrPayrollReport(models.Model):
                 hsupp30.amount,
                 hsupp50.amount,
                 hsuppnon30.amount,
-                hsuppnon50.amount
+                hsuppnon50.amount,
+                regsal.amount,
+                primoc.amount
                 """
