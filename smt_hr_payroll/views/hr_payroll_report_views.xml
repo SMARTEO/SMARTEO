@@ -50,6 +50,8 @@
                         <field name="hsupp50" type="measure"/>
                         <field name="hsuppnon30" type="measure"/>
                         <field name="hsuppnon50" type="measure"/>
+                        <field name="regsal" type="measure"/>
+                        <field name="primoc" type="measure"/>
                     </pivot>
                 </xpath>
             </field>
