@@ -36,7 +36,7 @@
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <th class="text-right" style="min-width: 11em !important;">Prix unitaire</th>
                 </t>
-            </xpath> -->
+            </xpath> -->  
              <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[3]" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <th class="text-right" style="min-width: 11em !important;">Prix unitaire</th>
@@ -45,14 +45,14 @@
                     <th class="text-right" style="min-width: 11em !important;">Prix unitaire HT</th>
                 </t>
             </xpath>
-            <xpath expr="//div[@id='informations']/div[last()]" position="after">
+            <!-- <xpath expr="//div[@id='informations']/div[last()]" position="after">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <div class="col-auto col-3 mw-100 mb-2"> 
                         <strong>Conditions de paiement:</strong>
                         <p class="m-0" t-field="doc.payment_term_id" />
                     </div>
                 </t>  
-            </xpath>
+            </xpath> -->
             <xpath expr="//th[@name='th_taxes']" position="attributes">
                 <attribute name="t-attf-style">display: {{'none' if doc.company_id.name == 'SOFTEO' else 'grid'}}</attribute>
             </xpath>
@@ -131,16 +131,18 @@
                     <attribute name="style">font-size: 11px !important;</attribute>
                 </t>
             </xpath> -->
+            
         </template>
-        <!-- <template id="sale_management_report_templates_inh_nexources" inherit_id="sale_management.report_saleorder_document_inherit_sale_management">
+        <template id="sale_management_report_templates_inh_nexources" inherit_id="sale_management.report_saleorder_document_inherit_sale_management">
             <xpath expr="//div/table[@name='table_optional_products']/thead/tr/th[@name='th_option_price_unit']" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
-                    <th name="th_option_price_unit" class="text-right">
-                        <span style="font-size:11px !important; position:relative; left:500px">Prix unitaire HT</span>
-                    </th>
+                    <th name="th_option_price_unit" class="text-right">Prix unitaire</th>
+                </t>
+                <t t-else="">
+                    <th name="th_option_price_unit" class="text-right">Prix unitaire HT</th>
                 </t>
             </xpath>
-        </template> -->
+        </template>
 
     </data>
 </odoo>
