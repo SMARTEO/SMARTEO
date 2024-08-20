@@ -1,16 +1,7 @@
 <odoo>
     <data>
         <template id="report_invoice_document_inh" inherit_id="account.report_invoice_document">
-<<<<<<< HEAD
-            <!-- <xpath expr="//div[@id='total']/div" position="attributes">
-                <t t-if="o.company_id.name=='SOFTEO'">
-                    <attribute name="t-attf-class">#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'}</attribute>
-                </t>
-            </xpath> -->
-            <xpath expr="//div[@id='total']/div" position="before"> 
-=======
             <!-- <xpath expr="//div[@id='total']/div" position="before">
->>>>>>> d77d05e1003fe96d1a606ef69eea01f6f04977d0
                 <t t-if="o.company_id.name=='SOFTEO'">
                     <div t-att-class="'col-8' if report_type != 'html' else 'col-sm-5 col-md-7'">
                         <div>
@@ -113,24 +104,6 @@
                 </t>
             </xpath>
 
-<<<<<<< HEAD
-
-            <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[last()]" position="replace">
-            <t t-if="o.company_id.name=='SOFTEO'"> 
-                <th name="th_subtotal" class="text-right">
-                    <span groups="account.group_show_line_subtotals_tax_excluded">Montant</span>
-                    <span groups="account.group_show_line_subtotals_tax_included">Total Price</span>
-                </th>
-            </t>
-            <t t-else=""> 
-                <th name="th_subtotal" class="text-right">
-                    <span groups="account.group_show_line_subtotals_tax_excluded">Montant HT</span>
-                    <span groups="account.group_show_line_subtotals_tax_included">Total Price</span>
-                </th>
-            </t>
-            </xpath> 
-=======
->>>>>>> d77d05e1003fe96d1a606ef69eea01f6f04977d0
             <xpath expr="//div[@id='informations']" position="replace">
                 <div id="informations" class="mt32 mb32">
                     <div class="row">
