@@ -251,7 +251,7 @@
                                             Jours</div>
                                     </div>
                                     <div>
-                                        <div>Nouveau solde : <span t-esc="o.new_balance_in_the_month" t-if="o.new_balance_in_the_month"/><span t-else="">0 </span>
+                                        <div>Nouveau solde : <span t-if="o.is_balance_all_account" >0 </span> <span t-else="" t-esc="o.new_balance_in_the_month" />
                                             Jours</div>
                                     </div>
 <!--                                    <div>-->

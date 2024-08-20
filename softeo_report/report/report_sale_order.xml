@@ -3,17 +3,23 @@
  
         <template id="sale_report_templates_inh_nexources" inherit_id="sale.report_saleorder_document">
             <xpath expr="//t[@t-set='information_block']/.." position="attributes">
-                <t t-if="doc.company_id.name=='SOFTEO'">
+                <t t-if="doc.company_id.name == 'SOFTEO'">
                     <attribute name="t-if">doc.partner_id or doc.partner_shipping_id or doc.partner_invoice_id</attribute>
                 </t>
             </xpath>
-
-
-            <!-- <xpath expr="//div[@id='total']/div" position="attributes">
-                <t t-if="doc.company_id.name=='SOFTEO'">
-                    <attribute name="t-attf-class">#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'}</attribute>
+            <xpath expr="//h2[@class='mt16']//t[1]" position="replace">
+                <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
+                    <t t-if="doc.company_id.name == 'SOFTEO'">
+                        <span t-if="doc.state not in ['draft','sent']">Softeo - Order # </span>
+                        <span t-if="doc.state in ['draft','sent']">Softeo - Quotation # </span>
+                    </t>
+                    <t t-else="">
+                        <span t-if="doc.state not in ['draft','sent']">Order # </span>
+                        <span t-if="doc.state in ['draft','sent']">Quotation # </span>
+                    </t>
                 </t>
             </xpath>
+<<<<<<< HEAD
             <xpath expr="//div[@id='total']/div" position="before">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <div t-att-class="'col-sm-5 col-md-7' if report_type=='html' else 'col-8 pull-left mb-20'">
@@ -48,6 +54,22 @@
             <!-- <xpath expr="//div[@id='informations']/div[last()]" position="after">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <div class="col-auto col-3 mw-100 mb-2"> 
+=======
+            <xpath expr="//h2[@class='mt16']//t[@t-if][2]" position="replace">
+                <t t-if="env.context.get('proforma', False) or is_pro_forma">
+                    <t t-if="doc.company_id.name == 'SOFTEO'">
+                        <span>Softeo - Pro-Forma Invoice # </span>
+                    </t>
+                    <t t-else="">
+                        <span>Pro-Forma Invoice # </span>
+                    </t>
+                </t>
+            </xpath>
+            
+            <xpath expr="//div[@id='informations']/div[last()]" position="after">
+                <t t-if="doc.company_id.name == 'SOFTEO'">
+                    <div class="col-auto col-3 mw-100 mb-2">
+>>>>>>> d77d05e1003fe96d1a606ef69eea01f6f04977d0
                         <strong>Conditions de paiement:</strong>
                         <p class="m-0" t-field="doc.payment_term_id" />
                     </div>
@@ -59,12 +81,12 @@
             <xpath expr="//td[@name='td_taxes']" position="attributes">
                 <attribute name="t-attf-style">display: {{'none' if doc.company_id.name == 'SOFTEO' else 'grid'}}</attribute>
             </xpath>
-            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()]" position="replace">
-                <t t-if="doc.company_id.name=='SOFTEO'">
+            <xpath expr="//th[@name='th_subtotal']" position="replace">
+                <t t-if="doc.company_id.name == 'SOFTEO'">
                     <th name="th_subtotal" class="text-right">
-                        <t groups="account.group_show_line_subtotals_tax_excluded">Montant</t> 
-                        <t groups="account.group_show_line_subtotals_tax_included">Total Price</t>
+                        <span >Montant</span>
                     </th>
+<<<<<<< HEAD
                 </t> 
                 <t t-else="">
                     <th name="th_subtotal" class="text-right">
@@ -72,9 +94,19 @@
                         <t groups="account.group_show_line_subtotals_tax_included">Total Price</t>
                     </th>
                 </t> 
+=======
+                </t>
+                <t t-else="">
+                    <th name="th_subtotal" class="text-right">
+                        <span groups="account.group_show_line_subtotals_tax_excluded">Montant HT</span>
+                        <span groups="account.group_show_line_subtotals_tax_included">Prix total</span>
+                    </th>
+                </t>
+>>>>>>> d77d05e1003fe96d1a606ef69eea01f6f04977d0
             </xpath>
+            
             <xpath expr="//t[@t-set='information_block']" position="replace">
-                <t t-if="doc.company_id.name=='SOFTEO'">
+                <t t-if="doc.company_id.name == 'SOFTEO'">
                     <t t-set="information_block">
                         <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Adresse de livraison et de facturation:</strong>
                         <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Adresse de facturation:</strong>
@@ -101,6 +133,7 @@
                     </t>
                 </t>
             </xpath>
+<<<<<<< HEAD
             <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr" position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="style">page-break-inside: avoid !important; page-break-after: auto;</attribute>
@@ -144,5 +177,8 @@
             </xpath>
         </template>
 
+=======
+        </template>
+>>>>>>> d77d05e1003fe96d1a606ef69eea01f6f04977d0
     </data>
 </odoo>

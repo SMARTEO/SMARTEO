@@ -93,6 +93,17 @@ class HrPayrollReport(models.Model):
     public_holidays_not_worked_and_paid = fields.Float('Jours fériés non travaillés et payés', readonly=True)
     public_holidays_not_worked_and_paid_number = fields.Float('Jours fériés non travaillés et payés(Nombre)', readonly=True)
     public_holidays_not_worked_and_paid_base = fields.Float('Jours fériés non travaillés et payés(Base)', readonly=True)
+    hsup = fields.Float(string="Heures supplémentaires",readonly=True)
+    nuithabt = fields.Float(string="Heures de nuit habituelles",readonly=True)
+    nuitocc = fields.Float(string="Heures de nuit occasionnelles",readonly=True)
+    hdim = fields.Float(string="Heures travaillées le dimanche",readonly=True)
+    htjf = fields.Float(string="Heures travaillées en jour férié",readonly=True)
+    hsupp30 = fields.Float(string="Heures supplémentaires 30%",readonly=True)
+    hsupp50 = fields.Float(string="Heures supplémentaires 50%",readonly=True)
+    hsuppnon30 = fields.Float(string="Heures supplémentaires NON IMPOSABLE 30%",readonly=True)
+    hsuppnon50 = fields.Float(string="Heures supplémentaires NON IMPOSABLE 50%",readonly=True)
+    regsal = fields.Float(string="Régul Salaire",readonly=True)
+    primoc = fields.Float(string="Prime conditionnelle",readonly=True)
 
     def _select(self):
         return super()._select() + """,
@@ -171,7 +182,18 @@ class HrPayrollReport(models.Model):
                 CASE WHEN wd.id = min_id.min_line THEN paidsickbase.base ELSE 0 END as paid_sick_leave_base,
                 CASE WHEN wd.id = min_id.min_line THEN publicholidaysnotworked.total ELSE 0 END as public_holidays_not_worked_and_paid,
                 CASE WHEN wd.id = min_id.min_line THEN publicholidaysnotworkednumber.nombre ELSE 0 END as public_holidays_not_worked_and_paid_number,
-                CASE WHEN wd.id = min_id.min_line THEN publicholidaysnotworkedbase.base ELSE 0 END as public_holidays_not_worked_and_paid_base
+                CASE WHEN wd.id = min_id.min_line THEN publicholidaysnotworkedbase.base ELSE 0 END as public_holidays_not_worked_and_paid_base,
+                CASE WHEN wd.id = min_id.min_line THEN hsup.amount ELSE 0 END as hsup,
+                CASE WHEN wd.id = min_id.min_line THEN nuithabt.amount ELSE 0 END as nuithabt,
+                CASE WHEN wd.id = min_id.min_line THEN nuitocc.amount ELSE 0 END as nuitocc,
+                CASE WHEN wd.id = min_id.min_line THEN hdim.amount ELSE 0 END as hdim,
+                CASE WHEN wd.id = min_id.min_line THEN htjf.amount ELSE 0 END as htjf,
+                CASE WHEN wd.id = min_id.min_line THEN hsupp30.amount ELSE 0 END as hsupp30,
+                CASE WHEN wd.id = min_id.min_line THEN hsupp50.amount ELSE 0 END as hsupp50,
+                CASE WHEN wd.id = min_id.min_line THEN hsuppnon30.amount ELSE 0 END as hsuppnon30,
+                CASE WHEN wd.id = min_id.min_line THEN hsuppnon50.amount ELSE 0 END as hsuppnon50,
+                CASE WHEN wd.id = min_id.min_line THEN regsal.amount ELSE 0 END as regsal,
+                CASE WHEN wd.id = min_id.min_line THEN primoc.amount ELSE 0 END as primoc
                 """
 
     def _from(self):
@@ -252,6 +274,17 @@ class HrPayrollReport(models.Model):
                 left join hr_payslip_line publicholidaysnotworked on (publicholidaysnotworked.slip_id = p.id and publicholidaysnotworked.code = 'FERIE')
                 left join hr_payslip_line publicholidaysnotworkednumber on (publicholidaysnotworkednumber.slip_id = p.id and publicholidaysnotworkednumber.code = 'FERIE')
                 left join hr_payslip_line publicholidaysnotworkedbase on (publicholidaysnotworkedbase.slip_id = p.id and publicholidaysnotworkedbase.code = 'FERIE')
+                left join hr_payslip_input hsup on (hsup.payslip_id = p.id and hsup.code = 'HSUPP')
+                left join hr_payslip_input nuithabt on (nuithabt.payslip_id = p.id and nuithabt.code = 'NUITHABT')
+                left join hr_payslip_input nuitocc on (nuitocc.payslip_id = p.id and nuitocc.code = 'NUITOCC')
+                left join hr_payslip_input hdim on (hdim.payslip_id = p.id and hdim.code = 'HDIM')
+                left join hr_payslip_input htjf on (htjf.payslip_id = p.id and htjf.code = 'HTJF')
+                left join hr_payslip_input hsupp30 on (hsupp30.payslip_id = p.id and hsupp30.code = 'HSUPP30')
+                left join hr_payslip_input hsupp50 on (hsupp50.payslip_id = p.id and hsupp50.code = 'HSUPP50')
+                left join hr_payslip_input hsuppnon30 on (hsuppnon30.payslip_id = p.id and hsuppnon30.code = 'HSUPPNON30')
+                left join hr_payslip_input hsuppnon50 on (hsuppnon50.payslip_id = p.id and hsuppnon50.code = 'HSUPPNON50')
+                left join hr_payslip_input regsal on (regsal.payslip_id = p.id and regsal.code = 'REGSAL')
+                left join hr_payslip_input primoc on (primoc.payslip_id = p.id and primoc.code = 'PRIMOC')
                 """
 
     def _group_by(self):
@@ -331,5 +364,16 @@ class HrPayrollReport(models.Model):
                 paidsickbase.base,
                 publicholidaysnotworked.total,
                 publicholidaysnotworkednumber.nombre,
-                publicholidaysnotworkedbase.base
+                publicholidaysnotworkedbase.base,
+                hsup.amount,
+                nuithabt.amount,
+                nuitocc.amount,
+                hdim.amount,
+                htjf.amount,
+                hsupp30.amount,
+                hsupp50.amount,
+                hsuppnon30.amount,
+                hsuppnon50.amount,
+                regsal.amount,
+                primoc.amount
                 """

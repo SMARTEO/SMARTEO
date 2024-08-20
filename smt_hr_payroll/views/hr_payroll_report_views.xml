@@ -41,6 +41,17 @@
                         <field name="net_net_wage" type="measure"/>
                         <field name="alloc_wage" type="measure"/>
                         <field name="net_wage" type="measure"/>
+                        <field name="hsup" type="measure"/>
+                        <field name="nuithabt" type="measure"/>
+                        <field name="nuitocc" type="measure"/>
+                        <field name="hdim" type="measure"/>
+                        <field name="htjf" type="measure"/>
+                        <field name="hsupp30" type="measure"/>
+                        <field name="hsupp50" type="measure"/>
+                        <field name="hsuppnon30" type="measure"/>
+                        <field name="hsuppnon50" type="measure"/>
+                        <field name="regsal" type="measure"/>
+                        <field name="primoc" type="measure"/>
                     </pivot>
                 </xpath>
             </field>
