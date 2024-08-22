@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <template id="sale_report_templates_inherit" name="template_name" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//t[@t-set='information_block']/.." position="attributes">
+                <t t-if="doc.company_id.name=='SOFTEO'">
+                    <attribute name="t-if">doc.partner_id or doc.partner_shipping_id or doc.partner_invoice_id</attribute>
+                </t>
+            </xpath>
+            <xpath expr="//t[@t-set='information_block']" position="replace">
+                <t t-if="doc.company_id.name=='SOFTEO'">
+                    <t t-set="information_block">
+                        <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Invoicing and Shipping Address:</strong>
+                        <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Invoicing Address:</strong>
+                        <div t-field="doc.partner_invoice_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        <div>
+                            <span t-if="doc.partner_id.nif">NIF :</span>
+                            <span t-field="doc.partner_id.nif" />
+                            <span t-if="doc.partner_id.nif">/</span>
+                            <span t-if="doc.partner_id.stat">STAT :</span>
+                            <span t-field="doc.partner_id.stat" />
+                            <br />
+                            <span t-if="doc.partner_id.rcs">RCS :</span>
+                            <span t-field="doc.partner_id.rcs" />
+                            <span t-if="doc.partner_id.rcs">/</span>
+                            <span t-if="doc.partner_id.cif">CIF :</span>
+                            <span t-field="doc.partner_id.cif" />
+                        </div>
+
+                        <br />
+                        <t t-if="doc.partner_shipping_id != doc.partner_invoice_id"> 
+                            <strong>Shipping Address:</strong>
+                            <div t-field="doc.partner_shipping_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        </t>
+                    </t>
+                </t>
+            </xpath>
+            <xpath expr="//h2[@class='mt16']" position="replace">
+                <t t-if="doc.company_id.name=='SOFTEO'">
+                    <h2 class="mt16">
+                        <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
+                            <span t-if="doc.state not in ['draft','sent']">Softeo - Order # </span>
+                            <span t-if="doc.state in ['draft','sent']">Softeo - Quotation # </span>
+                        </t>
+                        <t t-if="env.context.get('proforma', False) or is_pro_forma">
+                            <span>Softeo - Pro-Forma Invoice # </span>
+                        </t>
+                        <span t-field="doc.name"/>
+                    </h2>
+                </t>
+                <t t-else="">
+                    <h2 class="mt16">
+                        <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
+                            <span t-if="doc.state not in ['draft','sent']">Smarteo - Order # </span>
+                            <span t-if="doc.state in ['draft','sent']">Smarteo - Quotation # </span>
+                        </t>
+                        <t t-if="env.context.get('proforma', False) or is_pro_forma">
+                            <span>Smarteo - Pro-Forma Invoice # </span>
+                        </t>
+                        <span t-field="doc.name"/>
+                    </h2>
+                </t>
+            </xpath>
+            <xpath expr="//th[@name='th_taxes']" position="attributes">
+                <attribute name="t-attf-style">display: {{'none' if doc.company_id.name == 'SOFTEO' else 'grid'}}</attribute>
+            </xpath>
+            <xpath expr="//td[@name='td_taxes']" position="attributes">
+                <attribute name="t-attf-style">display: {{'none' if doc.company_id.name == 'SOFTEO' else 'grid'}}</attribute>
+            </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[3]" position="replace">
+                <t t-if="doc.company_id.name=='SOFTEO'">
+                    <th class="text-right" style="min-width: 11em !important;">Prix unitaire</th>
+                </t>
+                <t t-else="">
+                    <th class="text-right" style="min-width: 11em !important;">Prix unitaire HT</th>
+                </t>
+            </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[last()]" position="replace">
+                <t t-if="doc.company_id.name=='SOFTEO'">
+                    <th name="th_subtotal" class="text-right">
+                        <t groups="account.group_show_line_subtotals_tax_excluded">Montant</t> 
+                        <t groups="account.group_show_line_subtotals_tax_included">Total Price</t>
+                    </th>
+                </t> 
+                <t t-else="">
+                    <th name="th_subtotal" class="text-right">
+                        <t groups="account.group_show_line_subtotals_tax_excluded">Montant HT</t> 
+                        <t groups="account.group_show_line_subtotals_tax_included">Total Price</t>
+                    </th>
+                </t> 
+            </xpath>
+        </template>
+
+        <template id="sale_management_report_templates_inh_nexources" inherit_id="sale_management.report_saleorder_document_inherit_sale_management">
+            <xpath expr="//div/table[@name='table_optional_products']/thead/tr/th[@name='th_option_price_unit']" position="replace">
+                <t t-if="doc.company_id.name=='SOFTEO'">
+                    <th name="th_option_price_unit" class="text-right">Prix unitaire</th>
+                </t>
+                <t t-else="">
+                    <th name="th_option_price_unit" class="text-right">Prix unitaire HT</th>
+                </t>
+            </xpath>
+        </template>
+    
+    </data>
+    
+
+</odoo>
