@@ -1,0 +1,219 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* smt_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e-20240712\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-22 07:11+0000\n"
+"PO-Revision-Date: 2024-08-22 07:11+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "<span class=\"font-weight-bolder\">Paiement en espèce le </span>"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "<span class=\"font-weight-bolder\">Paiement par chèque bancaire le </span>"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid ""
+"<span class=\"font-weight-bolder\">Paiement par virement au plus tard le "
+"</span>"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "<span>Smarteo - Pro-Forma Invoice # </span>"
+msgstr "<span>Smarteo - Facture Pro-Forma n° </span>"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "<span>Softeo - Pro-Forma Invoice # </span>"
+msgstr "<span>Softeo - Facture Pro-Forma n° </span>"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "<strong>Adresse de livraison:</strong>"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "<strong>Date d'échéance:</strong>"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "<strong>Date de la facture:</strong>"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "<strong>Numéro de client:</strong>"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "<strong>Origine:</strong>"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "<strong>Référence:</strong>"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "<strong>Shipping Address:</strong>"
+msgstr "<strong>Adresse de livraison:</strong>"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "CIF :"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "Invoicing Address:"
+msgstr "Adresse de facturation"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "Invoicing and Shipping Address:"
+msgstr "Adresse de facturation et de livraison"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "Lors de votre paiement, merci d'indiquer le numéro de votre facture :"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "Montant"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "Montant HT"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "NIF :"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_management_report_templates_inh_nexources
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "Prix unitaire"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_management_report_templates_inh_nexources
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "Prix unitaire HT"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "RCS :"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "STAT :"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "Smarteo - Cancelled Invoice"
+msgstr "Smarteo - Facture annulé"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "Smarteo - Credit Note"
+msgstr "Smarteo - Facture d'avoir"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "Smarteo - Draft Invoice"
+msgstr "Smarteo - Facture brouillon"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "Smarteo - Invoice"
+msgstr "Smarteo - Facture"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "Smarteo - Order #"
+msgstr "Smarteo - Commande n° "
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "Smarteo - Quotation #"
+msgstr "Smarteo - Devis n° "
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "Softeo - Cancelled Invoice"
+msgstr "Softeo - Facture annulé"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "Softeo - Credit Note"
+msgstr "Softeo - Facture d'avoir"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "Softeo - Draft Invoice"
+msgstr "Softeo - Facture brouillon"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "Softeo - Invoice"
+msgstr "Softeo - Facture"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "Softeo - Order #"
+msgstr "Softeo - Commande n°"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "Softeo - Quotation #"
+msgstr "Softeo - Devis n° "
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "Tax ID"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.sale_report_templates_inherit
+msgid "Total Price"
+msgstr ""
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "Vendor Bill"
+msgstr "Avoir de fournisseur"
+
+#. module: smt_report
+#: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
+msgid "Vendor Credit Note"
+msgstr "Facture fournisseur"
