@@ -21,5 +21,6 @@
     'data': [
         'report/report_invoice_inherit.xml',
         'report/report_sale_order_inherit.xml',
+        'report/action_inherit.xml',
     ],
 }
