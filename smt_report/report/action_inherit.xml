@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<odoo>  
     <data>
+        <!-- Sale order -->
         <record id="sale.action_report_saleorder" model="ir.actions.report">
-            <field name="print_report_name">
-                (object.state in ('draft', 'sent') and '%s - Quotation n° - %s' %(object.company_id.name, object.name)) or '%s - Order n° - %s' %(object.company_id.name, object.name)
-            </field>
+            <field name="print_report_name">(object.state in ('draft', 'sent') and '%s - Quotation n° - %s' % (object.company_id.name, object.name)) or '%s - Order n° - %s' % (object.company_id.name, object.name)</field>
+        </record>
+        <record id="sale.action_report_pro_forma_invoice" model="ir.actions.report">
+            <field name="print_report_name">'%(company)s - Invoice PRO-FORMA n° %(name)s' % {'company': object.company_id.name,'name': object.name}</field> 
+        </record>
+        <!-- Invoices -->
+        <record id="account.account_invoices" model="ir.actions.report">
+            <field name="print_report_name">'%(company)s - %(name)s' % {'company': object.company_id.name,'name': object.name}</field>
+        </record>
+        <record id="account.account_invoices_without_payment" model="ir.actions.report">
+            <field name="print_report_name">'%(company)s - %(name)s' % {'company': object.company_id.name,'name': object.name}</field>
         </record>
     </data>
 </odoo>

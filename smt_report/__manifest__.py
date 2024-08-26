@@ -8,7 +8,7 @@
     'description': """
         SOFTEO report sale
     """,
-
+ 
     'author': "Nexources",
     'website': "http://www.nexources.com",
 
