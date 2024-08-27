@@ -319,7 +319,6 @@ class HrPayslipInheritHeureSup(models.Model):
                 0,
                 {
                     "input_type_id": self.env.ref("alpha_payslip.heure_sup").id,
-                    "code": self.env.ref("alpha_payslip.heure_sup").code,
                     "amount": self.total_heure_sup,
                 },
             )
@@ -333,9 +332,6 @@ class HrPayslipInheritHeureSup(models.Model):
                     "input_type_id": self.env.ref(
                         "alpha_payslip.heure_sup_nuit_hab"
                     ).id,
-                    "code": self.env.ref(
-                        "alpha_payslip.heure_sup_nuit_hab"
-                    ).code,
                     "amount": self.total_heure_nuit_hab,
                 },
             )
@@ -349,9 +345,6 @@ class HrPayslipInheritHeureSup(models.Model):
                     "input_type_id": self.env.ref(
                         "alpha_payslip.heure_sup_nuit_occ"
                     ).id,
-                    "code": self.env.ref(
-                        "alpha_payslip.heure_sup_nuit_occ"
-                    ).code,
                     "amount": self.total_heure_nuit_occ,
                 },
             )
@@ -363,7 +356,6 @@ class HrPayslipInheritHeureSup(models.Model):
                 0,
                 {
                     "input_type_id": self.env.ref("alpha_payslip.heure_sup_dim").id,
-                    "code": self.env.ref("alpha_payslip.heure_sup_dim").code,
                     "amount": self.total_heure_sup_dimanche,
                 },
             )
@@ -375,7 +367,6 @@ class HrPayslipInheritHeureSup(models.Model):
                 0,
                 {
                     "input_type_id": self.env.ref("alpha_payslip.heure_sup_fer").id,
-                    "code": self.env.ref("alpha_payslip.heure_sup_fer").code,
                     "amount": self.total_heure_sup_ferie,
                 },
             )
@@ -394,7 +385,6 @@ class HrPayslipInheritHeureSup(models.Model):
                 0,
                 {
                     "input_type_id": self.env.ref("alpha_payslip.heure_sup_30").id,
-                    "code": self.env.ref("alpha_payslip.heure_sup_30").id,
                     "amount": only_hsup30,
                 },
             )
@@ -406,7 +396,6 @@ class HrPayslipInheritHeureSup(models.Model):
                 0,
                 {
                     "input_type_id": self.env.ref("alpha_payslip.heure_sup_50").id,
-                    "code": self.env.ref("alpha_payslip.heure_sup_50").code,
                     "amount": only_hsup50,
                 },
             )
@@ -451,7 +440,6 @@ class HrPayslipInheritHeureSup(models.Model):
                 0,
                 {
                     "input_type_id": self.env.ref("alpha_payslip.heure_sup_non_30").id,
-                    "code": self.env.ref("alpha_payslip.heure_sup_non_30").id,
                     "amount": res1,
                 },
             )
@@ -463,7 +451,6 @@ class HrPayslipInheritHeureSup(models.Model):
                 0,
                 {
                     "input_type_id": self.env.ref("alpha_payslip.heure_sup_non_50").id,
-                    "code": self.env.ref("alpha_payslip.heure_sup_non_50").code,
                     "amount": res2,
                 },
             )
