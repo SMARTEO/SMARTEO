@@ -38,6 +38,26 @@
                         </t>
                     </t>
                 </t>
+                <t t-else="">
+                    <t t-set="information_block">
+                        <strong t-if="doc.partner_shipping_id">Invoicing and Shipping Address:</strong>
+                        <div t-field="doc.partner_invoice_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        <div>
+                            <span t-if="doc.partner_id.nif">NIF :</span>
+                            <span t-field="doc.partner_id.nif" />
+                            <span t-if="doc.partner_id.nif">/</span>
+                            <span t-if="doc.partner_id.stat">STAT :</span>
+                            <span t-field="doc.partner_id.stat" />
+                            <br />
+                            <span t-if="doc.partner_id.rcs">RCS :</span>
+                            <span t-field="doc.partner_id.rcs" />
+                            <span t-if="doc.partner_id.rcs">/</span>
+                            <span t-if="doc.partner_id.cif">CIF :</span>
+                            <span t-field="doc.partner_id.cif" />
+                        </div>
+                    </t>
+                </t>
             </xpath>
             <xpath expr="//h2[@class='mt16']" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">

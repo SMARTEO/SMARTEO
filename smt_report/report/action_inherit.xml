@@ -16,4 +16,4 @@
             <field name="print_report_name">'%(company)s - %(name)s' % {'company': object.company_id.name,'name': object.name}</field>
         </record>
     </data>
-</odoo>
+</odoo> 

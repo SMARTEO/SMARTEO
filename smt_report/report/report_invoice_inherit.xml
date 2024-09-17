@@ -11,13 +11,13 @@
                         </div>
                     </t>
                 </t>
-            </xpath>
+            </xpath> 
             <xpath expr="//div[hasclass('page')]" position="attributes">
                 <t t-if="o.company_id.name=='SOFTEO'">
                     <attribute name="style">padding-top:1px !important; color :black !important;</attribute>
                 </t>
             </xpath>
-            
+             
             <xpath expr="//t[@t-set='address']" position="replace">
                 <t t-set="address">
                     <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
