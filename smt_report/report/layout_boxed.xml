@@ -10,7 +10,7 @@
                         <span class="topage" />
                     </div> 
                 </div>
-            </xpath>
+            </xpath> 
             <!-- <xpath expr="//img" position="attributes">
                 <attribute name="style">width: 150px; min-height: 150px !important;</attribute>
             </xpath> -->
