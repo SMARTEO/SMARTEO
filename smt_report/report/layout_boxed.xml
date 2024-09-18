@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <template id="external_layout_boxed_nexource" inherit_id="web.external_layout_boxed">
+            <xpath expr="//div[hasclass('text-center')]" position="replace">
+                <div class="text-center">
+                    <div style="font-size:11px !important; margin-top: 20px !important;" t-field="company.report_footer" />
+                    <div t-if="report_type == 'pdf'" style="font-size:10px !important;">
+                        <span class="page" />
+                        /
+                        <span class="topage" />
+                    </div>
+                </div>
+            </xpath>
+            <!-- <xpath expr="//img" position="attributes">
+                <attribute name="style">width: 150px; min-height: 150px !important;</attribute>
+            </xpath> -->
+        </template>
+    </data>
+</odoo>
