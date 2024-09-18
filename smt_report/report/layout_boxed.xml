@@ -8,19 +8,12 @@
                         <span class="page" />
                         /
                         <span class="topage" />
-<<<<<<< HEAD
-                    </div>
-=======
                     </div> 
->>>>>>> ticket#2012
                 </div>
             </xpath>
             <!-- <xpath expr="//img" position="attributes">
                 <attribute name="style">width: 150px; min-height: 150px !important;</attribute>
             </xpath> -->
-<<<<<<< HEAD
-        </template>
-=======
             
         </template>
 
@@ -54,6 +47,5 @@
             </xpath>
         </template>
 
->>>>>>> ticket#2012
     </data>
 </odoo>

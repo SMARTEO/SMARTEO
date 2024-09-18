@@ -125,8 +125,6 @@
                 </t>
             </xpath>
         </template>
-<<<<<<< HEAD
-=======
 
         <template id="report_saleorder_document_inh" inherit_id="sale.report_saleorder_document">
             <xpath expr="//div[@id='informations']" position="replace">
@@ -154,7 +152,6 @@
              </div>
             </xpath>
          </template>
->>>>>>> ticket#2012
     
     </data>
     
