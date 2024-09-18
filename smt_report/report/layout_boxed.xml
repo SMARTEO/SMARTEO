@@ -10,7 +10,7 @@
                         <span class="topage" />
                     </div> 
                 </div>
-            </xpath>
+            </xpath> 
             <!-- <xpath expr="//img" position="attributes">
                 <attribute name="style">width: 150px; min-height: 150px !important;</attribute>
             </xpath> -->
@@ -18,7 +18,7 @@
         </template>
 
         <template id="report_invoice_document"  inherit_id="account.report_invoice_document">
-            <xpath expr="//div[@id='informations']" position="replace">
+            <xpath expr="//div[@id='informations']" position="replace"> 
                 <div id="informations" class="row mt-2 mb-2">
                     <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
                         <t t-if="o.move_type == 'out_invoice'"><strong>Invoice Date:</strong></t>

@@ -124,7 +124,7 @@
                     <th name="th_option_price_unit" class="text-right">Prix unitaire HT</th>
                 </t>
             </xpath>
-        </template>
+        </template> 
 
         <template id="report_saleorder_document_inh" inherit_id="sale.report_saleorder_document">
             <xpath expr="//div[@id='informations']" position="replace">
