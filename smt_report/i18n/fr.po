@@ -213,12 +213,12 @@ msgstr "Prix ​​total"
 #. module: smt_report
 #: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
 msgid "Vendor Bill"
-msgstr "Avoir de fournisseur"
+msgstr "Facture fournisseur"
 
 #. module: smt_report
 #: model_terms:ir.ui.view,arch_db:smt_report.report_invoice_document_inh
 msgid "Vendor Credit Note"
-msgstr "Facture fournisseur"
+msgstr "Avoir de fournisseur"
 
 #. module: sale
 #: model:ir.actions.report,print_report_name:sale.action_report_saleorder
