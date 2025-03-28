@@ -9,6 +9,9 @@
                 <xpath expr="//header/button[@name='button_draft']" position="attributes">
                     <attribute name="groups">base.group_system</attribute>
                 </xpath>
+                <xpath expr="//field[@name='invoice_date']" position="after">
+                    <field name="date_paid"/>
+                </xpath>
             </field>
         </record>
     </data>
