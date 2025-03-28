@@ -27,6 +27,7 @@
         # 'security/ir.model.access.csv',
         'views/account_move_view.xml',
         'views/account_payment_term_views.xml',
+        'views/account_move_tree_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

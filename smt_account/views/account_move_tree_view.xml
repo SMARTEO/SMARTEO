@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="smt_account_inherit_account_move" model="ir.ui.view">
+        <field name="name">smt.account.view.tree.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_state']" position="after">
+                <field name="date_paid" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
