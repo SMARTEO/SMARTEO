@@ -28,6 +28,7 @@
         'views/account_move_view.xml',
         'views/account_payment_term_views.xml',
         'views/account_move_tree_view.xml',
+        'data/ir_cron_data.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
