@@ -15,3 +15,5 @@ class res_partner(models.Model):
     stat = fields.Char('STAT')
     rcs = fields.Char('RCS')
     cif = fields.Char('CIF')
+    customer = fields.Boolean('Client')
+    supplier = fields.Boolean('Fournisseur')
