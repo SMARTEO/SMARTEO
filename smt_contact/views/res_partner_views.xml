@@ -17,6 +17,7 @@
                         <group>
                             <field name="customer"/>
                             <field name="supplier"/>
+                            <field name="compete"/>
                         </group>
                     </group>
                 </xpath>

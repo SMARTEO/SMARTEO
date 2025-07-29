@@ -17,3 +17,4 @@ class res_partner(models.Model):
     cif = fields.Char('CIF')
     customer = fields.Boolean('Client')
     supplier = fields.Boolean('Fournisseur')
+    compete = fields.Boolean('Concurrent')
