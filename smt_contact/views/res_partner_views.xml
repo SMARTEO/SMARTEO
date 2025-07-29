@@ -12,6 +12,14 @@
                     <field name="rcs" />
                     <field name="cif" />
                 </field>
+                <xpath expr="//page[@name='sales_purchases']" position="inside">
+                    <group string="Informations contacts">
+                        <group>
+                            <field name="customer"/>
+                            <field name="supplier"/>
+                        </group>
+                    </group>
+                </xpath>
             </field>
         </record>
     </data>
