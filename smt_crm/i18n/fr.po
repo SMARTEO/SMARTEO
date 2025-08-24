@@ -30,3 +30,9 @@ msgstr "Est en étape gagnée ?"
 #, python-format
 msgid "There has to be only one lost stage !"
 msgstr "Il ne doit y avoir qu'une seule étape perdue !"
+
+#. module: smt_crm
+#: code:SMARTEO/smt_crm/models/crm_lead.py:0
+#, python-format
+msgid "No lost stage, this action can not be carried on !"
+msgstr "Aucune étape perdue, cette action ne peut pas être poursuivie !"
