@@ -13,7 +13,7 @@ class CrmLead(models.Model):
             raise ValidationError(_('No lost stage, this action can not be carried on !'))
         lost_opportunities = self.env['crm.lead'].search([('type', '=', 'opportunity'), ('active', '=', False), ('probability', '=', 0), ('stage_id', '!=', lost_stage_id.id)])
         for lost_opportunity in lost_opportunities:
-            logging.info('- {} -'.format(lost_opportunity.id))
+            logging.info('- {} - {}'.format(lost_opportunity.id, lost_opportunity.stage_id.id))
             lost_opportunity.write({'stage_id' : lost_stage_id.id})
             self.env.cr.commit()
-            logging.info('DONE')
+            logging.info('DONE - {}'.format(lost_opportunity.stage_id.id))
