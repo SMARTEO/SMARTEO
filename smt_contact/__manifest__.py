@@ -27,6 +27,7 @@
         # 'security/ir.model.access.csv',
         'views/res_partner_views.xml',
         'views/templates.xml',
+        'data/ir_cron.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
