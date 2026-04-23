@@ -1,52 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="hr_payslip_view_form_inherit_alpha" model="ir.ui.view">
-            <field name="name">smt Inherit Payslip</field>
-            <field name="model">hr.payslip</field>
-            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form" />
-            <field name="priority" eval="8" />
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='payslip_run_id']" position="after">
-                    <field name="commentaire" />
-                    <field name="paid_date" />
-                    <field name="payment_method_in_pdf" string="Méthode de paiement"/>
-
-                </xpath>
-                <xpath expr="//field[@name='struct_id']" position="after">
-                    <field name="is_balance_all_account" string="Solde tout compte"/>
-                    <field name="is_can_modif_all_balance" invisible="1"/>
-                </xpath>
-                <xpath expr="//sheet/group[1]" position="after">
-                    <group string="Situation des congés payés" col="8">
-                        <field name="previous_paid_leave_balance" string="Solde antérieur" attrs="{'readonly': [('is_can_modif_all_balance', '!=', True)]}"/>
-                        <field name="gain_on_current_month" string="Gain sur le mois actuel" />
-                        <field name="days_taken_in_the_month" string="Jours pris dans le mois" readonly="1"/>
-                        <field name="new_balance_in_the_month" string="Nouveau solde" readonly="1"/>
-                        <field name="balance_to_date" string="Solde à date" invisible="1" readonly="1"/>
-                        <field name="balance_on_pay_slip" string="Solde sur la fiche de paie" invisible="1" readonly="1"/>
-                        <button string="RAFRAÎCHIR"
-                            type="object" name="refresh_payslip_leave_situation" class="btn-primary"/>
-                    </group>
-                </xpath>
-                <xpath expr="//notebook/page[@name='salary_computation']/field/tree/field[@name='rate']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//notebook/page[@name='salary_computation']/field/tree/field[@name='quantity']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//notebook/page[@name='salary_computation']/field/tree/field[@name='rate']" position="after">
-                    <field name="nombre" />
-                    <field name="base" />
-                </xpath>
-                <xpath expr="//field[@name='warning_message']" position="after">
-                    <group col="4">
-                        <field name="balance_to_date" string="Solde à date" readonly="1"/>
-                        <field name="gain_on_current_month" string="Gain sur le mois actuel"/>
-                        <field name="balance_on_pay_slip" string="Solde sur la fiche de paie"/>
-                    </group>
-                </xpath>
-            </field>
-        </record>
-    </data>
+    <record id="hr_payslip_view_form_inherit_alpha" model="ir.ui.view">
+        <field name="name">smt Inherit Payslip</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payslip_run_id']" position="after">
+                <field name="commentaire"/>
+                <field name="paid_date"/>
+                <field name="payment_method_in_pdf" string="Payment Method"/>
+            </xpath>
+            <xpath expr="//field[@name='struct_id']" position="after">
+                <field name="is_balance_all_account" string="Full Account Balance"/>
+                <field name="is_can_modif_all_balance" invisible="1"/>
+            </xpath>
+            <xpath expr="//sheet/group[1]" position="after">
+                <group string="Paid Leave Situation" col="8">
+                    <field name="previous_paid_leave_balance" string="Previous Balance"
+                        readonly="not is_can_modif_all_balance"/>
+                    <field name="gain_on_current_month" string="Monthly Accrual"/>
+                    <field name="days_taken_in_the_month" string="Days Taken This Month" readonly="1"/>
+                    <field name="new_balance_in_the_month" string="New Balance" readonly="1"/>
+                    <field name="balance_to_date" string="Balance to Date" invisible="1" readonly="1"/>
+                    <field name="balance_on_pay_slip" string="Balance on Payslip" invisible="1" readonly="1"/>
+                    <button string="Refresh" type="object" name="refresh_payslip_leave_situation" class="btn-primary"/>
+                </group>
+            </xpath>
+            <xpath expr="//notebook/page[@name='salary_computation']/field/list/field[@name='rate']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[@name='salary_computation']/field/list/field[@name='quantity']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[@name='salary_computation']/field/list/field[@name='rate']" position="after">
+                <field name="nombre"/>
+                <field name="base"/>
+            </xpath>
+            <xpath expr="//field[@name='warning_message']" position="after">
+                <group col="4">
+                    <field name="balance_to_date" string="Balance to Date" readonly="1"/>
+                    <field name="gain_on_current_month" string="Monthly Accrual"/>
+                    <field name="balance_on_pay_slip" string="Balance on Payslip"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
 </odoo>

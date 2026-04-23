@@ -4,22 +4,21 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0+e-20240905\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-28 14:32+0000\n"
-"PO-Revision-Date: 2025-03-28 14:32+0000\n"
+"POT-Creation-Date: 2026-04-22 00:00+0000\n"
+"PO-Revision-Date: 2026-04-22 00:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: smt_account
-#: model:ir.model.fields,field_description:smt_account.field_account_bank_statement_line__date_paid
 #: model:ir.model.fields,field_description:smt_account.field_account_move__date_paid
-#: model:ir.model.fields,field_description:smt_account.field_account_payment__date_paid
-msgid "Date of payment"
+msgid "Date of Payment"
 msgstr "Date de paiement"
 
 #. module: smt_account
@@ -28,31 +27,21 @@ msgid "Default Description"
 msgstr "Description par défaut"
 
 #. module: smt_account
-#: model:ir.model,name:smt_account.model_account_move
-msgid "Journal Entry"
-msgstr "Pièce comptable"
-
-#. module: smt_account
 #: model:ir.model.fields,field_description:smt_account.field_account_payment_term__payment_method
 msgid "Payment Method"
 msgstr "Méthode de paiement prévue"
 
 #. module: smt_account
-#: model:ir.model,name:smt_account.model_account_payment_term
-msgid "Payment Terms"
-msgstr "Conditions de paiement"
+#: model:ir.model.fields.selection,name:smt_account.selection__account_payment_term__payment_method__transaction
+msgid "Wire Transfer"
+msgstr "Virement"
 
 #. module: smt_account
 #: model:ir.model.fields.selection,name:smt_account.selection__account_payment_term__payment_method__cash
-msgid "cash"
+msgid "Cash"
 msgstr "Espèce"
 
 #. module: smt_account
 #: model:ir.model.fields.selection,name:smt_account.selection__account_payment_term__payment_method__check
-msgid "check"
+msgid "Cheque"
 msgstr "Chèque"
-
-#. module: smt_account
-#: model:ir.model.fields.selection,name:smt_account.selection__account_payment_term__payment_method__transaction
-msgid "transaction"
-msgstr "Virement"

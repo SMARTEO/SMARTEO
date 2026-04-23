@@ -1,38 +1,19 @@
 # -*- coding: utf-8 -*-
 {
     'name': "smt_account",
-
-    'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
-
-    'description': """
-        Long description of module's purpose
-    """,
-
+    'summary': "Smarteo Accounting — date_paid on invoices, payment term extensions",
+    'description': "Adds payment date computation and payment method field on payment terms.",
     'author': "NEXOURCES",
-    'website': "http://www.nexources.com",
-
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    'category': 'Uncategorized',
-    'version': '0.1',
-
-    # any module necessary for this one to work correctly
+    'website': "https://www.nexources.com",
+    'category': 'Accounting',
+    'version': '19.0.1.0.0',
     'depends': ['base', 'smt_base', 'account'],
-
-    # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
         'views/account_move_view.xml',
         'views/account_payment_term_views.xml',
         'views/account_move_tree_view.xml',
         'data/ir_cron_data.xml',
-    ],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
+        'i18n/fr.po',
     ],
     'license': 'LGPL-3',
 }

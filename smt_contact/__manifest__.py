@@ -1,37 +1,16 @@
 # -*- coding: utf-8 -*-
 {
     'name': "smt_contact",
-
-    'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
-
-    'description': """
-        Long description of module's purpose
-    """,
-
-    'author': "My Company",
-    'website': "http://www.yourcompany.com",
-
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    'category': 'Uncategorized',
-    'version': '0.1',
-
-    # any module necessary for this one to work correctly
-    'depends': ['base'],
-
-    # always loaded
+    'summary': "Smarteo Contact — partner extensions (NIF, STAT, RCS, CIF, competitor flag)",
+    'description': "Adds Malagasy tax identifiers and competitor flag to res.partner.",
+    'author': "Nexources",
+    'website': "https://www.nexources.com",
+    'category': 'Contacts',
+    'version': '19.0.1.0.0',
+    'depends': ['base', 'contacts'],
     'data': [
-        # 'security/ir.model.access.csv',
         'views/res_partner_views.xml',
-        'views/templates.xml',
         'data/ir_cron.xml',
-    ],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
     ],
     'license': 'LGPL-3',
 }

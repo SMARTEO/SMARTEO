@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <odoo>
     <record id="view_payment_term_form_inherit" model="ir.ui.view">
         <field name="name">view.payment.term.form.inherit.smarteo</field>
@@ -8,16 +7,15 @@
         <field name="arch" type="xml">
             <field name="company_id" position="after">
                 <field name="default_description"/>
-                <field name="payment_method" widget="radio" attrs="{
-                    'required': [('default_description', '=', True)],
-                    'invisible': [('default_description', '=', False)],
-                }"/>
+                <field name="payment_method" widget="radio"
+                    required="default_description"
+                    invisible="not default_description"/>
             </field>
             <label for="note" position="attributes">
-                <attribute name="attrs">{'invisible': [('default_description', '=', True)]}</attribute>
+                <attribute name="invisible">default_description</attribute>
             </label>
             <field name="note" position="attributes">
-                <attribute name="attrs">{'invisible': [('default_description', '=', True)]}</attribute>
+                <attribute name="invisible">default_description</attribute>
             </field>
         </field>
     </record>

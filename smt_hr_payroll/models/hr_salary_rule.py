@@ -1,6 +1,4 @@
-# -*- coding:utf-8 -*-
-
-
+# -*- coding: utf-8 -*-
 from odoo import fields, models, _
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
@@ -9,60 +7,40 @@ from odoo.tools.safe_eval import safe_eval
 class HrSalaryRule(models.Model):
     _inherit = "hr.salary.rule"
 
-    salary_rule_nombre = fields.Text(
-        string="Nombre", help="La valeur de nombre dans la structure de base"
+    salary_rule_nombre = fields.Text(string="Nombre", help="Value for 'nombre' in the payslip report")
+    salary_rule_base = fields.Text(string="Base", help="Value for 'base' in the payslip report")
+    is_total = fields.Boolean(string="Total", help="Marks a rule as a totals line in the report")
+    currency_salary_rule_nombre = fields.Char(
+        string="Currency (Nombre)",
+        default=lambda self: self.env.company.currency_id.symbol,
     )
-    salary_rule_base = fields.Text(
-        string="Base", help="La valeur de base dans la structure de base"
+    currency_salary_rule_base = fields.Char(
+        string="Currency (Base)",
+        default=lambda self: self.env.company.currency_id.symbol,
     )
-
-    is_total = fields.Boolean(string="Total", help="Pour faciliter le format du report")
-
-    def _get_currency_salary_rule_nombre(self):
-        return self.env.company.currency_id.symbol
-
-    def _get_currency_salary_rule_base(self):
-        return self.env.company.currency_id.symbol
-
-    currency_salary_rule_nombre = fields.Char(default=_get_currency_salary_rule_nombre)
-    currency_salary_rule_base = fields.Char(default=_get_currency_salary_rule_base)
-
-
-
-    def write(self, vals):
-        res = super().write(vals)
-        return res
 
     def _compute_base(self, localdict):
         self.ensure_one()
-        if self.salary_rule_base:
-            try:
-                safe_eval(
-                    self.salary_rule_base or 0.0,
-                    localdict,
-                    mode="exec",
-                    nocopy=True,
-                    )
-                return float(localdict["result"])
-            except Exception as e:
-                raise UserError(
-                    _("Wrong python code defined for base rule %s (%s).\nError: %s")
-                    % (self.name, self.code, e)
-                )
+        if not self.salary_rule_base:
+            return 0.0
+        try:
+            safe_eval(self.salary_rule_base, localdict, mode="exec", nocopy=True)
+            return float(localdict["result"])
+        except Exception as e:
+            raise UserError(
+                _("Wrong Python code for base rule %(name)s (%(code)s).\nError: %(error)s",
+                  name=self.name, code=self.code, error=e)
+            )
 
     def _compute_nombre(self, localdict):
         self.ensure_one()
-        if self.salary_rule_nombre:
-            try:
-                safe_eval(
-                    self.salary_rule_nombre or 0.0,
-                    localdict,
-                    mode="exec",
-                    nocopy=True,
-                    )
-                return float(localdict["result"])
-            except Exception as e:
-                raise UserError(
-                    _("Wrong python code defined for nombre rule %s (%s).\nError: %s")
-                    % (self.name, self.code, e)
-                )
+        if not self.salary_rule_nombre:
+            return 0.0
+        try:
+            safe_eval(self.salary_rule_nombre, localdict, mode="exec", nocopy=True)
+            return float(localdict["result"])
+        except Exception as e:
+            raise UserError(
+                _("Wrong Python code for nombre rule %(name)s (%(code)s).\nError: %(error)s",
+                  name=self.name, code=self.code, error=e)
+            )

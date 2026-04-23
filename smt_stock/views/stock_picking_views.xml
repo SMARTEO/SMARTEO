@@ -6,74 +6,80 @@
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="replace">
-                <field name="partner_id" nolabel="1" context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}" options='{"always_reload": True}'/>
+                <field name="partner_id" nolabel="1"
+                    context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}"
+                    options='{"always_reload": True}'/>
             </xpath>
         </field>
     </record>
 
-
-
-
     <record id="vpicktreeplanning_issu" model="ir.ui.view">
-        <field name="name">stock.picking.tree</field>
+        <field name="name">stock.picking.list</field>
         <field name="model">stock.picking</field>
         <field name="arch" type="xml">
-            <tree string="Picking list" js_class="lazy_column_list" multi_edit="1" sample="1" export_xlsx="1">
+            <list string="Picking list" js_class="lazy_column_list" multi_edit="1" sample="1" export_xlsx="1">
                 <header>
-                    <button name="do_unreserve" type="object" string="Annuler la réservation"/>
-                    <button name="action_assign" type="object" string="Vérifier la disponibilité"/>
-                    <button name="exp_button" string="Exporter les données" type="object" class="oe_highlight"/>
-
+                    <button name="do_unreserve" type="object" string="Unreserve"/>
+                    <button name="action_assign" type="object" string="Check Availability"/>
+                    <button name="exp_button" string="Export Data" type="object" class="oe_highlight"/>
                 </header>
                 <field name="priority" optional="show" widget="priority" nolabel="1"/>
                 <field name="name" decoration-bf="1"/>
-                <field name="location_id" options="{'no_create': True}" string="De" groups="stock.group_stock_multi_locations" optional="show"/>
-                <field name="location_dest_id" options="{'no_create': True}" string="A" groups="stock.group_stock_multi_locations" optional="show"/>
+                <field name="location_id" options="{'no_create': True}" string="From"
+                    groups="stock.group_stock_multi_locations" optional="show"/>
+                <field name="location_dest_id" options="{'no_create': True}" string="To"
+                    groups="stock.group_stock_multi_locations" optional="show"/>
                 <field name="partner_id" optional="show"/>
                 <field name="is_signed" string="Signed" optional="hide" groups="stock.group_stock_sign_delivery"/>
                 <field name="user_id" optional="hide" widget="many2one_avatar_user"/>
-                <field name="scheduled_date" optional="show" widget="remaining_days" attrs="{'invisible':[('state', 'in', ('done', 'cancel'))]}"/>
+                <field name="scheduled_date" optional="show" widget="remaining_days"
+                    invisible="state in ('done', 'cancel')"/>
                 <field name="picking_type_code" invisible="1"/>
                 <field name="products_availability_state" invisible="1" options='{"lazy": true}'/>
                 <field name="products_availability" options='{"lazy": true}'
-                       optional="hide"
-                       attrs="{'invisible': ['|', ('picking_type_code', '!=', 'outgoing'), ('state', 'not in', ['confirmed', 'waiting', 'assigned'])]}"
-                       decoration-success="state == 'assigned' or products_availability_state == 'available'"
-                       decoration-warning="state != 'assigned' and products_availability_state in ('expected', 'available')"
-                       decoration-danger="state != 'assigned' and products_availability_state == 'late'"/>
-                <field name="date_deadline" optional="hide" widget="remaining_days" attrs="{'invisible':[('state', 'in', ('done', 'cancel'))]}"/>
+                    optional="hide"
+                    invisible="picking_type_code != 'outgoing' or state not in ('confirmed', 'waiting', 'assigned')"
+                    decoration-success="state == 'assigned' or products_availability_state == 'available'"
+                    decoration-warning="state != 'assigned' and products_availability_state in ('expected', 'available')"
+                    decoration-danger="state != 'assigned' and products_availability_state == 'late'"/>
+                <field name="date_deadline" optional="hide" widget="remaining_days"
+                    invisible="state in ('done', 'cancel')"/>
                 <field name="date_done" string="Effective Date" optional="hide"/>
                 <field name="origin" optional="show"/>
                 <field name="backorder_id" optional="hide"/>
                 <field name="picking_type_id" optional="hide"/>
                 <field name="company_id" groups="base.group_multi_company" optional="show"/>
-                <field name="state" optional="show" widget="badge" decoration-success="state == 'done'" decoration-info="state not in ('done', 'cancel', 'draft')" decoration-muted="state == 'draft'"/>
+                <field name="state" optional="show" widget="badge"
+                    decoration-success="state == 'done'"
+                    decoration-info="state not in ('done', 'cancel', 'draft')"
+                    decoration-muted="state == 'draft'"/>
                 <field name="activity_exception_decoration" widget="activity_exception"/>
-                <field name="json_popover" nolabel="1" widget="stock_rescheduling_popover" attrs="{'invisible': [('json_popover', '=', False)]}"/>
-            </tree>
+                <field name="json_popover" nolabel="1" widget="stock_rescheduling_popover"
+                    invisible="not json_popover"/>
+            </list>
         </field>
     </record>
 
     <record id="stock_picking_action_picking_type_planing" model="ir.actions.act_window">
-        <field name="name">Problèmes de Planning</field>
+        <field name="name">Planning Issues</field>
         <field name="res_model">stock.picking</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="view_mode">tree,kanban,form,calendar</field>
+        <field name="view_mode">list,kanban,form,calendar</field>
         <field name="domain">['|', ('delay_alert_date', '!=', False), '&amp;', ('scheduled_date','&lt;', time.strftime('%Y-%m-%d %H:%M:%S')),'&amp;', ('picking_type_code', '=', 'incoming'), ('state', 'in', ('assigned', 'waiting', 'confirmed'))]</field>
-        <field name="context">{'contact_display': 'partner_address'}</field> <!--,'search_default_planning_issues':1}-->
+        <field name="context">{'contact_display': 'partner_address'}</field>
         <field name="view_id" ref="smt_stock.vpicktreeplanning_issu"/>
         <field name="search_view_id" ref="stock.view_picking_internal_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No transfer found. Let's create one!
-            </p><p>
-            Transfers allow you to move products from one location to another.
-        </p>
+            </p>
+            <p>Transfers allow you to move products from one location to another.</p>
         </field>
     </record>
 
-    <menuitem action="stock_picking_action_picking_type_planing" id="planning_issues_menu" parent="stock.menu_warehouse_report" sequence="142" groups="smt_stock.group_show_stock_picking_planing"/>
-
-
+    <menuitem action="stock_picking_action_picking_type_planing"
+        id="planning_issues_menu"
+        parent="stock.menu_warehouse_report"
+        sequence="142"
+        groups="smt_stock.group_show_stock_picking_planing"/>
 </odoo>
-

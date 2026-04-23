@@ -1,41 +1,39 @@
 # -*- coding: utf-8 -*-
-
-from ast import Store
-from odoo import models, fields, api
+from odoo import models, fields
 
 
-class HrEmployeeInherit(models.Model):
+class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
-    smt_phone = fields.Char(
-        string="Téléphone",
+    phone = fields.Char(
+        string="Phone",
         groups="hr.group_hr_user",
         store=True,
     )
-
     private_email = fields.Char(
-        string="Courriel",
+        string="Email",
         groups="hr.group_hr_user",
         store=True,
     )
+    cnaps = fields.Char(string="CNAPS No.")
+    ostie = fields.Char(string="OSTIE No.")
+    matricule = fields.Char(string="Employee ID")
+    classification_id = fields.Many2one('hr.classification', string="Classification")
+    children_ids = fields.One2many('hr.child', 'employe_id', string="Dependant Children", store=True)
 
-    cnaps = fields.Char()
-    ostie = fields.Char()
-    matricule = fields.Char()
-    classification_id = fields.Many2one('hr.classification')
-    children_ids = fields.One2many('hr.child', 'employe_id', string="Enfants à charge", store=1)
 
 class HrEmployeePublic(models.Model):
     _inherit = "hr.employee.public"
 
-    cnaps = fields.Char()
-    ostie = fields.Char()
-    matricule = fields.Char()
-    classification_id = fields.Many2one('hr.classification')
-    children_ids = fields.One2many('hr.child', 'employe_public_id', string="Enfants à charge", store=1)
+    cnaps = fields.Char(string="CNAPS No.")
+    ostie = fields.Char(string="OSTIE No.")
+    matricule = fields.Char(string="Employee ID")
+    classification_id = fields.Many2one('hr.classification', string="Classification")
+    children_ids = fields.One2many('hr.child', 'employe_public_id', string="Dependant Children", store=True)
 
 
-class HrEmployeeClassification(models.Model):
+class HrClassification(models.Model):
     _name = 'hr.classification'
+    _description = 'Employee Classification'
 
-    name = fields.Char()
+    name = fields.Char(string="Name", required=True)

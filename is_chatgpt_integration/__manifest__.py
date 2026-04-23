@@ -1,24 +1,22 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2020-Present InTechual Solutions. (<https://intechualsolutions.com/>)
-
 {
     'name': 'Odoo ChatGPT Integration',
-    'version': '15.0.1.0.1',
-    'license': 'AGPL-3',
+    'version': '19.0.1.0.0',
     'summary': 'Odoo ChatGPT Integration',
-    'description': 'Allows the application to leverage the capabilities of the GPT language model to generate human-like responses, providing a more natural and intuitive user experience',
-    'author': 'InTechual Solutions',
-    'company': 'InTechual Solutions',
-    'maintainer': 'InTechual Solutions',
-    'website': 'https://intechualsolutions.com',
-    'depends': ['base', 'base_setup', 'mail'],
+    'description': (
+        'Allows the application to leverage the capabilities of the GPT language model '
+        'to generate human-like responses in the Discuss module.'
+    ),
+    'author': 'InTechual Solutions / NEXOURCES',
+    'website': 'https://www.nexources.com',
+    'category': 'Discuss',
+    'depends': ['base', 'base_setup', 'mail', 'discuss'],
     'data': [
         'data/mail_channel_data.xml',
         'data/user_partner_data.xml',
         'views/res_config_settings_views.xml',
     ],
     'external_dependencies': {'python': ['openai']},
-    'images': ['static/description/main_screenshot.png'],
     'installable': True,
     'application': False,
     'auto_install': False,

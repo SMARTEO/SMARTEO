@@ -26,9 +26,7 @@ class StockWarehouse(models.Model):
         for warehouse in self.filtered("mts_mto_rule_id"):
             warehouse.mts_mto_rule_id.write(
                 {
-                    "name": warehouse.mts_mto_rule_id.name.replace(
-                        warehouse.name, new_name, 1
-                    ),
+                    "name": warehouse.mts_mto_rule_id.name.replace(warehouse.name, new_name, 1),
                 }
             )
         return res

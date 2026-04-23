@@ -16,8 +16,8 @@
             </field>
         </record>
         <record id="stock_account.stock_valuation_layer_action" model="ir.actions.act_window">
-            <field name="view_mode">tree,form,pivot</field>
-            <field name="view_id" ref="stock_account.stock_valuation_layer_tree" />
+            <field name="view_mode">list,form,pivot</field>
+            <field name="view_id" ref="stock_account.stock_valuation_layer_list"/>
         </record>
     </data>
 </odoo>

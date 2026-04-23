@@ -1,16 +1,11 @@
-<templates id="template" xml:space="preserve">
-    <t t-name="CustomWidget">
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="alpha_payslip.CustomWidget">
         <div>
             <div class="custom-dec">
-                <!-- <div class="pro-bar">
-                    <small class="progress_bar_title">
-                        <span class="progress_number" />
-                    </small>
-                    <span class="progress-bar-inner" />
-                </div> -->
-                <input type="text" id="name" name="name" maxlength="4" size="5" />
+                <input type="text" name="name" maxlength="4" size="5" t-att-value="displayValue"/>
                 <small>
-                    <span class="progress_number" />
+                    <span class="progress_number" t-out="displayValue"/>
                 </small>
             </div>
         </div>

@@ -1,10 +1,11 @@
-from odoo import api, fields, models, _
+# -*- coding: utf-8 -*-
+from odoo import api, fields, models
 
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    values = fields.Float(compute="_compute_values", string="Valeur total", store=False)
+    values = fields.Float(string="Total Value", compute="_compute_values", store=False)
 
     def _compute_values(self):
         for record in self:

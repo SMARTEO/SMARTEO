@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form" />
         <field name="arch" type="xml">
             <field name="support_document" position="after">
-                <field name="is_of_the_paid_leave_type" string="Est de type Congés payés"/>
+                <field name="is_of_the_paid_leave_type" string="Is Paid Leave Type"/>
             </field>
         </field>
     </record>

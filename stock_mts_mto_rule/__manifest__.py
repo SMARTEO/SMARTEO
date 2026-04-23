@@ -3,7 +3,9 @@
 {
     "name": "Stock MTS+MTO Rule",
     "summary": "Add a MTS+MTO route",
-    "version": "15.0.1.0.1",
+    # REPLACE THIS ENTIRE MODULE with the OCA v19 release:
+    # pip install git+https://github.com/OCA/stock-logistics-warehouse@19.0#subdirectory=stock_mts_mto_rule
+    "version": "19.0.1.0.1",
     "development_status": "Mature",
     "category": "Warehouse",
     "website": "https://github.com/OCA/stock-logistics-warehouse",

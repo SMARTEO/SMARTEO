@@ -1,36 +1,26 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Cybrosys Technologies Pvt. Ltd.
-#    Copyright (C) 2020-TODAY Cybrosys Technologies(<https://www.cybrosys.com>).
-#    Author: Niyas Raphy(<https://www.cybrosys.com>)
-#    you can modify it under the terms of the GNU LESSER
-#    GENERAL PUBLIC LICENSE (AGPL v3), Version 3.
-
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU LESSER GENERAL PUBLIC LICENSE (AGPL v3) for more details.
-#
-#    You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
-#    GENERAL PUBLIC LICENSE (AGPL v3) along with this program.
-#    If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-from odoo.addons.web.controllers import main
-from odoo.http import request
-from odoo.exceptions import Warning
 import odoo
 import odoo.modules.registry
-from odoo.tools.translate import _
+
 from odoo import http
+from odoo.http import request
+from odoo.exceptions import UserError
+from odoo.tools.translate import _
+
+# The Home controller and ensure_db() moved in v17+.
+try:
+    from odoo.addons.web.controllers.home import Home as HomeBase
+    from odoo.addons.web.controllers.utils import ensure_db
+except ImportError:
+    from odoo.addons.web.controllers.main import Home as HomeBase
+    from odoo.addons.web.controllers.main import ensure_db
 
 
-class Home(main.Home):
+class Home(HomeBase):
 
     @http.route('/web/login', type='http', auth="public")
     def web_login(self, redirect=None, **kw):
-        main.ensure_db()
+        ensure_db()
         request.params['login_success'] = False
         if request.httprequest.method == 'GET' and redirect and request.session.uid:
             return request.redirect(redirect)
@@ -43,44 +33,40 @@ class Home(main.Home):
             values['databases'] = http.db_list()
         except odoo.exceptions.AccessDenied:
             values['databases'] = None
+
         if request.httprequest.method == 'POST':
             old_uid = request.uid
-            ip_address = request.httprequest.environ['REMOTE_ADDR']
-            if request.params['login']:
-                user_rec = request.env['res.users'].sudo().search(
-                    [('login', '=', request.params['login'])])
+            ip_address = request.httprequest.environ.get('REMOTE_ADDR', '')
+            login = request.params.get('login')
+            if login:
+                user_rec = request.env['res.users'].sudo().search([('login', '=', login)])
                 if user_rec.allowed_ips:
-                    ip_list = []
-                    for rec in user_rec.allowed_ips:
-                        ip_list.append(rec.ip_address)
-                    if ip_address in ip_list:
+                    allowed = [rec.ip_address for rec in user_rec.allowed_ips]
+                    if ip_address in allowed:
                         try:
                             uid = request.session.authenticate(
                                 request.session.db,
-                                request.params[
-                                    'login'],
-                                request.params[
-                                    'password'])
+                                request.params['login'],
+                                request.params['password'],
+                            )
                             request.params['login_success'] = True
-                            return request.redirect(
-                                self._login_redirect(uid, redirect=redirect))
+                            return request.redirect(self._login_redirect(uid, redirect=redirect))
                         except odoo.exceptions.AccessDenied as e:
                             request.uid = old_uid
                             if e.args == odoo.exceptions.AccessDenied().args:
                                 values['error'] = _("Wrong login/password")
                     else:
                         request.uid = old_uid
-                        values['error'] = _("Not allowed to login from this IP")
+                        values['error'] = _("Not allowed to login from this IP address")
                 else:
                     try:
-                        uid = request.session.authenticate(request.session.db,
-                                                           request.params[
-                                                               'login'],
-                                                           request.params[
-                                                               'password'])
+                        uid = request.session.authenticate(
+                            request.session.db,
+                            request.params['login'],
+                            request.params['password'],
+                        )
                         request.params['login_success'] = True
-                        return request.redirect(
-                            self._login_redirect(uid, redirect=redirect))
+                        return request.redirect(self._login_redirect(uid, redirect=redirect))
                     except odoo.exceptions.AccessDenied as e:
                         request.uid = old_uid
                         if e.args == odoo.exceptions.AccessDenied().args:

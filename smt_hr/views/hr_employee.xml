@@ -1,41 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="hr_employee_form_inherit" model="ir.ui.view">
-            <field name="name">hr.employee.form.inherit</field>
-            <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr.view_employee_form" />
-            <field name="arch" type="xml">
-                <xpath expr="//notebook/page[@name='personal_information']/group/group/field[@name='phone']" position="replace">
-                    <field name="smt_phone" string="Téléphone" groups="hr.group_hr_user"/>
-                </xpath>
-                <xpath expr="//notebook/page[@name='personal_information']/group/group/field[@name='private_email']" position="attributes">
-                    <attribute name="readonly">False</attribute>
-                    <attribute name="force_save">1</attribute>
-                </xpath>
-                <xpath expr="//page[@name='personal_information']/group/group[5]" position="after">
-                    <group string="Information paie">
-                        <field name="ostie" string="N° OSTIE"/>
-                        <field name="cnaps" string="N° CNaPS"/>
-                        <field name="matricule" string="Matricule"/>
-                        <field name="classification_id" string="Classification"/>
-                    </group>
-                </xpath>
-                <xpath expr="//page[@name='hr_settings']" position="before">
-                    <page name="childs" string="Enfants à charge">
-                        <field name="children_ids">
-                            <tree string="Enfants à charge" editable="bottom">
-                                <control>
-                                    <create name="add_line_control" string="Ajouter une ligne"/>
-                                </control>
-                                <field name="name"/>
-                                <field name="birthday"/>
-                                <field name="child_age" readonly="1" decoration-danger="child_age > 21"/>
-                                <field name="state" string="Etat" widget="badge" decoration-info="state == 'dependent'" decoration-danger="state == 'not_dependent'" readonly="1"/>
-                            </tree>
-                        </field>
-                    </page>
-                </xpath>
-            </field>
-        </record>
-    </data>
+    <record id="hr_employee_form_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='personal_information']/group/group/field[@name='phone']" position="attributes">
+                <attribute name="readonly">False</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[@name='personal_information']/group/group/field[@name='private_email']" position="attributes">
+                <attribute name="readonly">False</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='personal_information']/group/group[5]" position="after">
+                <group string="Payroll Information">
+                    <field name="ostie" string="OSTIE No."/>
+                    <field name="cnaps" string="CNAPS No."/>
+                    <field name="matricule" string="Employee ID"/>
+                    <field name="classification_id" string="Classification"/>
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='hr_settings']" position="before">
+                <page name="children" string="Dependant Children">
+                    <field name="children_ids">
+                        <list string="Dependant Children" editable="bottom">
+                            <control>
+                                <create name="add_line_control" string="Add a line"/>
+                            </control>
+                            <field name="name"/>
+                            <field name="birthday"/>
+                            <field name="child_age" readonly="1" decoration-danger="child_age > 21"/>
+                            <field name="state" string="Status" widget="badge"
+                                decoration-info="state == 'dependent'"
+                                decoration-danger="state == 'not_dependent'"
+                                readonly="1"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
 </odoo>

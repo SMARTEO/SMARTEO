@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="hr_contract_view_form_inherit" model="ir.ui.view">
-            <field name="name">hr_contract.hr_contract_view_form.inherited</field>
-            <field name="model">hr.contract</field>
-            <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
-            <field name="priority" eval="8" />
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='hr_responsible_id']" position="after">
-                    <field name="classification_id" string="Catégorie de contrat"/>
-                </xpath>
-                <xpath expr="//page[@name='information']" position="inside">
-                    <group name="salary_info">
-                        <group>
-                            <label for="hour_per_week" />
-                            <div class="o_row" name="wage">
-                                <field name="hour_per_week" nolabel="1" />
-                                <span> heures / semaine</span>
-                            </div>
-                            <field name="base_salary" />
-                            <label for="hourly_salary" />
-                            <div class="o_row" name="wage">
-                                <field name="hourly_salary" nolabel="1" />
-                                <span> / heure</span>
-                            </div>
-
-                            <field name="month_12_last_salary" />
-                            <field name="allow_transport" />
-                            <field name="allow_family" />
-                            <field name="allow_logement" />
-                            <field name="other_allow" />
-                        </group>
+    <record id="hr_contract_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr_contract.hr_contract_view_form.inherited</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='hr_responsible_id']" position="after">
+                <field name="classification_id" string="Classification"/>
+            </xpath>
+            <xpath expr="//page[@name='information']" position="inside">
+                <group name="salary_info">
+                    <group>
+                        <label for="hour_per_week"/>
+                        <div class="o_row" name="hours_row">
+                            <field name="hour_per_week" nolabel="1"/>
+                            <span> hours / week</span>
+                        </div>
+                        <field name="base_salary"/>
+                        <label for="hourly_salary"/>
+                        <div class="o_row" name="hourly_row">
+                            <field name="hourly_salary" nolabel="1"/>
+                            <span> / hour</span>
+                        </div>
+                        <field name="month_12_last_salary"/>
+                        <field name="allow_transport"/>
+                        <field name="allow_family"/>
+                        <field name="allow_logement"/>
+                        <field name="other_allow"/>
                     </group>
-                </xpath>
-                <xpath expr="//group[@name='salary']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-            </field>
-        </record>
-    </data>
+                </group>
+            </xpath>
+            <xpath expr="//group[@name='salary']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
 </odoo>

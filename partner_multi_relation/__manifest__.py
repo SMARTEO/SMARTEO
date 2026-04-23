@@ -2,7 +2,9 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
     "name": "Partner Relations",
-    "version": "15.0.1.0.1",
+    # REPLACE THIS ENTIRE MODULE with the OCA v19 release:
+    # pip install git+https://github.com/OCA/partner-contact@19.0#subdirectory=partner_multi_relation
+    "version": "19.0.1.0.1",
     "author": "Therp BV,Camptocamp,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/partner-contact",
     "complexity": "normal",
