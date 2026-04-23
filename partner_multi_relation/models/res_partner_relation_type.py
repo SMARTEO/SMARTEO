@@ -3,7 +3,7 @@
 """Define the type of relations that can exist between partners."""
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.osv.expression import AND, OR
+from odoo.fields import Domain
 
 HANDLE_INVALID_ONCHANGE = [
     ("restrict", _("Do not allow change that will result in invalid relations")),
@@ -120,16 +120,19 @@ class ResPartnerRelationType(models.Model):
                 continue
             invalid_conditions = []
             for side in ["left", "right"]:
-                invalid_conditions = OR(
-                    [invalid_conditions, get_type_condition(vals, side)]
-                )
-                invalid_conditions = OR(
-                    [invalid_conditions, get_category_condition(vals, side)]
-                )
+                type_cond = get_type_condition(vals, side)
+                if type_cond:
+                    invalid_conditions.append(type_cond)
+                cat_cond = get_category_condition(vals, side)
+                if cat_cond:
+                    invalid_conditions.append(cat_cond)
             if not invalid_conditions:
                 return
             # only look at relations for this type
-            invalid_domain = AND([[("type_id", "=", this.id)], invalid_conditions])
+            invalid_domain = Domain.AND([
+                [("type_id", "=", this.id)],
+                Domain.OR(invalid_conditions),
+            ])
             invalid_relations = relation_model.with_context(active_test=False).search(
                 invalid_domain
             )

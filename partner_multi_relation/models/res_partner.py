@@ -4,7 +4,8 @@
 import numbers
 
 from odoo import _, api, exceptions, fields, models
-from odoo.osv.expression import FALSE_LEAF, OR, is_leaf
+from odoo.fields import Domain
+from odoo.osv.expression import FALSE_LEAF, is_leaf
 
 
 class ResPartner(models.Model):
@@ -21,7 +22,6 @@ class ResPartner(models.Model):
         comodel_name="res.partner.relation.all",
         inverse_name="this_partner_id",
         string="All relations with current partner",
-        auto_join=True,
         search=False,
         copy=False,
     )
@@ -61,7 +61,6 @@ class ResPartner(models.Model):
     @api.model
     def _search_relation_type_id(self, operator, value):
         """Search partners based on their type of relations."""
-        result = []
         SUPPORTED_OPERATORS = (
             "=",
             "!=",
@@ -93,15 +92,12 @@ class ResPartner(models.Model):
                 ]
             )
         if not relation_type_selection:
-            result = [FALSE_LEAF]
-        for relation_type in relation_type_selection:
-            result = OR(
-                [
-                    result,
-                    [("relation_all_ids.type_selection_id.id", "=", relation_type.id)],
-                ]
-            )
-        return result
+            return [FALSE_LEAF]
+        conditions = [
+            [("relation_all_ids.type_selection_id.id", "=", rt.id)]
+            for rt in relation_type_selection
+        ]
+        return list(Domain.OR(conditions))
 
     @api.model
     def _search_related_partner_id(self, operator, value):
