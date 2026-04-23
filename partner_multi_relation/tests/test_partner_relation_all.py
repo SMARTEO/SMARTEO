@@ -10,7 +10,7 @@ from .test_partner_relation_common import TestPartnerRelationCommon
 
 class TestPartnerRelation(TestPartnerRelationCommon):
     def setUp(self):
-        super(TestPartnerRelation, self).setUp()
+        super().setUp()
 
         # Create a new relation type which will not have valid relations:
         category_nobody = self.category_model.create({"name": "Nobody"})
@@ -56,8 +56,8 @@ class TestPartnerRelation(TestPartnerRelationCommon):
         self.assertTrue(relation)
         self.assertEqual(relation.this_partner_id, self.partner_02_company)
         # Partner should have one relation now:
-        relation.invalidate_cache(None, relation.ids)
-        self.partner_01_person.flush()
+        relation.invalidate_recordset()
+        self.partner_01_person.flush_recordset()
         self.assertEqual(self.partner_01_person.relation_count, 1)
         # Test create without type_selection_id:
         with self.assertRaises(ValidationError):
@@ -73,12 +73,8 @@ class TestPartnerRelation(TestPartnerRelationCommon):
         relation = self._create_company2person_relation()
         self.assertEqual(
             relation.display_name,
-            "%s %s %s"
-            % (
-                relation.this_partner_id.name,
-                relation.type_selection_id.name,
-                relation.other_partner_id.name,
-            ),
+            f"{relation.this_partner_id.name} {relation.type_selection_id.name} "
+            f"{relation.other_partner_id.name}",
         )
 
     def test_regular_write(self):
@@ -177,12 +173,8 @@ class TestPartnerRelation(TestPartnerRelationCommon):
         # Check wether display name is what we should expect:
         self.assertEqual(
             relation.display_name,
-            "%s %s %s"
-            % (
-                self.partner_01_person.name,
-                self.selection_person2company.name,
-                self.partner_02_company.name,
-            ),
+            f"{self.partner_01_person.name} {self.selection_person2company.name} "
+            f"{self.partner_02_company.name}",
         )
 
     def test_inverse_creation_type_id(self):
@@ -198,12 +190,8 @@ class TestPartnerRelation(TestPartnerRelationCommon):
         # Check wether display name is what we should expect:
         self.assertEqual(
             relation.display_name,
-            "%s %s %s"
-            % (
-                self.partner_01_person.name,
-                self.selection_person2company.name,
-                self.partner_02_company.name,
-            ),
+            f"{self.partner_01_person.name} {self.selection_person2company.name} "
+            f"{self.partner_02_company.name}",
         )
 
     def test_unlink(self):
@@ -263,8 +251,8 @@ class TestPartnerRelation(TestPartnerRelationCommon):
         self.assertTrue("incompatible" in warning["message"])
         # Allow left partner and check message for other partner:
         self.type_nobody.write({"partner_category_left": False})
-        self.type_nobody.flush()
-        self.selection_nobody.invalidate_cache(ids=self.selection_nobody.ids)
+        self.type_nobody.flush_recordset()
+        self.selection_nobody.invalidate_recordset()
         warning = relation_nobody.onchange_type_selection_id()["warning"]
         self.assertTrue("message" in warning)
         self.assertTrue("No other partner available" in warning["message"])

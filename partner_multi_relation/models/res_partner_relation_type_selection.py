@@ -1,4 +1,4 @@
-# Copyright 2013-2017 Therp BV <http://therp.nl>
+# Copyright 2013-2022 Therp BV <http://therp.nl>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 """
 For the model defined here _auto is set to False to prevent creating a
@@ -12,6 +12,7 @@ normally (if _auto == True) not only creates the db tables, but it also takes
 care of registering all fields in ir_model_fields. This is needed to make
 the field labels translatable.
 """
+
 from psycopg2.extensions import AsIs
 
 from odoo import api, fields, models
@@ -36,7 +37,7 @@ class ResPartnerRelationTypeSelection(models.Model):
         return rprt_model.get_partner_types()
 
     type_id = fields.Many2one(comodel_name="res.partner.relation.type")
-    name = fields.Char()
+    name = fields.Char(required=True, translate=True)
     contact_type_this = fields.Selection(
         selection="get_partner_types", string="Current record's partner type"
     )
@@ -118,25 +119,23 @@ CREATE OR REPLACE VIEW %(table)s AS
                 "additional_tables": AsIs(self._get_additional_tables()),
             },
         )
-        return super(ResPartnerRelationTypeSelection, self)._auto_init()
+        return super()._auto_init()
 
-    def name_get(self):
+    @api.depends("is_inverse", "type_id.name_inverse", "type_id.display_name")
+    def _compute_display_name(self):
         """Get name or name_inverse from underlying model."""
-        return [
-            (
-                this.id,
+        for this in self:
+            this.display_name = (
                 this.is_inverse
                 and this.type_id.name_inverse
-                or this.type_id.display_name,
+                or this.type_id.display_name
             )
-            for this in self
-        ]
 
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
         """Search for name or inverse name in underlying model."""
         # pylint: disable=no-value-for-parameter
-        return self.search(
+        records = self.search(
             [
                 "|",
                 ("type_id.name", operator, name),
@@ -144,4 +143,5 @@ CREATE OR REPLACE VIEW %(table)s AS
             ]
             + (args or []),
             limit=limit,
-        ).name_get()
+        )
+        return [(record.id, record.display_name) for record in records]

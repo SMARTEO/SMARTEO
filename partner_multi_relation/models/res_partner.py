@@ -1,11 +1,13 @@
-# Copyright 2013-2017 Therp BV <http://therp.nl>
+# Copyright 2013-2022 Therp BV <http://therp.nl>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 """Support connections between partners."""
+
 import numbers
 
-from odoo import _, api, exceptions, fields, models
+from odoo import api, exceptions, fields, models
 from odoo.fields import Domain
 from odoo.osv.expression import FALSE_LEAF, is_leaf
+from odoo.tools.safe_eval import safe_eval
 
 
 class ResPartner(models.Model):
@@ -13,8 +15,6 @@ class ResPartner(models.Model):
     in various ways.
     """
 
-    # pylint: disable=invalid-name
-    # pylint: disable=no-member
     _inherit = "res.partner"
 
     relation_count = fields.Integer(compute="_compute_relation_count")
@@ -73,7 +73,7 @@ class ResPartner(models.Model):
         )
         if operator not in SUPPORTED_OPERATORS:
             raise exceptions.ValidationError(
-                _('Unsupported search operator "%s"') % operator
+                self.env._('Unsupported search operator "%s"', operator)
             )
         type_selection_model = self.env["res.partner.relation.type.selection"]
         relation_type_selection = []
@@ -126,7 +126,7 @@ class ResPartner(models.Model):
         return [("relation_all_ids.other_partner_id.category_id", operator, value)]
 
     @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
+    def search(self, args, offset=0, limit=None, order=None):
         """Inject searching for current relation date if we search for
         relation properties and no explicit date was given.
         """
@@ -144,7 +144,6 @@ class ResPartner(models.Model):
                     break
                 if not date_args:
                     date_args = [("search_relation_date", "=", fields.Date.today())]
-        # because of auto_join, we have to do the active test by hand
         active_args = []
         if self.env.context.get("active_test", True):
             for arg in args:
@@ -155,12 +154,11 @@ class ResPartner(models.Model):
                 ):
                     active_args = [("relation_all_ids.active", "=", True)]
                     break
-        return super(ResPartner, self).search(
+        return super().search(
             args + date_args + active_args,
             offset=offset,
             limit=limit,
             order=order,
-            count=count,
         )
 
     def get_partner_type(self):
@@ -173,30 +171,24 @@ class ResPartner(models.Model):
 
     def action_view_relations(self):
         for contact in self:
-            relation_model = self.env["res.partner.relation.all"]
-            relation_ids = relation_model.search(
-                [
-                    "|",
-                    ("this_partner_id", "=", contact.id),
-                    ("other_partner_id", "=", contact.id),
-                ]
-            )
             action = self.env["ir.actions.act_window"]._for_xml_id(
                 "partner_multi_relation.action_res_partner_relation_all"
             )
-            action["domain"] = [("id", "in", relation_ids.ids)]
-            context = action.get("context", "{}").strip()[1:-1]
-            elements = context.split(",") if context else []
-            to_add = [
-                """'search_default_this_partner_id': {0},
-                        'default_this_partner_id': {0},
-                        'active_model': 'res.partner',
-                        'active_id': {0},
-                        'active_ids': [{0}],
-                        'active_test': False""".format(
-                    contact.id
-                )
+            action["domain"] = [
+                "|",
+                ("this_partner_id", "=", contact.id),
+                ("other_partner_id", "=", contact.id),
             ]
-            context = "{" + ", ".join(elements + to_add) + "}"
-            action["context"] = context
+            context = safe_eval(action.get("context", "{}"))
+            context.update(
+                {
+                    "search_default_this_partner_id": contact.id,
+                    "default_this_partner_id": contact.id,
+                    "active_model": "res.partner",
+                    "active_id": contact.id,
+                    "active_ids": contact.ids,
+                    "active_test": False,
+                }
+            )
+            action["context"] = str(context)
             return action

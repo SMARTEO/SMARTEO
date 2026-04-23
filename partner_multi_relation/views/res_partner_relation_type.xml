@@ -29,10 +29,7 @@
                             name="right"
                             invisible="is_symmetric"
                         >
-                            <field
-                                name="name_inverse"
-                                required="not is_symmetric"
-                            />
+                            <field name="name_inverse" required="not is_symmetric" />
                             <field name="contact_type_right" />
                             <field name="partner_category_right" />
                         </group>

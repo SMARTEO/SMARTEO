@@ -1,8 +1,9 @@
-# Copyright 2013-2017 Therp BV <http://therp.nl>
+# Copyright 2013-2022 Therp BV <http://therp.nl>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 # pylint: disable=api-one-deprecated
 """Store relations (connections) between partners."""
-from odoo import _, api, fields, models
+
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -39,13 +40,14 @@ class ResPartnerRelation(models.Model):
     date_start = fields.Date("Starting date")
     date_end = fields.Date("Ending date")
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """Override create to correct values, before being stored."""
-        context = self.env.context
-        if "left_partner_id" not in vals and context.get("active_id"):
-            vals["left_partner_id"] = context.get("active_id")
-        return super(ResPartnerRelation, self).create(vals)
+        active_id = self.env.context.get("active_id")
+        for vals in vals_list:
+            if "left_partner_id" not in vals and active_id:
+                vals["left_partner_id"] = active_id
+        return super().create(vals_list)
 
     @api.constrains("date_start", "date_end")
     def _check_dates(self):
@@ -60,7 +62,7 @@ class ResPartnerRelation(models.Model):
                 and record.date_start > record.date_end
             ):
                 raise ValidationError(
-                    _("The starting date cannot be after the ending date.")
+                    self.env._("The starting date cannot be after the ending date.")
                 )
 
     @api.constrains("left_partner_id", "type_id")
@@ -86,22 +88,31 @@ class ResPartnerRelation(models.Model):
         :raises ValidationError: When constraint is violated
         """
         for record in self:
-            assert side in ["left", "right"]
-            ptype = getattr(record.type_id, "contact_type_%s" % side)
-            partner = getattr(record, "%s_partner_id" % side)
+            if side not in ["left", "right"]:
+                raise ValidationError(
+                    self.env._(
+                        'Programming error: Argument "side" of method "_check_partner"'
+                        ' can just be called with a value of "left" or "right".',
+                    ),
+                )
+            ptype = getattr(record.type_id, f"contact_type_{side}")
+            partner = getattr(record, f"{side}_partner_id")
             if (ptype == "c" and not partner.is_company) or (
                 ptype == "p" and partner.is_company
             ):
                 raise ValidationError(
-                    _("The %s partner is not applicable for this " "relation type.")
-                    % side
+                    self.env._(
+                        "The %s partner is not applicable for this relation type.", side
+                    )
                 )
-            category = getattr(record.type_id, "partner_category_%s" % side)
+            category = getattr(record.type_id, f"partner_category_{side}")
             if category and category.id not in partner.category_id.ids:
                 raise ValidationError(
-                    _(
-                        "The {partner} partner does not have category {category}."
-                    ).format(partner=side, category=category.name)
+                    self.env._(
+                        "The %s partner does not have category %s.",
+                        side,
+                        category.name,
+                    )
                 )
 
     @api.constrains("left_partner_id", "right_partner_id")
@@ -114,7 +125,7 @@ class ResPartnerRelation(models.Model):
             if record.left_partner_id == record.right_partner_id:
                 if not (record.type_id and record.type_id.allow_self):
                     raise ValidationError(
-                        _("Partners cannot have a relation with themselves.")
+                        self.env._("Partners cannot have a relation with themselves.")
                     )
 
     @api.constrains(
@@ -126,23 +137,12 @@ class ResPartnerRelation(models.Model):
 
         :raises ValidationError: When constraint is violated
         """
-        # pylint: disable=no-member
-        # pylint: disable=no-value-for-parameter
         for record in self:
-            domain = []
-            if record.type_id.is_symmetric:
-                domain = [
-                    "|",
-                    "&",
-                    ("left_partner_id", "=", record.right_partner_id.id),
-                    ("right_partner_id", "=", record.left_partner_id.id),
-                ]
-            domain += [
-                "&",
-                ("left_partner_id", "=", record.left_partner_id.id),
-                ("right_partner_id", "=", record.right_partner_id.id),
+            domain = [
                 ("type_id", "=", record.type_id.id),
                 ("id", "!=", record.id),
+                ("left_partner_id", "=", record.left_partner_id.id),
+                ("right_partner_id", "=", record.right_partner_id.id),
             ]
             if record.date_start:
                 domain += [
@@ -158,5 +158,7 @@ class ResPartnerRelation(models.Model):
                 ]
             if record.search(domain):
                 raise ValidationError(
-                    _("There is already a similar relation with " "overlapping dates")
+                    self.env._(
+                        "There is already a similar relation with overlapping dates"
+                    )
                 )

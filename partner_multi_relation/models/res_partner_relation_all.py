@@ -1,4 +1,4 @@
-# Copyright 2014-2018 Therp BV <http://therp.nl>
+# Copyright 2014-2022 Therp BV <http://therp.nl>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 # pylint: disable=method-required-super
 import collections
@@ -6,7 +6,7 @@ import logging
 
 from psycopg2.extensions import AsIs
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import MissingError, ValidationError
 from odoo.tools import drop_view_if_exists
 
@@ -137,24 +137,22 @@ class ResPartnerRelationAll(models.Model):
         union_select = " UNION ".join(
             [register[key]["select_sql"] for key in register if key != "_lastkey"]
         )
-        return """\
-CREATE OR REPLACE VIEW %%(table)s AS
-     WITH base_selection AS (%(union_select)s)
- SELECT
-     bas.*,
-     CASE
-         WHEN NOT bas.is_inverse OR typ.is_symmetric
-         THEN bas.type_id * 2
-         ELSE (bas.type_id * 2) + 1
-     END as type_selection_id,
-     (bas.date_end IS NULL OR bas.date_end >= current_date) AS active
-     %%(additional_view_fields)s
- FROM base_selection bas
- JOIN res_partner_relation_type typ ON (bas.type_id = typ.id)
- %%(additional_tables)s
-        """ % {
-            "union_select": union_select
-        }
+        return f"""\
+            CREATE OR REPLACE VIEW %(table)s AS
+                 WITH base_selection AS ({union_select})
+             SELECT
+                 bas.*,
+                 CASE
+                     WHEN NOT bas.is_inverse OR typ.is_symmetric
+                     THEN bas.type_id * 2
+                     ELSE (bas.type_id * 2) + 1
+                 END as type_selection_id,
+                 (bas.date_end IS NULL OR bas.date_end >= current_date) AS active
+                 %(additional_view_fields)s
+             FROM base_selection bas
+             JOIN res_partner_relation_type typ ON (bas.type_id = typ.id)
+             %(additional_tables)s
+                    """
 
     def _get_padding(self):
         """Utility function to define padding in one place."""
@@ -199,7 +197,7 @@ CREATE OR REPLACE VIEW %%(table)s AS
                 "additional_tables": AsIs(self._get_additional_tables()),
             },
         )
-        return super(ResPartnerRelationAll, self)._auto_init()
+        return super()._auto_init()
 
     @api.model
     def _search_any_partner_id(self, operator, value):
@@ -211,16 +209,17 @@ CREATE OR REPLACE VIEW %%(table)s AS
             ("other_partner_id", operator, value),
         ]
 
-    def name_get(self):
-        return {
-            this.id: "%s %s %s"
-            % (
-                this.this_partner_id.name,
-                this.type_selection_id.display_name,
-                this.other_partner_id.name,
+    @api.depends(
+        "this_partner_id.name",
+        "type_selection_id.display_name",
+        "other_partner_id.name",
+    )
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = (
+                f"{record.this_partner_id.name} {record.type_selection_id.display_name}"
+                f" {record.other_partner_id.name}"
             )
-            for this in self
-        }
 
     @api.onchange("type_selection_id")
     def onchange_type_selection_id(self):
@@ -238,14 +237,14 @@ CREATE OR REPLACE VIEW %%(table)s AS
             partner_model = self.env["res.partner"]
             partners_found = partner_model.search(test_domain, limit=1)
             if not partners_found:
-                warning["title"] = _("Error!")
+                warning["title"] = self.env._("Error!")
                 if partner:
-                    warning["message"] = (
-                        _("%s partner incompatible with relation type.") % side.title()
+                    warning["message"] = self.env._(
+                        "%s partner incompatible with relation type.", side.title()
                     )
                 else:
-                    warning["message"] = (
-                        _("No %s partner available for relation type.") % side
+                    warning["message"] = self.env._(
+                        "No %s partner available for relation type.", side
                     )
             return warning
 
@@ -290,10 +289,12 @@ CREATE OR REPLACE VIEW %%(table)s AS
                 )
                 if this_partner_id:
                     this_partner = partner_model.browse(this_partner_id)
-            warning = check_partner_domain(this_partner, this_partner_domain, _("this"))
+            warning = check_partner_domain(
+                this_partner, this_partner_domain, self.env._("this")
+            )
         if not warning and other_partner_domain:
             warning = check_partner_domain(
-                self.other_partner_id, other_partner_domain, _("other")
+                self.other_partner_id, other_partner_domain, self.env._("other")
             )
         if warning:
             result["warning"] = warning
@@ -318,8 +319,8 @@ CREATE OR REPLACE VIEW %%(table)s AS
             type_model = self.env["res.partner.relation.type.selection"]
             types_found = type_model.search(test_domain, limit=1)
             if not types_found:
-                warning["title"] = _("Error!")
-                warning["message"] = _(
+                warning["title"] = self.env._("Error!")
+                warning["message"] = self.env._(
                     "Relation type incompatible with selected partner(s)."
                 )
             return warning
@@ -392,7 +393,7 @@ CREATE OR REPLACE VIEW %%(table)s AS
         relation_model = self.env["res.partner.relation"]
         assert self.res_model == relation_model._name
         base_resource.write(vals)
-        base_resource.flush()
+        base_resource.flush_recordset()
 
     @api.model
     def _get_type_selection_from_vals(self, vals):
@@ -419,7 +420,7 @@ CREATE OR REPLACE VIEW %%(table)s AS
             rec.write_resource(base_resource, vals)
         # Invalidate cache to make res.partner.relation.all reflect changes
         # in underlying res.partner.relation:
-        self.invalidate_cache(None, self.ids)
+        self.invalidate_recordset()
         return True
 
     @api.model
@@ -436,24 +437,31 @@ CREATE OR REPLACE VIEW %%(table)s AS
         )["key_offset"]
         return base_resource.id * self._get_padding() + key_offset
 
-    @api.model
-    def create_resource(self, vals, type_selection):
-        relation_model = self.env["res.partner.relation"]
-        return relation_model.create(vals)
-
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """Divert non-problematic creates to underlying table.
 
         Create a res.partner.relation but return the converted id.
         """
-        type_selection = self._get_type_selection_from_vals(vals)
-        if not type_selection:  # Should not happen
-            raise ValidationError(_("No relation type specified in vals: %s.") % vals)
-        vals = self._correct_vals(vals, type_selection)
-        base_resource = self.create_resource(vals, type_selection)
-        res_id = self._compute_id(base_resource, type_selection)
-        return self.browse(res_id)
+        corrected_vals = []
+        type_selections = []
+        for vals in vals_list:
+            type_selection = self._get_type_selection_from_vals(vals)
+            if not type_selection:  # Should not happen
+                raise ValidationError(
+                    self.env._("No relation type specified in vals: %s.", vals)
+                )
+            corrected_vals.append(self._correct_vals(vals, type_selection))
+            type_selections.append(type_selection)
+        relations = self._create_relations(corrected_vals)
+        relation_ids = []
+        for count, relation in enumerate(relations):
+            relation_ids.append(self._compute_id(relation, type_selections[count]))
+        return self.browse(relation_ids)
+
+    def _create_relations(self, vals_list):
+        relation_model = self.env["res.partner.relation"]
+        return relation_model.create(vals_list)
 
     def unlink_resource(self, base_resource):
         """Delegate unlink to underlying model."""
