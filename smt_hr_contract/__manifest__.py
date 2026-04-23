@@ -6,7 +6,7 @@
     'website': "https://www.nexources.com",
     'category': 'Human Resources',
     'version': '19.0.1.0.0',
-    'depends': ['base', 'hr_contract', 'hr_payroll'],
+    'depends': ['base', 'hr', 'hr_payroll'],
     'data': [
         'views/hr_contract_view.xml',
     ],

@@ -28,7 +28,7 @@
                             <field name="currency_salary_rule_base" readonly="0"/>
                         </div>
                     </div>
-                    <group colspan="4">
+                    <group>
                         <field name="is_total" widget="boolean_toggle" string="Total" />
                     </group>
                 </xpath>

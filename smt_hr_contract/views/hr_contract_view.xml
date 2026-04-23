@@ -1,37 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="hr_contract_view_form_inherit" model="ir.ui.view">
-        <field name="name">hr_contract.hr_contract_view_form.inherited</field>
-        <field name="model">hr.contract</field>
-        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="name">hr_contract.hr_employee_view_form.inherited</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="priority" eval="8"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='hr_responsible_id']" position="after">
+            <!-- Add classification after the hr_responsible_id field (Settings tab) -->
+            <xpath expr="//page[@name='hr_settings']//group[@name='managers']/field[@name='hr_responsible_id']" position="after">
                 <field name="classification_id" string="Classification"/>
             </xpath>
-            <xpath expr="//page[@name='information']" position="inside">
-                <group name="salary_info">
-                    <group>
-                        <label for="hour_per_week"/>
-                        <div class="o_row" name="hours_row">
-                            <field name="hour_per_week" nolabel="1"/>
-                            <span> hours / week</span>
-                        </div>
-                        <field name="base_salary"/>
-                        <label for="hourly_salary"/>
-                        <div class="o_row" name="hourly_row">
-                            <field name="hourly_salary" nolabel="1"/>
-                            <span> / hour</span>
-                        </div>
-                        <field name="month_12_last_salary"/>
-                        <field name="allow_transport"/>
-                        <field name="allow_family"/>
-                        <field name="allow_logement"/>
-                        <field name="other_allow"/>
-                    </group>
-                </group>
+            <!-- Add salary breakdown in the Payroll tab, after the schedule separator -->
+            <xpath expr="//page[@name='payroll_information']//group[@name='contract']//separator[@name='schedule']" position="after">
+                <separator string="Salary Breakdown"/>
+                <field name="base_salary"/>
+                <label for="hourly_salary"/>
+                <div class="o_row" name="hourly_row">
+                    <field name="hourly_salary" nolabel="1"/>
+                    <span> / hour</span>
+                </div>
+                <field name="month_12_last_salary"/>
+                <field name="allow_transport"/>
+                <field name="allow_family"/>
+                <field name="allow_logement"/>
+                <field name="other_allow"/>
             </xpath>
-            <xpath expr="//group[@name='salary']" position="attributes">
+            <!-- Hide the standard wage row since wage is computed from base_salary -->
+            <xpath expr="//page[@name='payroll_information']//div[@name='wage']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
         </field>

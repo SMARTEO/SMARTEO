@@ -16,7 +16,7 @@
                 <field name="is_can_modif_all_balance" invisible="1"/>
             </xpath>
             <xpath expr="//sheet/group[1]" position="after">
-                <group string="Paid Leave Situation" col="8">
+                <group string="Paid Leave Situation">
                     <field name="previous_paid_leave_balance" string="Previous Balance"
                         readonly="not is_can_modif_all_balance"/>
                     <field name="gain_on_current_month" string="Monthly Accrual"/>
@@ -38,7 +38,7 @@
                 <field name="base"/>
             </xpath>
             <xpath expr="//field[@name='warning_message']" position="after">
-                <group col="4">
+                <group>
                     <field name="balance_to_date" string="Balance to Date" readonly="1"/>
                     <field name="gain_on_current_month" string="Monthly Accrual"/>
                     <field name="balance_on_pay_slip" string="Balance on Payslip"/>

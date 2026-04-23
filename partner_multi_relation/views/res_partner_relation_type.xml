@@ -27,17 +27,17 @@
                         <group
                             string="Right side of relation"
                             name="right"
-                            attrs="{'invisible': [('is_symmetric', '=', True)]}"
+                            invisible="is_symmetric"
                         >
                             <field
                                 name="name_inverse"
-                                attrs="{'required': [('is_symmetric', '=', False)]}"
+                                required="not is_symmetric"
                             />
                             <field name="contact_type_right" />
                             <field name="partner_category_right" />
                         </group>
                     </group>
-                    <group name="properties" string="Properties" colspan="6" col="4">
+                    <group name="properties" string="Properties">
                         <field name="allow_self" />
                         <field name="is_symmetric" />
                         <field name="handle_invalid_onchange" />

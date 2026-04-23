@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from ast import Break
 from odoo import fields, models, api, _
 
 
@@ -52,7 +51,7 @@ class HrPayslipInheritHeureSup(models.Model):
             res += rec.heure_sup_s4
             if rec.nombre_de_semaine == "cinq":
                 res += rec.heure_sup_s5
-            rec.sudo().write({"total_heure_sup": res})
+            rec.total_heure_sup = res
 
     heure_nuit_hab_s1 = fields.Float(string="Heure nuit habituelles S1", default=0.0)
     heure_nuit_hab_s2 = fields.Float(string="Heure nuit habituelles S2", default=0.0)
@@ -83,7 +82,7 @@ class HrPayslipInheritHeureSup(models.Model):
             res += rec.heure_nuit_hab_s4
             if rec.nombre_de_semaine == "cinq":
                 res += rec.heure_nuit_hab_s5
-            rec.sudo().write({"total_heure_nuit_hab": res})
+            rec.total_heure_nuit_hab = res
 
     heure_nuit_occ_s1 = fields.Float(string="Heure nuit occasionnelles S1", default=0.0)
     heure_nuit_occ_s2 = fields.Float(string="Heure nuit occasionnelles S2", default=0.0)
@@ -114,7 +113,7 @@ class HrPayslipInheritHeureSup(models.Model):
             res += rec.heure_nuit_occ_s4
             if rec.nombre_de_semaine == "cinq":
                 res += rec.heure_nuit_occ_s5
-            rec.sudo().write({"total_heure_nuit_occ": res})
+            rec.total_heure_nuit_occ = res
 
     heure_sup_dimanche_s1 = fields.Float(
         string="Heures travaillées le dimanche S1", default=0.0
@@ -155,7 +154,7 @@ class HrPayslipInheritHeureSup(models.Model):
             res += rec.heure_sup_dimanche_s4
             if rec.nombre_de_semaine == "cinq":
                 res += rec.heure_sup_dimanche_s5
-            rec.sudo().write({"total_heure_sup_dimanche": res})
+            rec.total_heure_sup_dimanche = res
 
     heure_sup_ferie_s1 = fields.Float(
         string="Heures travaillées en jour férié S1", default=0.0
@@ -196,7 +195,7 @@ class HrPayslipInheritHeureSup(models.Model):
             res += rec.heure_sup_ferie_s4
             if rec.nombre_de_semaine == "cinq":
                 res += rec.heure_sup_ferie_s5
-            rec.sudo().write({"total_heure_sup_ferie": res})
+            rec.total_heure_sup_ferie = res
 
     total_s1 = fields.Float(
         string="Total S1", default=0.0, compute="_compute_total_s1", store=True
@@ -217,7 +216,7 @@ class HrPayslipInheritHeureSup(models.Model):
             res += rec.heure_sup_ferie_s1
             res += rec.heure_nuit_occ_s1
             res += rec.heure_nuit_hab_s1
-            rec.sudo().write({"total_s1": res})
+            rec.total_s1 = res
 
     total_s2 = fields.Float(
         string="Total S2", default=0.0, compute="_compute_total_s2", store=True
@@ -238,7 +237,7 @@ class HrPayslipInheritHeureSup(models.Model):
             res += rec.heure_sup_ferie_s2
             res += rec.heure_nuit_occ_s2
             res += rec.heure_nuit_hab_s2
-            rec.sudo().write({"total_s2": res})
+            rec.total_s2 = res
 
     total_s3 = fields.Float(
         string="Total S3", default=0.0, compute="_compute_total_s3", store=True
@@ -259,7 +258,7 @@ class HrPayslipInheritHeureSup(models.Model):
             res += rec.heure_sup_ferie_s3
             res += rec.heure_nuit_occ_s3
             res += rec.heure_nuit_hab_s3
-            rec.sudo().write({"total_s3": res})
+            rec.total_s3 = res
 
     total_s4 = fields.Float(
         string="Total S4", default=0.0, compute="_compute_total_s4", store=True
@@ -280,7 +279,7 @@ class HrPayslipInheritHeureSup(models.Model):
             res += rec.heure_sup_ferie_s4
             res += rec.heure_nuit_occ_s4
             res += rec.heure_nuit_hab_s4
-            rec.sudo().write({"total_s4": res})
+            rec.total_s4 = res
 
     total_s5 = fields.Float(
         string="Total S5", default=0.0, compute="_compute_total_s5", store=True
@@ -301,7 +300,7 @@ class HrPayslipInheritHeureSup(models.Model):
             res += rec.heure_sup_ferie_s5
             res += rec.heure_nuit_occ_s5
             res += rec.heure_nuit_hab_s5
-            rec.sudo().write({"total_s5": res})
+            rec.total_s5 = res
 
     def calcul_cell(self):
         """
