@@ -7,7 +7,7 @@ from odoo import models, fields, api
 class HrEmployeeInherit(models.Model):
     _inherit = "hr.employee"
 
-    phone = fields.Char(
+    smt_phone = fields.Char(
         string="Téléphone",
         groups="hr.group_hr_user",
         store=True,

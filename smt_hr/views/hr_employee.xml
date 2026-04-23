@@ -5,9 +5,8 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form" />
             <field name="arch" type="xml">
-                <xpath expr="//notebook/page[@name='personal_information']/group/group/field[@name='phone']" position="attributes">
-                    <attribute name="readonly">False</attribute>
-                    <attribute name="force_save">1</attribute>
+                <xpath expr="//notebook/page[@name='personal_information']/group/group/field[@name='phone']" position="replace">
+                    <field name="smt_phone" string="Téléphone" groups="hr.group_hr_user"/>
                 </xpath>
                 <xpath expr="//notebook/page[@name='personal_information']/group/group/field[@name='private_email']" position="attributes">
                     <attribute name="readonly">False</attribute>
