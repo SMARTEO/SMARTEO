@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
+    _description = 'Contact'
 
     nif = fields.Char('NIF')
     stat = fields.Char('STAT')

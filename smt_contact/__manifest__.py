@@ -3,7 +3,7 @@
     'name': "smt_contact",
     'summary': "Smarteo Contact — partner extensions (NIF, STAT, RCS, CIF, competitor flag)",
     'description': "Adds Malagasy tax identifiers and competitor flag to res.partner.",
-    'author': "Nexources",
+    'author': "NEXOURCES",
     'website': "https://www.nexources.com",
     'category': 'Contacts',
     'version': '19.0.1.0.0',

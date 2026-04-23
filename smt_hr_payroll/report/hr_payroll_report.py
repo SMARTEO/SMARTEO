@@ -9,6 +9,7 @@ from odoo import fields, models
 
 class HrPayrollReport(models.Model):
     _inherit = "hr.payroll.report"
+    _description = 'Payroll Analysis'
 
     idemnlog_wage = fields.Float('Indemnités transport', readonly=True)
     idemnrepas_wage = fields.Float('Indemnités repas', readonly=True)

@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 
 class CrmStage(models.Model):
     _inherit = 'crm.stage'
+    _description = 'CRM Stage'
 
     is_won = fields.Boolean('Is Won Stage?')
     is_lost = fields.Boolean('Is Lost Stage?', default=False, store=True)

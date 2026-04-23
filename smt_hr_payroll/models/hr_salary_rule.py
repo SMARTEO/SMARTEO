@@ -6,6 +6,7 @@ from odoo.tools.safe_eval import safe_eval
 
 class HrSalaryRule(models.Model):
     _inherit = "hr.salary.rule"
+    _description = 'Salary Rule'
 
     salary_rule_nombre = fields.Text(string="Nombre", help="Value for 'nombre' in the payslip report")
     salary_rule_base = fields.Text(string="Base", help="Value for 'base' in the payslip report")

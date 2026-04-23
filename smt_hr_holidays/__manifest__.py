@@ -2,7 +2,7 @@
 {
     'name': "smt_hr_holidays",
     'summary': "HR Holidays — paid leave type flag",
-    'author': "Nexources",
+    'author': "NEXOURCES",
     'website': "https://www.nexources.com",
     'category': 'Human Resources',
     'version': '19.0.1.0.0',

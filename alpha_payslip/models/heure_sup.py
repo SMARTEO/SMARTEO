@@ -16,6 +16,7 @@ def exo(s30, s50, x):
 
 class HrPayslipInheritHeureSup(models.Model):
     _inherit = "hr.payslip"
+    _description = 'Payslip'
 
     nombre_de_semaine = fields.Selection(
         [("quatre", "4"), ("cinq", "5")], string="Nombre de semaine", default="quatre"

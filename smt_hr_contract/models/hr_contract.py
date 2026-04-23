@@ -4,6 +4,7 @@ from odoo import api, fields, models
 
 class Contract(models.Model):
     _inherit = "hr.version"
+    _description = 'Employee Contract Version'
 
     classification_id = fields.Many2one(
         related='employee_id.classification_id',

@@ -3,7 +3,7 @@
     'name': "smt_product",
     'summary': "Smarteo product module",
     'description': "Smarteo product — placeholder for product customisations.",
-    'author': "Nexources",
+    'author': "NEXOURCES",
     'website': "https://www.nexources.com",
     'category': 'Uncategorized',
     'version': '19.0.1.0.0',

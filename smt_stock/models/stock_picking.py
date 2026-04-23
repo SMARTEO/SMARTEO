@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, models
+from odoo import models
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
+    _description = 'Transfer'
 
     def exp_button(self):
         return {

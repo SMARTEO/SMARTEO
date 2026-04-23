@@ -4,6 +4,7 @@ from odoo import fields, models
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
+    _description = 'Purchase Order'
 
     dateorder_dateapprove = fields.Char(compute='_compute_combined_date')
 

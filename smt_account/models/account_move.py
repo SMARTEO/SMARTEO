@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
+    _description = 'Journal Entry'
 
     date_paid = fields.Date(
         string='Date of Payment',

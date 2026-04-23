@@ -4,6 +4,7 @@ from odoo import api, fields, models
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
+    _description = 'Sale Order Line'
 
     purchase_price_subtotal = fields.Float(
         string='Cost',
@@ -36,6 +37,7 @@ class SaleOrderLine(models.Model):
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
+    _description = 'Sale Order'
 
     def action_open_crm(self):
         self.ensure_one()

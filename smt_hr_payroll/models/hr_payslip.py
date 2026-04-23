@@ -20,6 +20,7 @@ except ImportError:
 
 class HrPayslip(models.Model):
     _inherit = "hr.payslip"
+    _description = 'Payslip'
 
     commentaire = fields.Text(string="Comment")
     paid_date = fields.Date(string="Payment Date", readonly=True)

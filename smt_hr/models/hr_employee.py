@@ -4,6 +4,7 @@ from odoo import models, fields
 
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
+    _description = 'Employee'
 
     phone = fields.Char(
         string="Phone",
@@ -24,6 +25,7 @@ class HrEmployee(models.Model):
 
 class HrEmployeePublic(models.Model):
     _inherit = "hr.employee.public"
+    _description = 'Employee (Public)'
 
     cnaps = fields.Char(string="CNAPS No.")
     ostie = fields.Char(string="OSTIE No.")

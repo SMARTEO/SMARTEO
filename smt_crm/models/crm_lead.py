@@ -9,6 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
+    _description = 'CRM Lead / Opportunity'
 
     def _move_opportunities_to_lost_stage(self):
         lost_stage = self.env['crm.stage'].search([('is_lost', '=', True)], limit=1)

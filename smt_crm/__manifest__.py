@@ -3,7 +3,7 @@
     'name': "smt_crm",
     'summary': "CRM — move lost opportunities to the lost stage",
     'description': "Scheduled action to move all lost opportunities into the 'Lost stage'.",
-    'author': "NEXOURCES - Henintsoa Moria aka Pops",
+    'author': "NEXOURCES",
     'website': "https://www.nexources.com",
     'category': 'CRM',
     'version': '19.0.1.0.0',
