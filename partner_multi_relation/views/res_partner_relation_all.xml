@@ -48,7 +48,7 @@
                     string="Include past records"
                     context="{'active_test': False}"
                 />
-                <group expand="0" string="Group By">
+                <group>
                     <filter
                         name="group_by_this_partner_id"
                         string="One Partner"
