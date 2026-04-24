@@ -12,7 +12,7 @@ class StockQuant(models.Model):
         related="product_id.standard_price",
         string="Unit Price",
         readonly=True,
-        store=True,
+        store=False,
         group_operator="avg",
     )
     category_id = fields.Many2one(
@@ -20,9 +20,9 @@ class StockQuant(models.Model):
         related="product_id.categ_id",
         string="Product Category",
         readonly=True,
-        store=True,
+        store=False,
     )
-    values = fields.Float(string="Total Value", compute="_compute_values", store=True)
+    values = fields.Float(string="Total Value", compute="_compute_values", store=False)
 
     @api.depends("inventory_quantity_auto_apply", "standard_price")
     def _compute_values(self):
