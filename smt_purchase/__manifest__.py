@@ -9,7 +9,6 @@
     'depends': ['purchase'],
     'data': [
         'views/purchase_order_views.xml',
-        'report/purchase_order_report.xml',
     ],
     'license': 'LGPL-3',
 }

@@ -7,6 +7,8 @@ class StockQuant(models.Model):
     _description = 'Quant'
 
     standard_price = fields.Float(
+        company_dependent=True,
+        groups="base.group_user",
         related="product_id.standard_price",
         string="Unit Price",
         readonly=True,

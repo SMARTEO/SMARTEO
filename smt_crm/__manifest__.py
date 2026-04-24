@@ -11,7 +11,6 @@
     'data': [
         'data/ir_cron.xml',
         'views/crm_stage_views.xml',
-        'i18n/fr.po',
     ],
     'license': 'LGPL-3',
 }

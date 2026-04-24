@@ -1,15 +1,48 @@
 # -*- coding: utf-8 -*-
 
-
 from psycopg2 import sql
 
-from odoo import tools
-from odoo import fields, models
+from odoo import fields, models, tools
 
 
 class HrPayrollReport(models.Model):
-    _inherit = "hr.payroll.report"
+    _name = "hr.payroll.report"
     _description = 'Payroll Analysis'
+    _auto = False
+    _rec_name = 'date_from'
+    _order = 'date_from desc'
+    _log_access = False
+
+    count = fields.Integer('# Payslip', group_operator="sum", readonly=True)
+    count_work = fields.Integer('Work Days', group_operator="sum", readonly=True)
+    count_work_hours = fields.Integer('Work Hours', group_operator="sum", readonly=True)
+    count_leave = fields.Integer('Days of Paid Time Off', group_operator="sum", readonly=True)
+    count_leave_unpaid = fields.Integer('Days of Unpaid Time Off', group_operator="sum", readonly=True)
+    count_unforeseen_absence = fields.Integer('Days of Unforeseen Absence', group_operator="sum", readonly=True)
+    name = fields.Char('Payslip Name', readonly=True)
+    type = fields.Char('Type', readonly=True)
+    date_from = fields.Date('Start Date', readonly=True)
+    date_to = fields.Date('End Date', readonly=True)
+    company_id = fields.Many2one('res.company', 'Company', readonly=True)
+    employee_id = fields.Many2one('hr.employee', 'Employee', readonly=True)
+    department_id = fields.Many2one('hr.department', 'Department', readonly=True)
+    master_department_id = fields.Many2one('hr.department', 'Master Department', readonly=True)
+    job_id = fields.Many2one('hr.job', 'Job Position', readonly=True)
+    number_of_days = fields.Float('Number of Days', readonly=True)
+    number_of_hours = fields.Float('Number of Hours', readonly=True)
+    net_wage = fields.Float('Net Wage', readonly=True)
+    basic_wage = fields.Float('Basic Wage', readonly=True)
+    gross_wage = fields.Float('Gross Wage', readonly=True)
+    leave_basic_wage = fields.Float('Basic Wage for Time Off', readonly=True)
+    work_entry_source = fields.Selection([
+        ('calendar', 'Working Schedule'),
+        ('attendance', 'Attendances'),
+        ('planning', 'Planning')], readonly=True)
+    work_code = fields.Many2one('hr.work.entry.type', 'Work type', readonly=True)
+    work_type = fields.Selection([
+        ('1', 'Regular Working Day'),
+        ('2', 'Paid Time Off'),
+        ('3', 'Unpaid Time Off')], string='Work, (un)paid Time Off', readonly=True)
 
     idemnlog_wage = fields.Float('Indemnités transport', readonly=True)
     idemnrepas_wage = fields.Float('Indemnités repas', readonly=True)
@@ -21,7 +54,6 @@ class HrPayrollReport(models.Model):
     preav01_wage = fields.Float('Préavis', readonly=True)
     idemn01_wage = fields.Float('Licenciement', readonly=True)
     indemn02_wage = fields.Float('Indemnité compensatrice de congé non prise', readonly=True)
-
     compcong01_wage = fields.Float('Compensatrice de Congés payés', readonly=True)
     cnaps_ps_wage = fields.Float('CNAPS (part salariale)', readonly=True)
     cnaps_pp_wage = fields.Float('CNaPS (part patronale)', readonly=True)
@@ -32,7 +64,6 @@ class HrPayrollReport(models.Model):
     childnum_wage = fields.Float('Nombre enfant', readonly=True)
     irsa01_wage = fields.Float('IRSA', readonly=True)
     irsa03_wage = fields.Float('IRSA intermediaire', readonly=True)
-
     irsa02_wage = fields.Float('IRSA à payer', readonly=True)
     fraisbanc_wage = fields.Float('Frais bancaire', readonly=True)
     paid_sick_leave_total = fields.Float('Congés maladie payé (Total)', readonly=True)
@@ -57,7 +88,6 @@ class HrPayrollReport(models.Model):
     totalhsexo_wage = fields.Float('TOTAL avec HS éxonéré de IRSA (20h)', readonly=True)
     net_net_wage = fields.Float('SALAIRE NET', readonly=True)
 
-    #base
     allocp_wage_base = fields.Float('Allocation des Congés payés (Base)', readonly=True)
     absmal3_wage_base = fields.Float('Congés maternité CNaPs (Base)', readonly=True)
     basic_wage_base = fields.Float('Salaire de Base (Base)', readonly=True)
@@ -77,16 +107,14 @@ class HrPayrollReport(models.Model):
     ostie_pp_wage_base = fields.Float('OSTIE (part patronale) (Base)', readonly=True)
     fmfp_wage_base = fields.Float('FMFP (Base)', readonly=True)
     simpo_wage_base = fields.Float('SALAIRE IMPOSABLE (Base)', readonly=True)
-    childnum_wage = fields.Float('Déduction impot (Base)', readonly=True)
+    childnum_wage_base = fields.Float('Déduction impot (Base)', readonly=True)
     irsa01_wage_base = fields.Float('IRSA (Base)', readonly=True)
     irsa03_wage_base = fields.Float('IRSA intermediaire (Base)', readonly=True)
-
     irsa02_wage_base = fields.Float('IRSA à payer (Base)', readonly=True)
     net_wage_base = fields.Float('NET A PAYER (Base)', readonly=True)
     net_net_wage_base = fields.Float('SALAIRE NET (Base)', readonly=True)
     paid_sick_leave_base = fields.Float('Congés maladie payés (Base)', readonly=True)
 
-    #nombre
     allocp_wage_number = fields.Float('Allocation des Congés payés (Nombre)', readonly=True)
     absmal3_number = fields.Float('Congés maternité CNaPs (Nombre)', readonly=True)
     abs_wage_number = fields.Float('Absences (Nombre)', readonly=True)
@@ -94,20 +122,46 @@ class HrPayrollReport(models.Model):
     public_holidays_not_worked_and_paid = fields.Float('Jours fériés non travaillés et payés', readonly=True)
     public_holidays_not_worked_and_paid_number = fields.Float('Jours fériés non travaillés et payés(Nombre)', readonly=True)
     public_holidays_not_worked_and_paid_base = fields.Float('Jours fériés non travaillés et payés(Base)', readonly=True)
-    hsup = fields.Float(string="Heures supplémentaires",readonly=True)
-    nuithabt = fields.Float(string="Heures de nuit habituelles",readonly=True)
-    nuitocc = fields.Float(string="Heures de nuit occasionnelles",readonly=True)
-    hdim = fields.Float(string="Heures travaillées le dimanche",readonly=True)
-    htjf = fields.Float(string="Heures travaillées en jour férié",readonly=True)
-    hsupp30 = fields.Float(string="Heures supplémentaires 30%",readonly=True)
-    hsupp50 = fields.Float(string="Heures supplémentaires 50%",readonly=True)
-    hsuppnon30 = fields.Float(string="Heures supplémentaires NON IMPOSABLE 30%",readonly=True)
-    hsuppnon50 = fields.Float(string="Heures supplémentaires NON IMPOSABLE 50%",readonly=True)
-    regsal = fields.Float(string="Régul Salaire",readonly=True)
-    primoc = fields.Float(string="Prime conditionnelle",readonly=True)
+    hsup = fields.Float(string="Heures supplémentaires", readonly=True)
+    nuithabt = fields.Float(string="Heures de nuit habituelles", readonly=True)
+    nuitocc = fields.Float(string="Heures de nuit occasionnelles", readonly=True)
+    hdim = fields.Float(string="Heures travaillées le dimanche", readonly=True)
+    htjf = fields.Float(string="Heures travaillées en jour férié", readonly=True)
+    hsupp30 = fields.Float(string="Heures supplémentaires 30%", readonly=True)
+    hsupp50 = fields.Float(string="Heures supplémentaires 50%", readonly=True)
+    hsuppnon30 = fields.Float(string="Heures supplémentaires NON IMPOSABLE 30%", readonly=True)
+    hsuppnon50 = fields.Float(string="Heures supplémentaires NON IMPOSABLE 50%", readonly=True)
+    regsal = fields.Float(string="Régul Salaire", readonly=True)
+    primoc = fields.Float(string="Prime conditionnelle", readonly=True)
 
     def _select(self):
-        return super()._select() + """,
+        return """
+            SELECT
+                row_number() over() as id,
+                CASE WHEN wd.id = min_id.min_line THEN 1 ELSE 0 END as count,
+                CASE WHEN wet.is_leave THEN 0 ELSE wd.number_of_days END as count_work,
+                CASE WHEN wet.is_leave THEN 0 ELSE wd.number_of_hours END as count_work_hours,
+                CASE WHEN wet.is_leave and wd.amount <> 0 THEN wd.number_of_days ELSE 0 END as count_leave,
+                CASE WHEN wet.is_leave and wd.amount = 0 THEN wd.number_of_days ELSE 0 END as count_leave_unpaid,
+                CASE WHEN wet.is_unforeseen THEN wd.number_of_days ELSE 0 END as count_unforeseen_absence,
+                CASE WHEN wet.is_leave THEN wd.amount ELSE 0 END as leave_basic_wage,
+                p.name as name,
+                wd.name as type,
+                p.date_from as date_from,
+                p.date_to as date_to,
+                e.id as employee_id,
+                p.department_id as department_id,
+                d.master_department_id as master_department_id,
+                p.job_id as job_id,
+                c.work_entry_source as work_entry_source,
+                p.company_id as company_id,
+                wet.id as work_code,
+                CASE WHEN wet.is_leave IS NOT TRUE THEN '1' WHEN wd.amount = 0 THEN '3' ELSE '2' END as work_type,
+                wd.number_of_days as number_of_days,
+                wd.number_of_hours as number_of_hours,
+                CASE WHEN wd.id = min_id.min_line THEN pln.total ELSE 0 END as net_wage,
+                CASE WHEN wd.id = min_id.min_line THEN plb.total ELSE 0 END as basic_wage,
+                CASE WHEN wd.id = min_id.min_line THEN plg.total ELSE 0 END as gross_wage,
                 CASE WHEN wd.id = min_id.min_line THEN idemnlog.total ELSE 0 END as idemnlog_wage,
                 CASE WHEN wd.id = min_id.min_line THEN idemnrepas.total ELSE 0 END as idemnrepas_wage,
                 CASE WHEN wd.id = min_id.min_line THEN out.total ELSE 0 END as out_wage,
@@ -195,10 +249,21 @@ class HrPayrollReport(models.Model):
                 CASE WHEN wd.id = min_id.min_line THEN hsuppnon50.amount ELSE 0 END as hsuppnon50,
                 CASE WHEN wd.id = min_id.min_line THEN regsal.amount ELSE 0 END as regsal,
                 CASE WHEN wd.id = min_id.min_line THEN primoc.amount ELSE 0 END as primoc
-                """
+        """
 
     def _from(self):
-        return super()._from() + """
+        return """
+            FROM
+                (SELECT * FROM hr_payslip WHERE state IN ('done', 'paid')) p
+                left join hr_employee e on (p.employee_id = e.id)
+                left join hr_payslip_worked_days wd on (wd.payslip_id = p.id)
+                left join hr_work_entry_type wet on (wet.id = wd.work_entry_type_id)
+                left join (select payslip_id, min(id) as min_line from hr_payslip_worked_days group by payslip_id) min_id on (min_id.payslip_id = p.id)
+                left join hr_payslip_line pln on (pln.slip_id = p.id and pln.code = 'NET')
+                left join hr_payslip_line plb on (plb.slip_id = p.id and plb.code = 'BASIC')
+                left join hr_payslip_line plg on (plg.slip_id = p.id and plg.code = 'GROSS')
+                left join hr_version c on (p.version_id = c.id)
+                left join hr_department d on (p.department_id = d.id)
                 left join hr_payslip_line idemnlog on (idemnlog.slip_id = p.id and idemnlog.code = 'INDEMNLOG')
                 left join hr_payslip_line idemnrepas on (idemnrepas.slip_id = p.id and idemnrepas.code = 'INDEMNREPAS')
                 left join hr_payslip_line out on (out.slip_id = p.id and out.code = 'OUT')
@@ -275,21 +340,39 @@ class HrPayrollReport(models.Model):
                 left join hr_payslip_line publicholidaysnotworked on (publicholidaysnotworked.slip_id = p.id and publicholidaysnotworked.code = 'FERIE')
                 left join hr_payslip_line publicholidaysnotworkednumber on (publicholidaysnotworkednumber.slip_id = p.id and publicholidaysnotworkednumber.code = 'FERIE')
                 left join hr_payslip_line publicholidaysnotworkedbase on (publicholidaysnotworkedbase.slip_id = p.id and publicholidaysnotworkedbase.code = 'FERIE')
-                left join hr_payslip_input hsup on (hsup.payslip_id = p.id and hsup.input_type_id = (SELECT id FROM hr_payslip_input_type  WHERE code = 'HSUPP'))
-                left join hr_payslip_input nuithabt on (nuithabt.payslip_id = p.id and nuithabt.input_type_id = (SELECT id FROM hr_payslip_input_type  WHERE code = 'NUITHABT'))
-                left join hr_payslip_input nuitocc on (nuitocc.payslip_id = p.id and nuitocc.input_type_id = (SELECT id FROM hr_payslip_input_type  WHERE code = 'NUITOCC'))
-                left join hr_payslip_input hdim on (hdim.payslip_id = p.id and hdim.input_type_id = (SELECT id FROM hr_payslip_input_type  WHERE code = 'HDIM'))
-                left join hr_payslip_input htjf on (htjf.payslip_id = p.id and htjf.input_type_id = (SELECT id FROM hr_payslip_input_type  WHERE code = 'HTJF'))
-                left join hr_payslip_input hsupp30 on (hsupp30.payslip_id = p.id and hsupp30.input_type_id = (SELECT id FROM hr_payslip_input_type  WHERE code = 'HSUPP30'))
-                left join hr_payslip_input hsupp50 on (hsupp50.payslip_id = p.id and hsupp50.input_type_id = (SELECT id FROM hr_payslip_input_type  WHERE code = 'HSUPP50'))
-                left join hr_payslip_input hsuppnon30 on (hsuppnon30.payslip_id = p.id and hsuppnon30.input_type_id = (SELECT id FROM hr_payslip_input_type  WHERE code = 'HSUPPNON30'))
-                left join hr_payslip_input hsuppnon50 on (hsuppnon50.payslip_id = p.id and hsuppnon50.input_type_id = (SELECT id FROM hr_payslip_input_type  WHERE code ='HSUPPNON50'))
-                left join hr_payslip_input regsal on (regsal.payslip_id = p.id and regsal.input_type_id = (SELECT id FROM hr_payslip_input_type  WHERE code = 'REGSAL'))
-                left join hr_payslip_input primoc on (primoc.payslip_id = p.id and primoc.input_type_id = (SELECT id FROM hr_payslip_input_type  WHERE code ='PRIMOC'))
-                """
+                left join hr_payslip_input hsup on (hsup.payslip_id = p.id and hsup.input_type_id = (SELECT id FROM hr_payslip_input_type WHERE code = 'HSUPP'))
+                left join hr_payslip_input nuithabt on (nuithabt.payslip_id = p.id and nuithabt.input_type_id = (SELECT id FROM hr_payslip_input_type WHERE code = 'NUITHABT'))
+                left join hr_payslip_input nuitocc on (nuitocc.payslip_id = p.id and nuitocc.input_type_id = (SELECT id FROM hr_payslip_input_type WHERE code = 'NUITOCC'))
+                left join hr_payslip_input hdim on (hdim.payslip_id = p.id and hdim.input_type_id = (SELECT id FROM hr_payslip_input_type WHERE code = 'HDIM'))
+                left join hr_payslip_input htjf on (htjf.payslip_id = p.id and htjf.input_type_id = (SELECT id FROM hr_payslip_input_type WHERE code = 'HTJF'))
+                left join hr_payslip_input hsupp30 on (hsupp30.payslip_id = p.id and hsupp30.input_type_id = (SELECT id FROM hr_payslip_input_type WHERE code = 'HSUPP30'))
+                left join hr_payslip_input hsupp50 on (hsupp50.payslip_id = p.id and hsupp50.input_type_id = (SELECT id FROM hr_payslip_input_type WHERE code = 'HSUPP50'))
+                left join hr_payslip_input hsuppnon30 on (hsuppnon30.payslip_id = p.id and hsuppnon30.input_type_id = (SELECT id FROM hr_payslip_input_type WHERE code = 'HSUPPNON30'))
+                left join hr_payslip_input hsuppnon50 on (hsuppnon50.payslip_id = p.id and hsuppnon50.input_type_id = (SELECT id FROM hr_payslip_input_type WHERE code = 'HSUPPNON50'))
+                left join hr_payslip_input regsal on (regsal.payslip_id = p.id and regsal.input_type_id = (SELECT id FROM hr_payslip_input_type WHERE code = 'REGSAL'))
+                left join hr_payslip_input primoc on (primoc.payslip_id = p.id and primoc.input_type_id = (SELECT id FROM hr_payslip_input_type WHERE code = 'PRIMOC'))
+        """
 
     def _group_by(self):
-        return super()._group_by() + """,
+        return """
+            GROUP BY
+                e.id,
+                p.department_id,
+                d.master_department_id,
+                p.company_id,
+                wd.id,
+                wet.id,
+                p.id,
+                p.name,
+                p.job_id,
+                wd.name,
+                p.date_from,
+                p.date_to,
+                pln.total,
+                plb.total,
+                plg.total,
+                min_id.min_line,
+                c.id,
                 idemnlog.total,
                 idemnrepas.total,
                 out.total,
@@ -377,4 +460,14 @@ class HrPayrollReport(models.Model):
                 hsuppnon50.amount,
                 regsal.amount,
                 primoc.amount
-                """
+        """
+
+    def init(self):
+        tools.drop_view_if_exists(self.env.cr, self._table)
+        query = "%s %s %s" % (self._select(), self._from(), self._group_by())
+        self.env.cr.execute(
+            sql.SQL("CREATE OR REPLACE VIEW {} AS ({})").format(
+                sql.Identifier(self._table),
+                sql.SQL(query)
+            )
+        )

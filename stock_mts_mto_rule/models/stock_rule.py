@@ -2,7 +2,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.osv import expression
+from odoo.fields import Domain
 from odoo.tools import float_compare, float_is_zero
 
 
@@ -92,9 +92,7 @@ class StockRule(models.Model):
                 # Search all confirmed stock_moves of mts_procuremet and assign them
                 # to adjust the product's free qty
                 group_id = mts_procurement.values.get("group_id")
-                group_domain = expression.AND(
-                    [domain, [("group_id", "=", group_id.id)]]
-                )
+                group_domain = domain & Domain([("group_id", "=", group_id.id)])
                 moves_to_assign = self.env["stock.move"].search(
                     group_domain, order="priority desc, date asc"
                 )

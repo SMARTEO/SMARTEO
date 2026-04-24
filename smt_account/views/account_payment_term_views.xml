@@ -11,9 +11,6 @@
                     required="default_description"
                     invisible="not default_description"/>
             </field>
-            <label for="note" position="attributes">
-                <attribute name="invisible">default_description</attribute>
-            </label>
             <field name="note" position="attributes">
                 <attribute name="invisible">default_description</attribute>
             </field>

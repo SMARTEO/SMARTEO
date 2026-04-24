@@ -8,9 +8,9 @@
     'version': '19.0.1.0.0',
     'depends': ['sale', 'account'],
     'data': [
-        'report/layout_boxed.xml',
-        'report/report_invoice.xml',
-        'report/report_sale_order.xml',
+        # 'report/layout_boxed.xml',
+        # 'report/report_invoice.xml',
+        # 'report/report_sale_order.xml',
     ],
     'license': 'LGPL-3',
 }

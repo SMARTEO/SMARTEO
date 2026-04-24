@@ -15,18 +15,20 @@ class StockWarehouse(models.Model):
     mts_mto_rule_id = fields.Many2one("stock.rule", "MTO+MTS rule", check_company=True)
 
     def _get_all_routes(self):
-        routes = super(StockWarehouse, self)._get_all_routes()
+        routes = super()._get_all_routes()
         routes |= self.mapped("mts_mto_rule_id.route_id")
         return routes
 
     def _update_name_and_code(self, new_name=False, new_code=False):
-        res = super(StockWarehouse, self)._update_name_and_code(new_name, new_code)
+        res = super()._update_name_and_code(new_name, new_code)
         if not new_name:
             return res
         for warehouse in self.filtered("mts_mto_rule_id"):
             warehouse.mts_mto_rule_id.write(
                 {
-                    "name": warehouse.mts_mto_rule_id.name.replace(warehouse.name, new_name, 1),
+                    "name": warehouse.mts_mto_rule_id.name.replace(
+                        warehouse.name, new_name, 1
+                    ),
                 }
             )
         return res
@@ -34,7 +36,7 @@ class StockWarehouse(models.Model):
     def _get_route_name(self, route_type):
         if route_type == "mts_mto":
             return _("MTS+MTO")
-        return super(StockWarehouse, self)._get_route_name(route_type)
+        return super()._get_route_name(route_type)
 
     def _get_global_route_rules_values(self):
         rule = self.get_rules_dict()[self.id][self.delivery_steps]
@@ -42,7 +44,7 @@ class StockWarehouse(models.Model):
         location_id = rule.from_loc
         location_dest_id = rule.dest_loc
         picking_type_id = rule.picking_type
-        res = super(StockWarehouse, self)._get_global_route_rules_values()
+        res = super()._get_global_route_rules_values()
         res.update(
             {
                 "mts_mto_rule_id": {
@@ -63,7 +65,7 @@ class StockWarehouse(models.Model):
                         "name": self._format_rulename(
                             location_id, location_dest_id, "MTS+MTO"
                         ),
-                        "location_id": location_dest_id.id,
+                        "location_dest_id": location_dest_id.id,
                         "location_src_id": location_id.id,
                         "picking_type_id": picking_type_id.id,
                     },
@@ -73,7 +75,7 @@ class StockWarehouse(models.Model):
         return res
 
     def _create_or_update_global_routes_rules(self):
-        res = super(StockWarehouse, self)._create_or_update_global_routes_rules()
+        res = super()._create_or_update_global_routes_rules()
 
         if (
             self.mto_mts_management
@@ -86,7 +88,7 @@ class StockWarehouse(models.Model):
             # _get_global_route_rules_values
             rule = self.env["stock.rule"].search(
                 [
-                    ("location_id", "=", self.mts_mto_rule_id.location_id.id),
+                    ("location_dest_id", "=", self.mts_mto_rule_id.location_dest_id.id),
                     ("location_src_id", "=", self.mts_mto_rule_id.location_src_id.id),
                     ("route_id", "=", self.delivery_route_id.id),
                 ],

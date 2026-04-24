@@ -10,7 +10,7 @@
         id="hr_classification_menu"
         name="Classification"
         action="hr_classification_action"
-        parent="hr.menu_human_resources_configuration_employee"
+        parent="hr.menu_human_resources_configuration"
         sequence="4"
     />
 </odoo>

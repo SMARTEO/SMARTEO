@@ -8,10 +8,10 @@
     'version': '19.0.1.0.0',
     'depends': ['base', 'account', 'sale', 'sale_management'],
     'data': [
-        'report/report_invoice_inherit.xml',
-        'report/report_sale_order_inherit.xml',
-        'report/action_inherit.xml',
-        'report/layout_boxed.xml',
+        # 'report/report_invoice_inherit.xml',
+        # 'report/report_sale_order_inherit.xml',
+        # 'report/action_inherit.xml',
+        # 'report/layout_boxed.xml',
     ],
     'license': 'LGPL-3',
 }

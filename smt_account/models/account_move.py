@@ -17,7 +17,7 @@ class AccountMove(models.Model):
         readonly=False,
     )
 
-    @api.depends('payment_state', 'state', 'to_check')
+    @api.depends('payment_state', 'state')
     def _compute_date_paid(self):
         for move in self:
             if move.state != 'posted' or move.payment_state not in ('paid', 'in_payment', 'partial', 'reversed'):

@@ -13,7 +13,6 @@
         'views/account_payment_term_views.xml',
         'views/account_move_tree_view.xml',
         'data/ir_cron_data.xml',
-        'i18n/fr.po',
     ],
     'license': 'LGPL-3',
 }

@@ -1,6 +1,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import exceptions
+from odoo import Command, exceptions
 from odoo.tests.common import TransactionCase
 
 
@@ -18,7 +18,7 @@ class TestMtoMtsRoute(TransactionCase):
     def test_standard_mto_route(self):
         mto_route = self.env.ref("stock.route_warehouse0_mto")
         mto_route.active = True
-        self.product.route_ids = [(6, 0, [mto_route.id])]
+        self.product.route_ids = [Command.set(mto_route.ids)]
         self.env["procurement.group"].run(
             [
                 self.group.Procurement(
@@ -56,7 +56,7 @@ class TestMtoMtsRoute(TransactionCase):
 
     def test_mts_mto_route_split(self):
         mto_mts_route = self.env.ref("stock_mts_mto_rule.route_mto_mts")
-        self.product.route_ids = [(6, 0, [mto_mts_route.id])]
+        self.product.route_ids = [Command.set(mto_mts_route.ids)]
         self._create_quant(1.0)
         self.env["procurement.group"].run(
             [
@@ -96,7 +96,7 @@ class TestMtoMtsRoute(TransactionCase):
 
     def test_mts_mto_route_mto_only(self):
         mto_mts_route = self.env.ref("stock_mts_mto_rule.route_mto_mts")
-        self.product.route_ids = [(6, 0, [mto_mts_route.id])]
+        self.product.route_ids = [Command.set(mto_mts_route.ids)]
         self.env["procurement.group"].run(
             [
                 self.group.Procurement(
@@ -123,7 +123,7 @@ class TestMtoMtsRoute(TransactionCase):
 
     def test_mts_mto_route_mts_only(self):
         mto_mts_route = self.env.ref("stock_mts_mto_rule.route_mto_mts")
-        self.product.route_ids = [(6, 0, [mto_mts_route.id])]
+        self.product.route_ids = [Command.set(mto_mts_route.ids)]
         self._create_quant(3.0)
         self.env["procurement.group"].run(
             [
@@ -186,7 +186,7 @@ class TestMtoMtsRoute(TransactionCase):
         mts_mto_route = self.warehouse.mts_mto_rule_id
         self.assertEqual(mts_mto_route.warehouse_id, self.warehouse)
         self.assertEqual(
-            mts_mto_route.location_id, self.warehouse.mto_pull_id.location_id
+            mts_mto_route.location_dest_id, self.warehouse.mto_pull_id.location_dest_id
         )
         self.assertEqual(
             mts_mto_route.picking_type_id, self.warehouse.mto_pull_id.picking_type_id
@@ -214,7 +214,7 @@ class TestMtoMtsRoute(TransactionCase):
         self.assertEqual(new_rule_name, self.warehouse.mts_mto_rule_id.name)
 
     def setUp(self):
-        super(TestMtoMtsRoute, self).setUp()
+        super().setUp()
         self.move_obj = self.env["stock.move"]
         self.warehouse = self.env.ref("stock.warehouse0")
         self.uom = self.env["uom.uom"].browse(1)
@@ -233,9 +233,9 @@ class TestMtoMtsRoute(TransactionCase):
             "warehouse_selectable": True,
             "name": "dummy route",
         }
-        self.dummy_route = self.env["stock.location.route"].create(route_vals)
+        self.dummy_route = self.env["stock.route"].create(route_vals)
         rule_vals = {
-            "location_id": self.env.ref("stock.stock_location_stock").id,
+            "location_dest_id": self.env.ref("stock.stock_location_stock").id,
             "location_src_id": self.env.ref("stock.stock_location_suppliers").id,
             "action": "pull",
             "warehouse_id": self.warehouse.id,
@@ -244,4 +244,4 @@ class TestMtoMtsRoute(TransactionCase):
             "route_id": self.dummy_route.id,
         }
         self.dummy_rule = self.env["stock.rule"].create(rule_vals)
-        self.warehouse.write({"route_ids": [(4, self.dummy_route.id)]})
+        self.warehouse.write({"route_ids": [Command.link(self.dummy_route.id)]})

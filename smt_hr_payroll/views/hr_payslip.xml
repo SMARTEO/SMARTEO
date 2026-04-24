@@ -37,7 +37,7 @@
                 <field name="nombre"/>
                 <field name="base"/>
             </xpath>
-            <xpath expr="//field[@name='warning_message']" position="after">
+            <xpath expr="//field[@name='negative_net_to_report_message']/.." position="after">
                 <group>
                     <field name="balance_to_date" string="Balance to Date" readonly="1"/>
                     <field name="gain_on_current_month" string="Monthly Accrual"/>
