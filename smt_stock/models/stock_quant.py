@@ -13,7 +13,7 @@ class StockQuant(models.Model):
         string="Unit Price",
         readonly=True,
         store=False,
-        group_operator="avg",
+        aggregator="avg",
     )
     category_id = fields.Many2one(
         "product.category",
