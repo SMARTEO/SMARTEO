@@ -29,3 +29,4 @@ class ResUsersInherit(models.Model):
     allowed_ip_ids = fields.One2many('allowed.ips', 'user_ip_id',
                                      string='IP Address',
                                      help="Allowed ip addresses for the user.")
+    allowed_ips = fields.Many2many('allowed.ips')
