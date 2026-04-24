@@ -1,25 +1,30 @@
-# -*- coding: utf-8 -*-
 {
-    'name': "smt_sale",
-    'summary': "Smarteo Sale — margin tracking, CRM button, order line edit permissions",
-    'author': "NEXOURCES",
-    'website': "https://www.nexources.com",
-    'category': 'Sales',
-    'version': '19.0.1.0.0',
-    'depends': ['base', 'sale', 'web', 'sale_margin', 'sale_management', 'smt_account', 'crm'],
-    'data': [
-        'security/security.xml',
-        'views/views.xml',
-        'views/templates.xml',
+    "name": "smt_sale",
+    "summary": "Smarteo Sale — margin tracking, CRM button, order line edit permissions",
+    "author": "NEXOURCES",
+    "website": "https://www.nexources.com",
+    "category": "Sales",
+    "version": "19.0.1.0.0",
+    "depends": [
+        "base",
+        "sale",
+        "web",
+        "sale_margin",
+        "sale_management",
+        "smt_account",
+        "crm",
+    ],
+    "data": [
+        "security/security.xml",
         # 'report/layout_boxed.xml',
         # 'report/report_invoice.xml',
         # 'report/report_sale_order.xml',
-        'views/sale_order.xml',
+        "views/sale_order.xml",
     ],
-    'assets': {
-        'web.assets_backend': [
-            'smt_sale/static/src/scss/custom_layout.scss',
+    "assets": {
+        "web.assets_backend": [
+            "smt_sale/static/src/scss/custom_layout.scss",
         ],
     },
-    'license': 'LGPL-3',
+    "license": "LGPL-3",
 }
