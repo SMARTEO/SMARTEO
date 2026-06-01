@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+  <template id="report_invoice_document_preview" inherit_id="account.report_invoice_document">
+    <xpath expr="//div[@id='total']/div[hasclass('ms-auto')]" position="attributes">
+      <attribute name="style">padding: 0 !important;</attribute>
+    </xpath>
+  </template>
+</odoo>
