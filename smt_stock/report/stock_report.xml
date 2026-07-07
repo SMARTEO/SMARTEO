@@ -39,7 +39,7 @@
                     <span t-out="ref_number" />
                 </h2>
             </xpath>
-            <!-- <xpath expr="//div[@id='informations']" position="replace">
+            <xpath expr="//div[@id='informations']" position="replace">
                 <table id="informations" class="table table-borderless mb-4"
                     style="width:100%; border-collapse: collapse; border: none;">
                     <tr>
@@ -87,7 +87,7 @@
                         </td>
                     </tr>
                 </table>
-            </xpath> -->
+            </xpath>
         </template>
 
     </data>
