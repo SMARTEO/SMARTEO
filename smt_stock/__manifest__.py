@@ -14,7 +14,7 @@
         "views/stock_valuation.xml",
         "views/stock_picking_views.xml",
         "views/stock_move_views.xml",
-        # 'report/stock_report.xml',
+        "report/stock_report.xml",
     ],
     "license": "LGPL-3",
 }

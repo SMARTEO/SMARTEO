@@ -9,7 +9,7 @@
                     <span t-esc="o.note" />
                 </span>
             </xpath>
-            <xpath expr="//div[@name='div_outgoing_address']/div[1]" position="replace">
+            <!-- <xpath expr="//div[@name='div_outgoing_address']/div[1]" position="replace">
                 <div t-if="o.move_ids_without_package and o.move_ids_without_package[0].partner_id and o.move_ids_without_package[0].partner_id != partner">
                     <span><strong>Delivery Address:</strong></span>
                     <div>
@@ -21,7 +21,73 @@
                     <div t-else="" t-field="o.sale_id.partner_shipping_id"
                         t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                 </div>
+            </xpath> -->
+                 
+            <xpath expr="//t[@t-set='information_block']/div/div/div[@name='customer_address']" position="replace">
+                <div name="customer_address"
+                    t-if="o.picking_type_id.code=='outgoing' and partner and partner != partner.commercial_partner_id">
+                    <strong>Adresse du client:</strong>
+                    <t t-set="show_partner" t-value="True" />
+                </div>
             </xpath>
+            
+            <xpath expr="//div/h2" position="replace">
+                <t t-set="ref_number"
+                    t-value="'N°' + o.name.split('N°')[-1] if 'N°' in o.name else o.name" />
+                <h2 style="margin-top: 15px;">
+                    <span t-out="o.picking_type_id._get_code_report_name()" />
+                    <span t-out="ref_number" />
+                </h2>
+            </xpath>
+            <!-- <xpath expr="//div[@id='informations']" position="replace">
+                <table id="informations" class="table table-borderless mb-4"
+                    style="width:100%; border-collapse: collapse; border: none;">
+                    <tr>
+                        <td t-if="o.origin"
+                            style="vertical-align: top; padding: 0 10px 0 0; border: none;"
+                            name="div_origin">
+                            <strong>Ordre</strong>
+                            <br />
+                            <span t-field="o.origin" />
+                        </td>
+                        <td t-if="o.picking_type_id.code == 'internal' and o.partner_id"
+                            style="vertical-align: top; padding: 0 10px 0 0; border: none;"
+                            name="div_contact">
+                            <strong>Contact</strong>
+                            <br />
+                            <span t-field="o.partner_id" />
+                        </td>
+                        <td t-if="o.state"
+                            style="vertical-align: top; padding: 0 10px 0 0; border: none;"
+                            name="div_sched_date">
+                            <strong>Date d'expédition</strong>
+                            <br />
+                            <span t-if="o.state == 'done'" t-field="o.date_done" />
+                            <span t-else="" t-field="o.scheduled_date" />
+                        </td>
+                        <td t-if="o.carrier_id"
+                            style="vertical-align: top; padding: 0 10px 0 0; border: none;"
+                            name="div_carrier">
+                            <strong>Transporteur</strong>
+                            <br />
+                            <span t-field="o.carrier_id" />
+                        </td>
+                        <td t-if="o.sale_id and o.sale_id.client_order_ref"
+                            style="vertical-align: top; padding: 0 10px 0 0; border: none;"
+                            name="div_client_ref">
+                            <strong>Référence client</strong>
+                            <br />
+                            <span t-field="o.sale_id.client_order_ref" />
+                        </td>
+                        <td t-if="o.user_id" style="vertical-align: top; padding: 0; border: none;"
+                            name="div_operator">
+                            <strong>Opérateur</strong>
+                            <br />
+                            <span t-field="o.user_id" />
+                        </td>
+                    </tr>
+                </table>
+            </xpath> -->
         </template>
 
     </data>

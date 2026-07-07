@@ -8,7 +8,7 @@
     "depends": ["account", "sale"],
     "data": [
         "report/report_invoice_document.xml",
-        "report/report_invoice_inherit.xml",
+        # "report/report_invoice_inherit.xml",
         "report/action_inherit.xml",
         "report/layout_boxed.xml",
         "report/report_sale_order_inherit.xml",

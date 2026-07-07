@@ -12,6 +12,29 @@
                     </div>
                 </div>
             </xpath>
+            
+            <!-- Tagline au-dessus de l'adresse -->
+            <xpath expr="//div[@name='company_address']" position="before">
+                <div t-if="not is_html_empty(company.report_header)" class="text-end mb2">
+                    <strong t-field="company.report_header"
+                        class="o_company_tagline"
+                        style="padding:2px 6px; display:inline-block;" />
+                </div>
+            </xpath>
+
+            <!-- Footer : bloc légal encadré + pagination -->
+            <xpath expr="//div[hasclass('o_footer_content')]" position="replace">
+                <div class="o_footer_content text-center pt-2">
+                    <div t-if="not is_html_empty(company.report_footer)"
+                        class="mb-1"
+                        style="padding:4px 8px; font-size:9px;">
+                        <span t-field="company.report_footer" />
+                    </div>
+                    <div t-if="report_type == 'pdf'" class="text-muted" style="font-size:9px;">
+                        <span class="page" /> / <span class="topage" />
+                    </div>
+                </div>
+            </xpath>
             <!-- <xpath expr="//img" position="attributes">
                 <attribute name="style">width: 150px; min-height: 150px !important;</attribute>
             </xpath> -->
