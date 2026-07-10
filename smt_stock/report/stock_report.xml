@@ -40,53 +40,41 @@
                 </h2>
             </xpath>
             <xpath expr="//div[@id='informations']" position="replace">
-                <table id="informations" class="table table-borderless mb-4"
-                    style="width:100%; border-collapse: collapse; border: none;">
-                    <tr>
-                        <td t-if="o.origin"
-                            style="vertical-align: top; padding: 0 10px 0 0; border: none;"
-                            name="div_origin">
-                            <strong>Ordre</strong>
-                            <br />
-                            <span t-field="o.origin" />
-                        </td>
-                        <td t-if="o.picking_type_id.code == 'internal' and o.partner_id"
-                            style="vertical-align: top; padding: 0 10px 0 0; border: none;"
-                            name="div_contact">
-                            <strong>Contact</strong>
-                            <br />
-                            <span t-field="o.partner_id" />
-                        </td>
-                        <td t-if="o.state"
-                            style="vertical-align: top; padding: 0 10px 0 0; border: none;"
-                            name="div_sched_date">
-                            <strong>Date d'expédition</strong>
-                            <br />
-                            <span t-if="o.state == 'done'" t-field="o.date_done" />
-                            <span t-else="" t-field="o.scheduled_date" />
-                        </td>
-                        <td t-if="o.carrier_id"
-                            style="vertical-align: top; padding: 0 10px 0 0; border: none;"
-                            name="div_carrier">
-                            <strong>Transporteur</strong>
-                            <br />
-                            <span t-field="o.carrier_id" />
-                        </td>
-                        <td t-if="o.sale_id and o.sale_id.client_order_ref"
-                            style="vertical-align: top; padding: 0 10px 0 0; border: none;"
-                            name="div_client_ref">
-                            <strong>Référence client</strong>
-                            <br />
-                            <span t-field="o.sale_id.client_order_ref" />
-                        </td>
-                        <td t-if="o.user_id" style="vertical-align: top; padding: 0; border: none;"
-                            name="div_operator">
-                            <strong>Opérateur</strong>
-                            <br />
-                            <span t-field="o.user_id" />
-                        </td>
-                    </tr>
-                </table>
+                <div id="informations" class="mb-4"
+                    style="display: table; width: 100%; table-layout: fixed;">
+                    <div t-if="o.origin" name="div_origin"
+                        style="display: table-cell; vertical-align: top; padding-right: 10px;">
+                        <strong>Ordre</strong>
+                        <div t-field="o.origin" class="m-0" />
+                    </div>
+                    <div t-if="o.picking_type_id.code == 'internal' and o.partner_id"
+                        name="div_contact"
+                        style="display: table-cell; vertical-align: top; padding-right: 10px;">
+                        <strong>Contact</strong>
+                        <div t-field="o.partner_id" class="m-0" />
+                    </div>
+                    <div t-if="o.state" name="div_sched_date"
+                        style="display: table-cell; vertical-align: top; padding-right: 10px;">
+                        <strong>Date d'expédition</strong>
+                        <div t-if="o.state == 'done'" t-field="o.date_done" class="m-0" />
+                        <div t-else="" t-field="o.scheduled_date" class="m-0" />
+                    </div>
+                    <div t-if="o.carrier_id" name="div_carrier"
+                        style="display: table-cell; vertical-align: top; padding-right: 10px;">
+                        <strong>Transporteur</strong>
+                        <div t-field="o.carrier_id" class="m-0" />
+                    </div>
+                    <div t-if="o.sale_id and o.sale_id.client_order_ref" name="div_client_ref"
+                        style="display: table-cell; vertical-align: top; padding-right: 10px;">
+                        <strong>Référence client</strong>
+                        <div t-field="o.sale_id.client_order_ref" class="m-0" />
+                    </div>
+                    <div t-if="o.user_id" name="div_operator"
+                        style="display: table-cell; vertical-align: top;">
+                        <strong>Opérateur</strong>
+                        <div t-field="o.user_id" class="m-0" />
+                    </div>
+                </div>
             </xpath>
         </template>
 

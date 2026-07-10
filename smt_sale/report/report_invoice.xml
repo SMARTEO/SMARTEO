@@ -15,14 +15,14 @@
                     </div>
                 </div>
             </xpath>
-            <xpath expr="//div[hasclass('page')]" position="before">
+            <!-- <xpath expr="//div[hasclass('page')]" position="before">
                 <t t-set="information_block">
                     <div t-if="o.partner_shipping_id">
                         <strong>Adresse de livraison:</strong>
                         <div t-field="o.partner_shipping_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
                     </div>
                 </t>
-            </xpath>
+            </xpath> -->
             <xpath expr="//div[hasclass('page')]" position="attributes">
                 <attribute name="style">padding-top:1px !important; color :black !important;</attribute>
             </xpath>

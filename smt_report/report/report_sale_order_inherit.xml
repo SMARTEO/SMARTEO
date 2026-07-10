@@ -11,6 +11,9 @@
                         doc.partner_invoice_id</attribute>
                 </t>
             </xpath>
+            <xpath expr="//div[@t-field='doc.date_order']" position="replace">
+                <div t-field="doc.date_order" t-options='{"widget": "datetime"}'>2023-12-31 14:30:00</div>
+            </xpath>
             <xpath expr="//t[@t-set='information_block']" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <t t-set="information_block">
