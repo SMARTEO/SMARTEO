@@ -5,14 +5,50 @@
 
         <template id="sale_report_templates_inherit" name="template_name"
             inherit_id="sale.report_saleorder_document">
-            <xpath expr="//t[@t-set='information_block']/.." position="attributes">
+            <!-- <xpath expr="//t[@t-set='information_block']/.." position="attributes">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <attribute name="t-if">doc.partner_id or doc.partner_shipping_id or
                         doc.partner_invoice_id</attribute>
                 </t>
-            </xpath>
+            </xpath> -->
             <xpath expr="//div[@t-field='doc.date_order']" position="replace">
                 <div t-field="doc.date_order" t-options='{"widget": "datetime"}'>2023-12-31 14:30:00</div>
+            </xpath>
+            <xpath expr="//table/thead/tr/th[@name='th_priceunit']" position="replace">
+                <th name="th_priceunit" class="text-end text-nowrap">PRIX UNITAIRE HT</th>
+            </xpath>
+            <xpath expr="//table/thead/tr/th[@name='th_taxes']/span" position="replace">
+                <span>TAXES</span>
+            </xpath>
+            <xpath expr="//table/thead/tr/th[@name='th_subtotal']/span" position="replace">
+                <span>MONTANT HT</span>
+            </xpath>
+            <xpath expr="//div[@id='total']" position="replace">
+                <div id="total" class="mt-n3" name="total"
+                    style="display: table; width: 100%; table-layout: fixed;">
+                    <div
+                        style="display: table-cell; vertical-align: top; width: 50%; padding-right: 5px;">
+                        <div style="padding: 8px; font-size: 13px;">
+                            <strong>Arrêté à la somme de</strong> &#160; <span
+                                t-esc="doc.currency_id.with_context(lang=doc.partner_id.lang or 'en_US').amount_to_text(doc.amount_total).upper()" />
+                        </div>
+                    </div>
+                    <div
+                        style="display: table-cell; vertical-align: top; width: 50%; padding-left: 15px;">
+                        <table class="o_total_table table table-borderless">
+                            <t t-call="sale.document_tax_totals">
+                                <t t-set="tax_totals" t-value="doc.tax_totals" />
+                                <t t-set="currency" t-value="doc.currency_id" />
+                            </t>
+                        </table>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//div[@id='informations']" position="inside">
+                <div t-if="doc.payment_term_id" class="col" name="information_payment_term">
+                    <strong>Conditions de paiement :</strong>
+                    <div t-field="doc.payment_term_id.name">Net 30 Days</div>
+                </div>
             </xpath>
             <xpath expr="//t[@t-set='information_block']" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
@@ -66,7 +102,7 @@
                     </t>
                 </t>
             </xpath>
-            <xpath expr="//t[@t-set='layout_document_title']" position="replace">
+            <!-- <xpath expr="//t[@t-set='layout_document_title']" position="replace">
                 <t t-if="doc.company_id.name=='SOFTEO'">
                     <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
                         <span t-if="doc.state not in ['draft','sent']">Order # </span>
@@ -87,7 +123,7 @@
                     </t>
                     <span t-field="doc.name" />
                 </t>
-            </xpath>
+            </xpath> -->
         </template>
 
     </data>
