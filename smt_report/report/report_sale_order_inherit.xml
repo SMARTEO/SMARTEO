@@ -5,18 +5,19 @@
 
         <template id="sale_report_templates_inherit" name="template_name"
             inherit_id="sale.report_saleorder_document">
-            <!-- <xpath expr="//t[@t-set='information_block']/.." position="attributes">
-                <t t-if="doc.company_id.name=='SOFTEO'">
-                    <attribute name="t-if">doc.partner_id or doc.partner_shipping_id or
-                        doc.partner_invoice_id</attribute>
-                </t>
-            </xpath> -->
+    
             <xpath expr="//div[@t-field='doc.date_order']" position="replace">
                 <div t-field="doc.date_order" t-options='{"widget": "datetime"}'>2023-12-31 14:30:00</div>
             </xpath>
+            <xpath expr="//td/span[@t-field='line.product_uom_id']" position="replace">
+            </xpath>
+            
             <xpath expr="//table/thead/tr/th[@name='th_priceunit']" position="replace">
                 <th name="th_priceunit" class="text-end text-nowrap">PRIX UNITAIRE HT</th>
             </xpath>
+            <!-- <xpath expr="//table/thead/tr/th[2]" position="replace">
+                <th name="th_quantity" class="text-center text-nowrap">QUANTITÉz</th>
+            </xpath> -->
             <xpath expr="//table/thead/tr/th[@name='th_taxes']/span" position="replace">
                 <span>TAXES</span>
             </xpath>
@@ -102,28 +103,26 @@
                     </t>
                 </t>
             </xpath>
-            <!-- <xpath expr="//t[@t-set='layout_document_title']" position="replace">
-                <t t-if="doc.company_id.name=='SOFTEO'">
-                    <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
-                        <span t-if="doc.state not in ['draft','sent']">Order # </span>
-                        <span t-if="doc.state in ['draft','sent']">Quotation # </span>
-                    </t>
-                    <t t-if="env.context.get('proforma', False) or is_pro_forma">
-                        <span>Pro-Forma Invoice # </span>
-                    </t>
-                    <span t-field="doc.name" />
-                </t>
-                <t t-else="">
-                    <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
-                        <span t-if="doc.state not in ['draft','sent']">Order # </span>
-                        <span t-if="doc.state in ['draft','sent']">Quotation # </span>
-                    </t>
-                    <t t-if="env.context.get('proforma', False) or is_pro_forma">
-                        <span>Pro-Forma Invoice # </span>
-                    </t>
-                    <span t-field="doc.name" />
-                </t>
-            </xpath> -->
+            <xpath expr="//div[@class='page']/t/span[3]" position="replace">
+                <span t-else="">Commande n° </span>
+            </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]" position="attributes">
+                <attribute name="style">font-size: 11px;</attribute>
+            </xpath>
+   
+            <xpath expr="//table[hasclass('o_main_table')]/thead" position="before">
+                <colgroup>
+                    <col style="width: 330px;" />
+                    <col style="width: 60px;" />
+                    <col style="width: 90px;" />
+                    <col t-if="display_discount" style="width: 55px;" />
+                    <col t-if="display_taxes" style="width: 55px;" />
+                    <col style="width: 70px;" />
+                </colgroup>
+            </xpath>
+            <xpath expr="//div[@id='informations']" position="attributes">
+                <attribute name="style">font-size: 13px;</attribute>
+            </xpath>
         </template>
 
     </data>
