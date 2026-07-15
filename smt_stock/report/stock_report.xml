@@ -12,23 +12,37 @@
                 </span>
             </xpath>
 
-            <!-- 4. Retirer le bloc adresse de droite (« Delivery Address » / « Adresse de livraison »
-                 rendu par le base v19) : on ne conserve que « Adresse du client : » (bloc de gauche). -->
+            <!-- 4. web.address_layout (appelé par external_layout_boxed) englobe TOUT le bloc
+                 adresses — information_block INCLUS — dans <div t-if="address">. Vider `address`
+                 (ce qui était fait avant) masquait donc AUSSI le bloc client. On garde `address`
+                 truthy mais invisible : le bloc rend, et l'« Adresse de livraison » de droite
+                 disparaît (contenu remplacé par un marqueur masqué). -->
             <xpath expr="//t[@t-set='address']" position="replace">
-                <t t-set="address" />
+                <t t-set="address"><span class="d-none" /></t>
             </xpath>
 
-            <!-- 4. Bloc de gauche « Adresse du client : » (comme v15), inconditionnel sur le
-                 partenaire commercial. Rendu de l'adresse EN LIGNE (nom + adresse + téléphone) pour
-                 ne pas dépendre du mécanisme show_partner/partner_header du base (qui ne s'affichait
-                 pas sur le BL sortant). -->
-            <xpath expr="//t[@t-set='information_block']/div/div/div[@name='customer_address']"
-                position="replace">
-                <div name="customer_address" t-if="o.picking_type_id.code=='outgoing' and partner">
-                    <strong>Adresse du client :</strong>
-                    <div t-field="partner.commercial_partner_id"
-                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
-                </div>
+            <!-- 4. Bloc de gauche (information_block) reconstruit intégralement : « Adresse du client : »
+                 + adresse complète (widget contact) + téléphone du partner_id, pour tout picking
+                 sortant, SANS condition sur commercial_partner_id ni dépendance au mécanisme
+                 show_partner/partner_header du base. (Cas entrant conservé pour ne pas régresser
+                 les bons de réception.) -->
+            <xpath expr="//t[@t-set='information_block']" position="replace">
+                <t t-set="information_block">
+                    <div class="row">
+                        <div class="col-7">
+                            <t t-if="o.picking_type_id.code == 'outgoing' and o.partner_id">
+                                <strong>Adresse du client :</strong>
+                                <div t-field="o.partner_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                            </t>
+                            <t t-elif="o.picking_type_id.code == 'incoming' and o.partner_id">
+                                <strong>Adresse du fournisseur :</strong>
+                                <div t-field="o.partner_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                            </t>
+                        </div>
+                    </div>
+                </t>
             </xpath>
 
             <!-- Titre (conservé de la version v19) -->
@@ -77,7 +91,7 @@
 
             <!-- 1. En-têtes de colonnes v15 (table état 'done') : ARTICLE / LOT-N° SÉRIE / DÉLIVRÉ -->
             <xpath expr="//th[@name='th_sml_product']" position="replace">
-                <th name="th_sml_product">ARTICLE</th>
+                <th name="th_sml_product" style="width: 42%;">ARTICLE</th>
             </xpath>
             <xpath expr="//th[@name='lot_serial']" position="replace">
                 <th name="lot_serial" class="text-end text-nowrap" t-else="">LOT/NUMÉRO DE SÉRIE</th>
@@ -104,6 +118,10 @@
              par format_number du base v19) sur la table à numéros de série. -->
         <template id="report_stock_report_serial_line"
             inherit_id="stock.stock_report_delivery_has_serial_move_line">
+            <!-- 2. « 1,000 Unité(s) » sur une seule ligne (nowrap) -->
+            <xpath expr="//td[@name='move_line_lot_quantity']" position="attributes">
+                <attribute name="class">text-end text-nowrap</attribute>
+            </xpath>
             <xpath expr="//td[@name='move_line_lot_quantity']/span[1]" position="replace">
                 <span t-field="move_line.quantity" t-options='{"widget": "float", "digits": [16, 3]}' />
             </xpath>
