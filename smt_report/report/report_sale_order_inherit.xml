@@ -82,6 +82,13 @@
                 </t>
             </xpath>
 
+            <!-- 1. Le base v19 masque le bloc de gauche quand partner == shipping == invoice
+                 (t-if parent = (shipping==invoice et invoice!=partner) ou (shipping!=invoice)).
+                 On force le rendu dès qu'un partenaire existe → bloc gauche affiché pour devis ET commande. -->
+            <xpath expr="//t[@t-set='information_block']/.." position="attributes">
+                <attribute name="t-if">doc.partner_id or doc.partner_shipping_id or doc.partner_invoice_id</attribute>
+            </xpath>
+
             <!-- 1. Colonne de DROITE (bloc adresse standard) : adresse de livraison quand elle
                  diffère de la facturation ; sinon on conserve le bloc standard (cas identique inchangé) -->
             <xpath expr="//t[@t-set='address']" position="replace">

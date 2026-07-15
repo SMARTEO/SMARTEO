@@ -6,48 +6,61 @@
       <attribute name="style">padding: 0 !important;</attribute>
     </xpath>
 
-    <!-- 2. Colonne de GAUCHE (information_block) : libellé livraison en français.
-         Ancre robuste sur le bloc standard shipping_address_block (au lieu d'un chemin positionnel fragile) -->
+    <!-- 2. Colonne de GAUCHE (information_block) : libellé livraison en français (cas où la
+         livraison diffère de la facturation ; bloc standard shipping_address_block du base). -->
     <xpath expr="//div[@name='shipping_address_block']/strong" position="replace">
         <strong class="d-block mt-3">Adresse de livraison:</strong>
     </xpath>
 
-    <!-- 1. Bloc NIF/STAT/RCS/CIF affiché SYSTÉMATIQUEMENT dans le bloc adresse principal (colonne
-         de droite), que la livraison soit identique ou non à la facturation. Chaque ligne
-         uniquement si renseignée ; rien ne s'affiche si aucun champ n'est saisi. -->
+    <!-- 2. Cas livraison = facturation : le base v19 ne définit le information_block (bloc gauche)
+         que lorsque l'adresse de livraison diffère. On le définit ici pour le cas identique afin
+         d'afficher l'adresse de livraison à gauche (comme en v15) ; l'adresse principale reste à droite. -->
+    <xpath expr="//div[@name='address_same_as_shipping']" position="inside">
+      <t t-set="information_block">
+        <div t-if="o.partner_shipping_id">
+          <strong class="d-block mt-3">Adresse de livraison:</strong>
+          <div t-field="o.partner_shipping_id"
+            t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+        </div>
+      </t>
+    </xpath>
+
+    <!-- 1 + 3. Bloc NIF/STAT/RCS/CIF affiché SYSTÉMATIQUEMENT dans le bloc adresse principal
+         (colonne de droite), livraison identique ou non. Style aligné sur le devis : libellés non
+         gras, "NIF : / STAT :" sur une ligne, "RCS : / CIF :" sur une ligne, valeurs non sécables.
+         Chaque ligne uniquement si renseignée ; rien si aucun champ. -->
     <xpath expr="//div[@name='address_not_same_as_shipping']/t[@t-set='address']" position="inside">
       <div class="o_partner_fiscal_info mt-1"
         t-if="o.partner_id.nif or o.partner_id.stat or o.partner_id.rcs or o.partner_id.cif">
-        <div t-if="o.partner_id.nif or o.partner_id.stat">
-          <span t-if="o.partner_id.nif"><strong>NIF :</strong> <span t-field="o.partner_id.nif" /></span>
+        <div t-if="o.partner_id.nif or o.partner_id.stat" style="white-space: nowrap;">
+          <span t-if="o.partner_id.nif">NIF : <span t-field="o.partner_id.nif" /></span>
           <span t-if="o.partner_id.nif and o.partner_id.stat"> / </span>
-          <span t-if="o.partner_id.stat"><strong>STAT :</strong> <span t-field="o.partner_id.stat" /></span>
+          <span t-if="o.partner_id.stat">STAT : <span t-field="o.partner_id.stat" /></span>
         </div>
-        <div t-if="o.partner_id.rcs or o.partner_id.cif">
-          <span t-if="o.partner_id.rcs"><strong>RCS :</strong> <span t-field="o.partner_id.rcs" /></span>
+        <div t-if="o.partner_id.rcs or o.partner_id.cif" style="white-space: nowrap;">
+          <span t-if="o.partner_id.rcs">RCS : <span t-field="o.partner_id.rcs" /></span>
           <span t-if="o.partner_id.rcs and o.partner_id.cif"> / </span>
-          <span t-if="o.partner_id.cif"><strong>CIF :</strong> <span t-field="o.partner_id.cif" /></span>
+          <span t-if="o.partner_id.cif">CIF : <span t-field="o.partner_id.cif" /></span>
         </div>
       </div>
     </xpath>
     <xpath expr="//div[@name='address_same_as_shipping']/t[@t-set='address']" position="inside">
       <div class="o_partner_fiscal_info mt-1"
         t-if="o.partner_id.nif or o.partner_id.stat or o.partner_id.rcs or o.partner_id.cif">
-        <div t-if="o.partner_id.nif or o.partner_id.stat">
-          <span t-if="o.partner_id.nif"><strong>NIF :</strong> <span t-field="o.partner_id.nif" /></span>
+        <div t-if="o.partner_id.nif or o.partner_id.stat" style="white-space: nowrap;">
+          <span t-if="o.partner_id.nif">NIF : <span t-field="o.partner_id.nif" /></span>
           <span t-if="o.partner_id.nif and o.partner_id.stat"> / </span>
-          <span t-if="o.partner_id.stat"><strong>STAT :</strong> <span t-field="o.partner_id.stat" /></span>
+          <span t-if="o.partner_id.stat">STAT : <span t-field="o.partner_id.stat" /></span>
         </div>
-        <div t-if="o.partner_id.rcs or o.partner_id.cif">
-          <span t-if="o.partner_id.rcs"><strong>RCS :</strong> <span t-field="o.partner_id.rcs" /></span>
+        <div t-if="o.partner_id.rcs or o.partner_id.cif" style="white-space: nowrap;">
+          <span t-if="o.partner_id.rcs">RCS : <span t-field="o.partner_id.rcs" /></span>
           <span t-if="o.partner_id.rcs and o.partner_id.cif"> / </span>
-          <span t-if="o.partner_id.cif"><strong>CIF :</strong> <span t-field="o.partner_id.cif" /></span>
+          <span t-if="o.partner_id.cif">CIF : <span t-field="o.partner_id.cif" /></span>
         </div>
       </div>
     </xpath>
 
-    <!-- 3. Bloc informations : libellés et ponctuation exactement v15. Le ":" est isolé dans un
-         second <strong> pour empêcher la couche de traduction de réinsérer l'espace typographique FR. -->
+    <!-- 3 (rappel tâche précédente). Bloc informations : libellés FR exacts v15, ":" isolé -->
     <xpath expr="//div[@id='informations']" position="replace">
       <div id="informations" class="row mt-2 mb-2" style="font-size: 12px;">
         <div class="col-auto mw-100 mb-1" t-if="o.invoice_date" name="invoice_date">
@@ -82,7 +95,7 @@
       </th>
     </xpath>
 
-    <!-- 5. Densité : en-têtes et corps du tableau compacts (11px au lieu de 13px) -->
+    <!-- Densité : en-têtes et corps du tableau compacts (11px) -->
     <xpath expr="//table[hasclass('o_main_table')]/thead/tr[1]" position="attributes">
       <attribute name="style">font-size: 11px !important; text-transform: uppercase !important;
         font-weight: bold !important;</attribute>
@@ -96,7 +109,7 @@
       <attribute name="style">width: 80px; text-align: center;</attribute>
     </xpath>
 
-    <!-- 6. Montant en lettres — INCHANGÉ -->
+    <!-- Montant en lettres — INCHANGÉ -->
     <xpath expr="//div/t[@t-set='payment_term_details']" position="before">
       <!-- <div t-att-class="'col-8' if report_type != 'html' else 'col-sm-5 col-md-7'"> -->
         <div>
@@ -106,11 +119,10 @@
       <!-- </div> -->
     </xpath>
 
-    <!-- 4. Suppression de la note de conditions de paiement ("100% à la commande"),
-         absente du rendu v15 -->
+    <!-- Suppression de la note de conditions de paiement ("100% à la commande"), absente en v15 -->
     <xpath expr="//span[@id='payment_terms_note_id']" position="replace" />
 
-    <!-- 6. "Lors de votre paiement..." — INCHANGÉ -->
+    <!-- "Lors de votre paiement..." — INCHANGÉ -->
     <xpath expr="//div/p[@name='payment_communication']" position="replace">
       <p name="payment_communication">
         <b>Lors de votre paiement, merci d'indiquer le numéro de votre
@@ -134,7 +146,7 @@
       </td>
     </xpath>
 
-    <!-- 5. Densité : totaux compacts (12px / paddings réduits au lieu de 14px) -->
+    <!-- Densité : totaux compacts (12px / paddings réduits) -->
     <xpath expr="//tr[hasclass('o_subtotal')]/td" position="attributes">
       <attribute name="style">padding: 2px 6px !important; font-size: 12px; line-height: 1.2;</attribute>
     </xpath>
