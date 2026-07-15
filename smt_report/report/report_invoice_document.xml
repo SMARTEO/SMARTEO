@@ -5,65 +5,98 @@
     <xpath expr="//div[@id='total']/div[hasclass('ms-auto')]" position="attributes">
       <attribute name="style">padding: 0 !important;</attribute>
     </xpath>
-    
-    <xpath expr="//div/t/div/t/div/strong" position="replace">
+
+    <!-- 2. Colonne de GAUCHE (information_block) : libellé livraison en français.
+         Ancre robuste sur le bloc standard shipping_address_block (au lieu d'un chemin positionnel fragile) -->
+    <xpath expr="//div[@name='shipping_address_block']/strong" position="replace">
         <strong class="d-block mt-3">Adresse de livraison:</strong>
     </xpath>
 
+    <!-- 1. Bloc NIF/STAT/RCS/CIF affiché SYSTÉMATIQUEMENT dans le bloc adresse principal (colonne
+         de droite), que la livraison soit identique ou non à la facturation. Chaque ligne
+         uniquement si renseignée ; rien ne s'affiche si aucun champ n'est saisi. -->
     <xpath expr="//div[@name='address_not_same_as_shipping']/t[@t-set='address']" position="inside">
-      <div class="o_partner_fiscal_info mt-1">
-        <div>
-          <span t-if="o.partner_id.nif">
-            <strong>NIF :</strong>
-            <span t-field="o.partner_id.nif" />
-          </span>
+      <div class="o_partner_fiscal_info mt-1"
+        t-if="o.partner_id.nif or o.partner_id.stat or o.partner_id.rcs or o.partner_id.cif">
+        <div t-if="o.partner_id.nif or o.partner_id.stat">
+          <span t-if="o.partner_id.nif"><strong>NIF :</strong> <span t-field="o.partner_id.nif" /></span>
           <span t-if="o.partner_id.nif and o.partner_id.stat"> / </span>
-          <span t-if="o.partner_id.stat">
-            <strong>STAT :</strong>
-            <span t-field="o.partner_id.stat" />
-          </span>
+          <span t-if="o.partner_id.stat"><strong>STAT :</strong> <span t-field="o.partner_id.stat" /></span>
         </div>
-        <div>
-          <span t-if="o.partner_id.rcs">
-            <strong>RCS :</strong>
-            <span t-field="o.partner_id.rcs" />
-          </span>
+        <div t-if="o.partner_id.rcs or o.partner_id.cif">
+          <span t-if="o.partner_id.rcs"><strong>RCS :</strong> <span t-field="o.partner_id.rcs" /></span>
           <span t-if="o.partner_id.rcs and o.partner_id.cif"> / </span>
-          <span t-if="o.partner_id.cif">
-            <strong>CIF :</strong>
-            <span t-field="o.partner_id.cif" />
-          </span>
+          <span t-if="o.partner_id.cif"><strong>CIF :</strong> <span t-field="o.partner_id.cif" /></span>
         </div>
       </div>
     </xpath>
-    
-    <xpath expr="//div[@id='informations']/div[@name='origin']/strong" position="replace">
-        <strong>Origine:</strong>
+    <xpath expr="//div[@name='address_same_as_shipping']/t[@t-set='address']" position="inside">
+      <div class="o_partner_fiscal_info mt-1"
+        t-if="o.partner_id.nif or o.partner_id.stat or o.partner_id.rcs or o.partner_id.cif">
+        <div t-if="o.partner_id.nif or o.partner_id.stat">
+          <span t-if="o.partner_id.nif"><strong>NIF :</strong> <span t-field="o.partner_id.nif" /></span>
+          <span t-if="o.partner_id.nif and o.partner_id.stat"> / </span>
+          <span t-if="o.partner_id.stat"><strong>STAT :</strong> <span t-field="o.partner_id.stat" /></span>
+        </div>
+        <div t-if="o.partner_id.rcs or o.partner_id.cif">
+          <span t-if="o.partner_id.rcs"><strong>RCS :</strong> <span t-field="o.partner_id.rcs" /></span>
+          <span t-if="o.partner_id.rcs and o.partner_id.cif"> / </span>
+          <span t-if="o.partner_id.cif"><strong>CIF :</strong> <span t-field="o.partner_id.cif" /></span>
+        </div>
+      </div>
     </xpath>
-    
+
+    <!-- 3. Bloc informations : libellés et ponctuation exactement v15. Le ":" est isolé dans un
+         second <strong> pour empêcher la couche de traduction de réinsérer l'espace typographique FR. -->
+    <xpath expr="//div[@id='informations']" position="replace">
+      <div id="informations" class="row mt-2 mb-2" style="font-size: 12px;">
+        <div class="col-auto mw-100 mb-1" t-if="o.invoice_date" name="invoice_date">
+          <strong>Date de la facture</strong><strong>:</strong>
+          <p class="m-0" t-esc="o.invoice_date.strftime('%d/%m/%Y')" />
+        </div>
+        <div class="col-auto mw-100 mb-1" t-if="o.ref" name="reference">
+          <strong>Référence</strong><strong>:</strong>
+          <p class="m-0" t-field="o.ref" />
+        </div>
+        <div class="col-auto mw-100 mb-1"
+          t-if="o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted'"
+          name="due_date">
+          <strong>Date d'échéance</strong><strong>:</strong>
+          <p class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+        </div>
+        <div class="col-auto mw-100 mb-1" t-if="o.invoice_origin" name="origin">
+          <strong>Origine</strong><strong>:</strong>
+          <p class="m-0" t-field="o.invoice_origin" />
+        </div>
+        <div class="col-auto mw-100 mb-1" t-if="o.partner_id.ref" name="customer_code">
+          <strong>Numéro de client</strong><strong>:</strong>
+          <p class="m-0" t-field="o.partner_id.ref" />
+        </div>
+      </div>
+    </xpath>
+
     <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[3]" position="replace">
       <th name="th_priceunit"
         t-attf-class="text-end text-nowrap {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
         <span>Prix unitaire HT</span>
       </th>
     </xpath>
-    <!-- <xpath expr="//table[hasclass('o_main_table')]/thead/tr[1]" position="attributes">
-      <attribute name="style">font-size: 12px !important;</attribute>
-    </xpath> -->
 
+    <!-- 5. Densité : en-têtes et corps du tableau compacts (11px au lieu de 13px) -->
     <xpath expr="//table[hasclass('o_main_table')]/thead/tr[1]" position="attributes">
-      <attribute name="style">font-size: 13px !important; text-transform: uppercase !important;
+      <attribute name="style">font-size: 11px !important; text-transform: uppercase !important;
         font-weight: bold !important;</attribute>
     </xpath>
 
     <xpath expr="//table[hasclass('o_main_table')]/tbody" position="attributes">
-      <attribute name="style">font-size: 13px !important;</attribute>
+      <attribute name="style">font-size: 11px !important;</attribute>
     </xpath>
 
     <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[2]" position="attributes">
       <attribute name="style">width: 80px; text-align: center;</attribute>
     </xpath>
 
+    <!-- 6. Montant en lettres — INCHANGÉ -->
     <xpath expr="//div/t[@t-set='payment_term_details']" position="before">
       <!-- <div t-att-class="'col-8' if report_type != 'html' else 'col-sm-5 col-md-7'"> -->
         <div>
@@ -72,6 +105,12 @@
           &#160; </div>
       <!-- </div> -->
     </xpath>
+
+    <!-- 4. Suppression de la note de conditions de paiement ("100% à la commande"),
+         absente du rendu v15 -->
+    <xpath expr="//span[@id='payment_terms_note_id']" position="replace" />
+
+    <!-- 6. "Lors de votre paiement..." — INCHANGÉ -->
     <xpath expr="//div/p[@name='payment_communication']" position="replace">
       <p name="payment_communication">
         <b>Lors de votre paiement, merci d'indiquer le numéro de votre
@@ -84,7 +123,7 @@
     <xpath expr="//div[hasclass('page')]" position="attributes">
         <attribute name="style">padding-top:1px !important; color :black !important;</attribute>
     </xpath>
-    
+
   </template>
 
   <template id="document_tax_totals_template_inherit"
@@ -95,25 +134,26 @@
       </td>
     </xpath>
 
+    <!-- 5. Densité : totaux compacts (12px / paddings réduits au lieu de 14px) -->
     <xpath expr="//tr[hasclass('o_subtotal')]/td" position="attributes">
-      <attribute name="style">padding: 4px 8px !important; font-size: 14px; line-height: 1.4;</attribute>
+      <attribute name="style">padding: 2px 6px !important; font-size: 12px; line-height: 1.2;</attribute>
     </xpath>
     <xpath expr="//tr[hasclass('o_subtotal')]/td[hasclass('text-end')]" position="attributes">
-      <attribute name="style">padding: 4px 8px !important; font-size: 14px; line-height: 1.4;</attribute>
+      <attribute name="style">padding: 2px 6px !important; font-size: 12px; line-height: 1.2;</attribute>
     </xpath>
 
     <xpath expr="//tr[hasclass('o_taxes')]/t/td" position="attributes">
-      <attribute name="style">padding: 4px 8px !important; font-size: 14px; line-height: 1.4;</attribute>
+      <attribute name="style">padding: 2px 6px !important; font-size: 12px; line-height: 1.2;</attribute>
     </xpath>
     <xpath expr="//tr[hasclass('o_taxes')]/t/td[hasclass('o_price_total')]" position="attributes">
-      <attribute name="style">padding: 4px 8px !important; font-size: 14px; line-height: 1.4;</attribute>
+      <attribute name="style">padding: 2px 6px !important; font-size: 12px; line-height: 1.2;</attribute>
     </xpath>
 
     <xpath expr="//tr[hasclass('o_total')]/td" position="attributes">
-      <attribute name="style">padding: 4px 8px !important; font-size: 14px; line-height: 1.4;</attribute>
+      <attribute name="style">padding: 2px 6px !important; font-size: 12px; line-height: 1.2;</attribute>
     </xpath>
     <xpath expr="//tr[hasclass('o_total')]/td[hasclass('text-end')]" position="attributes">
-      <attribute name="style">padding: 4px 8px !important; font-size: 14px; line-height: 1.4;</attribute>
+      <attribute name="style">padding: 2px 6px !important; font-size: 12px; line-height: 1.2;</attribute>
     </xpath>
   </template>
 </odoo>

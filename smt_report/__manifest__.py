@@ -4,7 +4,7 @@
     "author": "NEXOURCES",
     "website": "https://www.nexources.com",
     "category": "Accounting",
-    "version": "19.0.1.1.2",
+    "version": "19.0.1.1.3",
     "depends": ["account", "sale"],
     "data": [
         "report/report_invoice_document.xml",
