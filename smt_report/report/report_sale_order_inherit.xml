@@ -5,28 +5,122 @@
 
         <template id="sale_report_templates_inherit" name="template_name"
             inherit_id="sale.report_saleorder_document">
-    
-            <xpath expr="//div[@t-field='doc.date_order']" position="replace">
-                <div t-field="doc.date_order" t-options='{"widget": "datetime"}'>2023-12-31 14:30:00</div>
+
+            <!-- 1. Titre : "Devis n° <ref>" (brouillon/envoyé) / "Commande n° <ref>" (confirmé) -->
+            <xpath expr="//t[@t-set='layout_document_title']" position="replace">
+                <t t-set="layout_document_title">
+                    <span t-if="is_proforma">Facture pro-forma n° </span>
+                    <span t-elif="doc.state in ['draft', 'sent']">Devis n° </span>
+                    <span t-else="">Commande n° </span>
+                    <span t-field="doc.name">SO0000</span>
+                </t>
             </xpath>
-            <xpath expr="//td/span[@t-field='line.product_uom_id']" position="replace">
+
+            <!-- Masquer l'unité de mesure dans la colonne quantité (comme v15) -->
+            <xpath expr="//td/span[@t-field='line.product_uom_id']" position="replace" />
+
+            <!-- 3 + 6. Bloc informations reconstruit : libellés exacts, dates conditionnelles,
+                 anti-césure sur le nom du vendeur -->
+            <xpath expr="//div[@id='informations']" position="replace">
+                <div id="informations" class="row mt-2 mb-2"
+                    style="font-size: 13px; word-break: normal; overflow-wrap: normal;">
+                    <div class="col-auto mw-100 mb-1" t-if="doc.client_order_ref"
+                        name="informations_reference">
+                        <strong>Votre référence : </strong>
+                        <div class="m-0" t-field="doc.client_order_ref" />
+                    </div>
+                    <div class="col-auto mw-100 mb-1" t-if="doc.date_order" name="informations_date">
+                        <strong t-if="doc.state in ['draft', 'sent']">Date du devis : </strong>
+                        <strong t-else="">Date de commande : </strong>
+                        <!-- Devis : date seule ; Commande : date + heure -->
+                        <div class="m-0" t-if="doc.state in ['draft', 'sent']"
+                            t-field="doc.date_order" t-options='{"widget": "date"}' />
+                        <div class="m-0" t-else="" t-field="doc.date_order"
+                            t-options='{"widget": "datetime"}' />
+                    </div>
+                    <div class="col-auto mw-100 mb-1"
+                        t-if="doc.validity_date and doc.state in ['draft', 'sent']"
+                        name="expiration_date">
+                        <strong>Echéance:</strong>
+                        <div class="m-0" t-field="doc.validity_date" />
+                    </div>
+                    <div class="col-auto mw-100 mb-1" t-if="doc.user_id" name="informations_user"
+                        style="white-space: nowrap;">
+                        <strong>Vendeur : </strong>
+                        <div class="m-0" t-field="doc.user_id" />
+                    </div>
+                    <div class="col-auto mw-100 mb-1" t-if="doc.payment_term_id"
+                        name="informations_payment_term">
+                        <strong>Conditions de paiement:</strong>
+                        <div class="m-0" t-field="doc.payment_term_id" />
+                    </div>
+                </div>
             </xpath>
-            
-            <xpath expr="//table/thead/tr/th[@name='th_priceunit']" position="replace">
+
+            <!-- 4. Bloc adresses (colonne de gauche) restauré en français, devis ET commande -->
+            <xpath expr="//t[@t-set='information_block']" position="replace">
+                <t t-set="information_block">
+                    <div style="word-break: normal; overflow-wrap: normal;">
+                        <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Adresse de facturation et de livraison</strong>
+                        <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Adresse de facturation:</strong>
+                        <div t-field="doc.partner_invoice_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                        <div t-if="doc.partner_id.nif or doc.partner_id.stat">
+                            <span t-if="doc.partner_id.nif">NIF : <span style="white-space: nowrap;"
+                                    t-field="doc.partner_id.nif" /></span>
+                            <span t-if="doc.partner_id.nif and doc.partner_id.stat"> / </span>
+                            <span t-if="doc.partner_id.stat">STAT : <span
+                                    style="white-space: nowrap;" t-field="doc.partner_id.stat" /></span>
+                        </div>
+                        <div t-if="doc.partner_id.rcs or doc.partner_id.cif">
+                            <span t-if="doc.partner_id.rcs">RCS : <span style="white-space: nowrap;"
+                                    t-field="doc.partner_id.rcs" /></span>
+                            <span t-if="doc.partner_id.rcs and doc.partner_id.cif"> / </span>
+                            <span t-if="doc.partner_id.cif">CIF : <span style="white-space: nowrap;"
+                                    t-field="doc.partner_id.cif" /></span>
+                        </div>
+                        <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
+                            <br />
+                            <strong>Adresse de livraison:</strong>
+                            <div t-field="doc.partner_shipping_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                        </t>
+                    </div>
+                </t>
+            </xpath>
+
+            <!-- En-têtes de colonnes -->
+            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[@name='th_priceunit']"
+                position="replace">
                 <th name="th_priceunit" class="text-end text-nowrap">PRIX UNITAIRE HT</th>
             </xpath>
-            <!-- <xpath expr="//table/thead/tr/th[2]" position="replace">
-                <th name="th_quantity" class="text-center text-nowrap">QUANTITÉz</th>
-            </xpath> -->
-            <xpath expr="//table/thead/tr/th[@name='th_taxes']/span" position="replace">
+            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[@name='th_taxes']/span"
+                position="replace">
                 <span>TAXES</span>
             </xpath>
-            <xpath expr="//table/thead/tr/th[@name='th_subtotal']/span" position="replace">
+            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[@name='th_subtotal']/span"
+                position="replace">
                 <span>MONTANT HT</span>
             </xpath>
+
+            <!-- 5. Colonne remise : en-tête "REM.(%)" -->
+            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[@name='th_discount']"
+                position="replace">
+                <th name="th_discount" t-if="display_discount" class="text-end">REM.(%)</th>
+            </xpath>
+
+            <!-- 5. Colonne remise : afficher "0,00" quand la remise est nulle (au lieu d'une cellule vide) -->
+            <xpath expr="//table[hasclass('o_main_table')]/tbody//td[@name='td_product_discount']"
+                position="replace">
+                <td t-if="display_discount" name="td_product_discount" class="text-end">
+                    <span t-field="line.discount" />
+                </td>
+            </xpath>
+
+            <!-- Total : montant en lettres (INCHANGÉ) + tableau des totaux ; marges réduites (densité) -->
             <xpath expr="//div[@id='total']" position="replace">
-                <div id="total" class="mt-3" name="total"
-                    style="display: table; width: 100%; table-layout: fixed; margin-bottom: 20px;">
+                <div id="total" class="mt-2" name="total"
+                    style="display: table; width: 100%; table-layout: fixed; margin-bottom: 8px;">
                     <div
                         style="display: table-cell; vertical-align: top; width: 50%; padding-right: 5px;">
                         <div style="padding: 8px; font-size: 13px;">
@@ -45,87 +139,24 @@
                     </div>
                 </div>
             </xpath>
-            <xpath expr="//div[@id='informations']" position="inside">
-                <div t-if="doc.payment_term_id" class="col" name="information_payment_term">
-                    <strong>Conditions de paiement :</strong>
-                    <div t-field="doc.payment_term_id.name">Net 30 Days</div>
-                </div>
-            </xpath>
-            <xpath expr="//t[@t-set='information_block']" position="replace">
-                <t t-if="doc.company_id.name=='SOFTEO'">
-                    <t t-set="information_block">
-                        <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Invoicing
-                            and Shipping Address:</strong>
-                        <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Invoicing
-                            Address:</strong>
-                        <div t-field="doc.partner_invoice_id"
-                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
-                        <div>
-                            <span t-if="doc.partner_id.nif">NIF :</span>
-                            <span t-field="doc.partner_id.nif" />
-                            <span t-if="doc.partner_id.nif">/</span>
-                            <span t-if="doc.partner_id.stat">STAT :</span>
-                            <span t-field="doc.partner_id.stat" />
-                            <br />
-                            <span t-if="doc.partner_id.rcs">RCS :</span>
-                            <span t-field="doc.partner_id.rcs" />
-                            <span t-if="doc.partner_id.rcs">/</span>
-                            <span t-if="doc.partner_id.cif">CIF :</span>
-                            <span t-field="doc.partner_id.cif" />
-                        </div>
 
-                        <br />
-                        <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
-                            <strong>Shipping Address:</strong>
-                            <div t-field="doc.partner_shipping_id"
-                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
-                        </t>
-                    </t>
-                </t>
-                <t t-else="">
-                    <t t-set="information_block">
-                        <strong t-if="doc.partner_shipping_id">Invoicing and Shipping Address:</strong>
-                        <div t-field="doc.partner_invoice_id"
-                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
-                        <div>
-                            <span t-if="doc.partner_id.nif">NIF :</span>
-                            <span t-field="doc.partner_id.nif" />
-                            <span t-if="doc.partner_id.nif">/</span>
-                            <span t-if="doc.partner_id.stat">STAT :</span>
-                            <span t-field="doc.partner_id.stat" />
-                            <br />
-                            <span t-if="doc.partner_id.rcs">RCS :</span>
-                            <span t-field="doc.partner_id.rcs" />
-                            <span t-if="doc.partner_id.rcs">/</span>
-                            <span t-if="doc.partner_id.cif">CIF :</span>
-                            <span t-field="doc.partner_id.cif" />
-                        </div>
-                    </t>
-                </t>
-            </xpath>
-            <xpath expr="//div[@class='page']/t/span[3]" position="replace">
-                <span t-else="">Commande n° </span>
+            <!-- 6 + 7. Largeurs de colonnes du tableau + compacité -->
+            <xpath expr="//table[hasclass('o_main_table')]/thead" position="before">
+                <colgroup>
+                    <col style="width: 340px;" />
+                    <col style="width: 55px;" />
+                    <col style="width: 85px;" />
+                    <col t-if="display_discount" style="width: 50px;" />
+                    <col t-if="display_taxes" style="width: 50px;" />
+                    <col style="width: 75px;" />
+                </colgroup>
             </xpath>
             <xpath expr="//table[hasclass('o_main_table')]" position="attributes">
                 <attribute name="style">font-size: 11px;</attribute>
             </xpath>
-   
-            <xpath expr="//table[hasclass('o_main_table')]/thead" position="before">
-                <colgroup>
-                    <col style="width: 330px;" />
-                    <col style="width: 60px;" />
-                    <col style="width: 90px;" />
-                    <col t-if="display_discount" style="width: 55px;" />
-                    <col t-if="display_taxes" style="width: 55px;" />
-                    <col style="width: 70px;" />
-                </colgroup>
-            </xpath>
-            <xpath expr="//div[@id='informations']" position="attributes">
-                <attribute name="style">font-size: 13px;</attribute>
-            </xpath>
+
         </template>
 
     </data>
-
 
 </odoo>
