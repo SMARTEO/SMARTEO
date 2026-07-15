@@ -3,34 +3,32 @@
     <data>
 
         <template id="report_stock_report" inherit_id="stock.report_delivery_document">
+
+            <!-- 6. NOTE avant signature — INCHANGÉ (conforme v15) -->
             <xpath expr="//div[@name='signature']" position="before">
                 <span t-if="o.note != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
                     <span>NOTE : </span>
                     <span t-esc="o.note" />
                 </span>
             </xpath>
-            <!-- <xpath expr="//div[@name='div_outgoing_address']/div[1]" position="replace">
-                <div t-if="o.move_ids_without_package and o.move_ids_without_package[0].partner_id and o.move_ids_without_package[0].partner_id != partner">
-                    <span><strong>Delivery Address:</strong></span>
-                    <div>
-                        Sale
-                        <span t-field="o.sale_id"/>
-                    </div>
-                    <div t-if="o.sale_id and o.sale_id.partner_shipping_id" t-field="o.sale_id.partner_shipping_id"
-                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                    <div t-else="" t-field="o.sale_id.partner_shipping_id"
-                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                </div>
-            </xpath> -->
-                 
-            <xpath expr="//t[@t-set='information_block']/div/div/div[@name='customer_address']" position="replace">
+
+            <!-- 4. Retirer le bloc adresse de droite (« Delivery Address » / « Adresse de livraison »
+                 rendu par le base v19) : on ne conserve que « Adresse du client : » (bloc de gauche). -->
+            <xpath expr="//t[@t-set='address']" position="replace">
+                <t t-set="address" />
+            </xpath>
+
+            <!-- 4. Bloc de gauche : libellé « Adresse du client : » (comme v15) -->
+            <xpath expr="//t[@t-set='information_block']/div/div/div[@name='customer_address']"
+                position="replace">
                 <div name="customer_address"
-                    t-if="o.picking_type_id.code=='outgoing' and partner and partner != partner.commercial_partner_id">
-                    <strong>Adresse du client:</strong>
+                    t-if="o.picking_type_id.code=='outgoing' and partner">
+                    <strong>Adresse du client :</strong>
                     <t t-set="show_partner" t-value="True" />
                 </div>
             </xpath>
-            
+
+            <!-- Titre (conservé de la version v19) -->
             <xpath expr="//div/h2" position="replace">
                 <t t-set="ref_number"
                     t-value="'N°' + o.name.split('N°')[-1] if 'N°' in o.name else o.name" />
@@ -39,42 +37,72 @@
                     <span t-out="ref_number" />
                 </h2>
             </xpath>
+
+            <!-- 3. Bloc informations : libellés v15 avec deux-points, SANS « Opérateur » (ajout v19). -->
             <xpath expr="//div[@id='informations']" position="replace">
                 <div id="informations" class="mb-4"
                     style="display: table; width: 100%; table-layout: fixed;">
                     <div t-if="o.origin" name="div_origin"
                         style="display: table-cell; vertical-align: top; padding-right: 10px;">
-                        <strong>Ordre</strong>
+                        <strong>Ordre:</strong>
                         <div t-field="o.origin" class="m-0" />
                     </div>
                     <div t-if="o.picking_type_id.code == 'internal' and o.partner_id"
                         name="div_contact"
                         style="display: table-cell; vertical-align: top; padding-right: 10px;">
-                        <strong>Contact</strong>
+                        <strong>Contact:</strong>
                         <div t-field="o.partner_id" class="m-0" />
                     </div>
                     <div t-if="o.state" name="div_sched_date"
                         style="display: table-cell; vertical-align: top; padding-right: 10px;">
-                        <strong>Date d'expédition</strong>
+                        <strong>Date d'expédition:</strong>
                         <div t-if="o.state == 'done'" t-field="o.date_done" class="m-0" />
                         <div t-else="" t-field="o.scheduled_date" class="m-0" />
                     </div>
                     <div t-if="o.carrier_id" name="div_carrier"
                         style="display: table-cell; vertical-align: top; padding-right: 10px;">
-                        <strong>Transporteur</strong>
+                        <strong>Transporteur:</strong>
                         <div t-field="o.carrier_id" class="m-0" />
                     </div>
                     <div t-if="o.sale_id and o.sale_id.client_order_ref" name="div_client_ref"
-                        style="display: table-cell; vertical-align: top; padding-right: 10px;">
-                        <strong>Référence client</strong>
+                        style="display: table-cell; vertical-align: top;">
+                        <strong>Référence client:</strong>
                         <div t-field="o.sale_id.client_order_ref" class="m-0" />
                     </div>
-                    <div t-if="o.user_id" name="div_operator"
-                        style="display: table-cell; vertical-align: top;">
-                        <strong>Opérateur</strong>
-                        <div t-field="o.user_id" class="m-0" />
-                    </div>
                 </div>
+            </xpath>
+
+            <!-- 1. En-têtes de colonnes v15 (table état 'done') : ARTICLE / LOT-N° SÉRIE / DÉLIVRÉ -->
+            <xpath expr="//th[@name='th_sml_product']" position="replace">
+                <th name="th_sml_product">ARTICLE</th>
+            </xpath>
+            <xpath expr="//th[@name='lot_serial']" position="replace">
+                <th name="lot_serial" class="text-end" t-else="">LOT/NUMÉRO DE SÉRIE</th>
+            </xpath>
+            <xpath expr="//th[@name='th_sml_quantity']" position="replace">
+                <th name="th_sml_quantity" class="text-end">DÉLIVRÉ</th>
+            </xpath>
+            <!-- 1. En-têtes de la table état non-'done' (cohérence) -->
+            <xpath expr="//th[@name='th_sm_product']" position="replace">
+                <th name="th_sm_product"><strong>ARTICLE</strong></th>
+            </xpath>
+            <xpath expr="//th[@name='th_sm_quantity']" position="replace">
+                <th name="th_sm_quantity" class="text-end"><strong>DÉLIVRÉ</strong></th>
+            </xpath>
+
+            <!-- 5. Ordre des lignes : suivre l'ordre des lignes de la commande d'origine
+                 (tri par séquence/id de la ligne de vente ; 0 par défaut hors contexte vente). -->
+            <xpath expr="//tr[@t-foreach='o.move_ids.move_line_ids']" position="attributes">
+                <attribute name="t-foreach">o.move_ids.move_line_ids.sorted(key=lambda ml: (ml.move_id.sale_line_id.sequence or 0, ml.move_id.sale_line_id.id or 0))</attribute>
+            </xpath>
+        </template>
+
+        <!-- 2. Format quantité v15 « 1,000 Unité(s) » : 3 décimales (au lieu de l'entier tronqué
+             par format_number du base v19) sur la table à numéros de série. -->
+        <template id="report_stock_report_serial_line"
+            inherit_id="stock.stock_report_delivery_has_serial_move_line">
+            <xpath expr="//td[@name='move_line_lot_quantity']/span[1]" position="replace">
+                <span t-field="move_line.quantity" t-options='{"widget": "float", "digits": [16, 3]}' />
             </xpath>
         </template>
 
