@@ -18,13 +18,16 @@
                 <t t-set="address" />
             </xpath>
 
-            <!-- 4. Bloc de gauche : libellé « Adresse du client : » (comme v15) -->
+            <!-- 4. Bloc de gauche « Adresse du client : » (comme v15), inconditionnel sur le
+                 partenaire commercial. Rendu de l'adresse EN LIGNE (nom + adresse + téléphone) pour
+                 ne pas dépendre du mécanisme show_partner/partner_header du base (qui ne s'affichait
+                 pas sur le BL sortant). -->
             <xpath expr="//t[@t-set='information_block']/div/div/div[@name='customer_address']"
                 position="replace">
-                <div name="customer_address"
-                    t-if="o.picking_type_id.code=='outgoing' and partner">
+                <div name="customer_address" t-if="o.picking_type_id.code=='outgoing' and partner">
                     <strong>Adresse du client :</strong>
-                    <t t-set="show_partner" t-value="True" />
+                    <div t-field="partner.commercial_partner_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
                 </div>
             </xpath>
 
@@ -77,7 +80,7 @@
                 <th name="th_sml_product">ARTICLE</th>
             </xpath>
             <xpath expr="//th[@name='lot_serial']" position="replace">
-                <th name="lot_serial" class="text-end" t-else="">LOT/NUMÉRO DE SÉRIE</th>
+                <th name="lot_serial" class="text-end text-nowrap" t-else="">LOT/NUMÉRO DE SÉRIE</th>
             </xpath>
             <xpath expr="//th[@name='th_sml_quantity']" position="replace">
                 <th name="th_sml_quantity" class="text-end">DÉLIVRÉ</th>
@@ -90,10 +93,10 @@
                 <th name="th_sm_quantity" class="text-end"><strong>DÉLIVRÉ</strong></th>
             </xpath>
 
-            <!-- 5. Ordre des lignes : suivre l'ordre des lignes de la commande d'origine
-                 (tri par séquence/id de la ligne de vente ; 0 par défaut hors contexte vente). -->
+            <!-- 5. Ordre des lignes : ordre naturel de création (tri par id croissant),
+                 comme en v15 (cordon / encre / imprimante), sans dépendance à la ligne de vente. -->
             <xpath expr="//tr[@t-foreach='o.move_ids.move_line_ids']" position="attributes">
-                <attribute name="t-foreach">o.move_ids.move_line_ids.sorted(key=lambda ml: (ml.move_id.sale_line_id.sequence or 0, ml.move_id.sale_line_id.id or 0))</attribute>
+                <attribute name="t-foreach">o.move_ids.move_line_ids.sorted(key=lambda ml: ml.id)</attribute>
             </xpath>
         </template>
 
