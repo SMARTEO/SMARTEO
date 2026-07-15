@@ -57,35 +57,46 @@
                 </div>
             </xpath>
 
-            <!-- 4. Bloc adresses (colonne de gauche) restauré en français, devis ET commande -->
+            <!-- 4 + 1. Colonne de GAUCHE (information_block) : facturation uniquement.
+                 Police au niveau v15 + lignes fiscales non sécables (RCS/CIF sur une seule ligne) -->
             <xpath expr="//t[@t-set='information_block']" position="replace">
                 <t t-set="information_block">
-                    <div style="word-break: normal; overflow-wrap: normal;">
+                    <div style="word-break: normal; overflow-wrap: normal; font-size: 12px;">
                         <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Adresse de facturation et de livraison</strong>
                         <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Adresse de facturation:</strong>
                         <div t-field="doc.partner_invoice_id"
                             t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
-                        <div t-if="doc.partner_id.nif or doc.partner_id.stat">
-                            <span t-if="doc.partner_id.nif">NIF : <span style="white-space: nowrap;"
-                                    t-field="doc.partner_id.nif" /></span>
+                        <div t-if="doc.partner_id.nif or doc.partner_id.stat" style="white-space: nowrap;">
+                            <span t-if="doc.partner_id.nif">NIF : <span t-field="doc.partner_id.nif" /></span>
                             <span t-if="doc.partner_id.nif and doc.partner_id.stat"> / </span>
-                            <span t-if="doc.partner_id.stat">STAT : <span
-                                    style="white-space: nowrap;" t-field="doc.partner_id.stat" /></span>
+                            <span t-if="doc.partner_id.stat">STAT : <span t-field="doc.partner_id.stat" /></span>
                         </div>
-                        <div t-if="doc.partner_id.rcs or doc.partner_id.cif">
-                            <span t-if="doc.partner_id.rcs">RCS : <span style="white-space: nowrap;"
-                                    t-field="doc.partner_id.rcs" /></span>
+                        <div t-if="doc.partner_id.rcs or doc.partner_id.cif" style="white-space: nowrap;">
+                            <span t-if="doc.partner_id.rcs">RCS : <span t-field="doc.partner_id.rcs" /></span>
                             <span t-if="doc.partner_id.rcs and doc.partner_id.cif"> / </span>
-                            <span t-if="doc.partner_id.cif">CIF : <span style="white-space: nowrap;"
-                                    t-field="doc.partner_id.cif" /></span>
+                            <span t-if="doc.partner_id.cif">CIF : <span t-field="doc.partner_id.cif" /></span>
                         </div>
-                        <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
-                            <br />
-                            <strong>Adresse de livraison:</strong>
-                            <div t-field="doc.partner_shipping_id"
-                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
-                        </t>
                     </div>
+                </t>
+            </xpath>
+
+            <!-- 1. Colonne de DROITE (bloc adresse standard) : adresse de livraison quand elle
+                 diffère de la facturation ; sinon on conserve le bloc standard (cas identique inchangé) -->
+            <xpath expr="//t[@t-set='address']" position="replace">
+                <t t-set="address">
+                    <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
+                        <strong>Adresse de livraison:</strong>
+                        <div t-field="doc.partner_shipping_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                    </t>
+                    <t t-else="">
+                        <div t-field="doc.partner_id" class="mb-0"
+                            t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                        <p t-if="doc.partner_id.vat" class="mb-0">
+                            <t t-if="doc.company_id.account_fiscal_country_id.vat_label" t-out="doc.company_id.account_fiscal_country_id.vat_label" />
+                            <t t-else="">Tax ID</t>: <span t-field="doc.partner_id.vat" />
+                        </p>
+                    </t>
                 </t>
             </xpath>
 
