@@ -126,10 +126,16 @@
                 <span>MONTANT HT</span>
             </xpath>
 
-            <!-- 5. Colonne remise : en-tête "REM.(%)" -->
+            <!-- 5. Colonne remise : en-tête "REM.(%)" (text-nowrap : évite le repli sur 2 lignes) -->
             <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[@name='th_discount']"
                 position="replace">
-                <th name="th_discount" t-if="display_discount" class="text-end">REM.(%)</th>
+                <th name="th_discount" t-if="display_discount" class="text-end text-nowrap">REM.(%)</th>
+            </xpath>
+
+            <!-- Finition A2 : "MONTANT HT" (deux mots) ne se replie pas non plus -->
+            <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[@name='th_subtotal']"
+                position="attributes">
+                <attribute name="style">white-space: nowrap;</attribute>
             </xpath>
 
             <!-- 5. Colonne remise : afficher "0,00" quand la remise est nulle (au lieu d'une cellule vide) -->

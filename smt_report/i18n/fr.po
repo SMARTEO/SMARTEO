@@ -247,3 +247,13 @@ msgstr "'%(company)s - Facture PRO-FORMA n° %(name)s' % {'company': object.comp
 msgid "'%(company)s - %(name)s' % {'company': object.company_id.name,'name': object.name}"
 msgstr "'%(company)s - %(name)s' % {'company': object.company_id.name,'name': object.name}"
 
+
+#. module: sale_management
+#: model_terms:ir.ui.view,arch_db:sale_management.report_saleorder_document_inherit_sale_management
+msgid "Optional Products"
+msgstr "Produits optionnels"
+
+#. module: sale_management
+#: model_terms:ir.ui.view,arch_db:sale_management.report_saleorder_document_inherit_sale_management
+msgid "Options"
+msgstr "Produits optionnels"
