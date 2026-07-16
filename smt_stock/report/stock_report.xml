@@ -33,12 +33,12 @@
                     <t t-if="o.picking_type_id.code == 'outgoing' and o.partner_id">
                         <!-- Client = client de la vente d'origine si disponible, sinon la SOCIÉTÉ
                              (commercial_partner_id) du destinataire — jamais le simple contact de
-                             livraison (ex. FERRIS ENGINEERING). Reprend la source du partner_header
-                             base v19 (partner.commercial_partner_id) que l'ancien bloc utilisait. -->
-                        <t t-set="client_partner"
-                            t-value="o.sale_id.partner_id or o.partner_id.commercial_partner_id" />
+                             livraison (ex. FERRIS ENGINEERING). t-field exige un chemin
+                             record.field : deux branches directes, pas de variable intermédiaire. -->
                         <strong>Adresse du client :</strong>
-                        <div t-field="client_partner"
+                        <div t-if="o.sale_id" t-field="o.sale_id.partner_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                        <div t-else="" t-field="o.partner_id.commercial_partner_id"
                             t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
                     </t>
                     <t t-elif="o.picking_type_id.code == 'incoming' and o.partner_id">
