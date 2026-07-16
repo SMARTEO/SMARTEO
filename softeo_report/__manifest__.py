@@ -5,12 +5,8 @@
     'author': "NEXOURCES",
     'website': "https://www.nexources.com",
     'category': 'Accounting',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'depends': ['sale', 'account'],
-    'data': [
-        # 'report/layout_boxed.xml',
-        # 'report/report_invoice.xml',
-        # 'report/report_sale_order.xml',
-    ],
+    'data': [],
     'license': 'LGPL-3',
 }

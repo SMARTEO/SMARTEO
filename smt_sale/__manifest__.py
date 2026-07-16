@@ -4,7 +4,7 @@
     "author": "NEXOURCES",
     "website": "https://www.nexources.com",
     "category": "Sales",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "depends": [
         "base",
         "sale",
@@ -16,9 +16,6 @@
     ],
     "data": [
         "security/security.xml",
-        # 'report/layout_boxed.xml',
-        # 'report/report_invoice.xml',
-        # 'report/report_sale_order.xml',
         "views/sale_order.xml",
     ],
     "assets": {
