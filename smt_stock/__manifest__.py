@@ -5,7 +5,7 @@
     "author": "NEXOURCES",
     "website": "https://www.nexources.com",
     "category": "Inventory",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "depends": ["base", "product", "stock", "stock_account"],
     "data": [
         "security/security.xml",
