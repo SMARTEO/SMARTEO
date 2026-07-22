@@ -20,25 +20,37 @@
         <style>
           * {
           font-family: arial;
+          line-height: 1.5;
           }
           .address *,
           .invoice_tbody td,
           .invoice_tbody th {
           color: #495057 !important;
+          font-size: 15px !important;
           }
           .grey-text {
           color: #6e6e6e !important;
+          }
+          .table th {
+          padding: 5px !important;
+          font-weight: 700;
+          color: #495057 !important;
           }
           #informations p,
           #payment_term span {
           color: #000 !important;
           }
-          .o_total * {
-          color: #fff !important;
+          #informations * {
           font-size: 14px !important;
           }
+          #informations {
+          font-size: 15px !important;
+          }
+          .o_total * {
+          color: #fff !important;
+          }
           .address {
-          padding-top: 0 !important;
+          padding-top: 15px !important;
           }
           .o_portal_address *,
           div[name="address"] * {
@@ -166,7 +178,7 @@
       </xpath>
       <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[@name='th_subtotal']/span"
              position="replace">
-        <span>MONTANT HT</span>
+        <span>Montant HT</span>
       </xpath>
 
       <!-- 5. Colonne remise : en-tête "REM.(%)" (text-nowrap : évite le repli sur 2 lignes) -->
@@ -194,7 +206,7 @@
         <div id="total" class="mt-2" name="total"
              style="display: table; width: 100%; table-layout: fixed; margin-bottom: 8px;">
           <div
-                  style="display: table-cell; vertical-align: top; width: 50%; padding-right: 5px;">
+                  style="display: table-cell; vertical-align: top; width: 85%; padding-right: 5px;">
             <div style="padding: 8px; font-size: 13px;">
               <strong class="grey-text">Arrêté à la somme de</strong> &#160;
               <span
