@@ -7,9 +7,11 @@
       <style>
         * {
         font-family: arial;
+        font-size: 15px !important;
         }
         .o_company_logo_big {
-        width: 110px;
+        width: 104px;
+        margin-top: -9px;
         }
         .header {
         border-bottom: 1px solid #e9ecef !important;
@@ -23,7 +25,11 @@
         }
         .o_company_tagline {
         font-family: italic !important;
-        font-weight: 400 !important;
+        white-space: nowrap;
+        }
+        .o_company_tagline * {
+        font-size: 11px !important;
+        padding-bottom: 5px !important;
         }
       </style>
     </xpath>
@@ -34,7 +40,7 @@
         color: #495057;
         }
         .o_footer_content {
-        padding-top: 40px;
+        padding-top: 20px !important;
         border-top: 3px solid #000 !important;
         }
       </style>
@@ -50,11 +56,13 @@
       <style>
         * {
         font-family: arial;
+        line-height: 1.5;
         }
         .address *,
         .invoice_tbody td,
         .invoice_tbody th {
         color: #495057 !important;
+        font-size: 15px !important;
         }
         .grey-text {
         color: #6e6e6e !important;
@@ -63,12 +71,22 @@
         #payment_term span {
         color: #000 !important;
         }
-        .o_total * {
-        color: #fff !important;
+        #informations * {
         font-size: 14px !important;
         }
+        #informations {
+        font-size: 15px !important;
+        }
+        .o_total * {
+        color: #fff !important;
+        }
+        .table th {
+        padding: 5px !important;
+        font-weight: 700;
+        color: #495057 !important;
+        }
         .address {
-        padding-top: 0 !important;
+        padding-top: 15px !important;
         }
         .o_portal_address *,
         div[name="address"] * {
@@ -151,30 +169,25 @@
     <xpath expr="//div[@id='informations']" position="replace">
       <div id="informations" class="row mt-2 mb-2" style="font-size: 14px;">
         <div class="col-auto mw-100 mb-1" t-if="o.invoice_date" name="invoice_date">
-          <strong>Date de la facture</strong>
-          <strong>:</strong>
+          <strong>Date de la facture:</strong>
           <p class="m-0" t-esc="o.invoice_date.strftime('%d/%m/%Y')"/>
         </div>
         <div class="col-auto mw-100 mb-1" t-if="o.ref" name="reference">
-          <strong>Référence</strong>
-          <strong>:</strong>
+          <strong>Référence:</strong>
           <p class="m-0" t-field="o.ref"/>
         </div>
         <div class="col-auto mw-100 mb-1"
              t-if="o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted'"
              name="due_date">
-          <strong>Date d'échéance</strong>
-          <strong>:</strong>
+          <strong>Date d'échéance:</strong>
           <p class="m-0" t-esc="o.invoice_date_due.strftime('%d/%m/%Y')"/>
         </div>
         <div class="col-auto mw-100 mb-1" t-if="o.invoice_origin" name="origin">
-          <strong>Origine</strong>
-          <strong>:</strong>
+          <strong>Origine:</strong>
           <p class="m-0" t-field="o.invoice_origin"/>
         </div>
         <div class="col-auto mw-100 mb-1" t-if="o.partner_id.ref" name="customer_code">
-          <strong>Numéro de client</strong>
-          <strong>:</strong>
+          <strong>Numéro de client:</strong>
           <p class="m-0" t-field="o.partner_id.ref"/>
         </div>
       </div>
@@ -239,7 +252,7 @@
   <template id="document_tax_totals_template_inherit" inherit_id="account.document_tax_totals_template">
     <xpath expr="//tr/td" position="replace">
       <td>
-        <span>Montant HT</span>
+        <strong class="grey-text" style="font-size:16px;">Montant HT</strong>
       </td>
     </xpath>
 
