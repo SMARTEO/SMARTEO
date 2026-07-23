@@ -22,8 +22,8 @@
           line-height: 1.5;
           }
           .address *,
-          .invoice_tbody td,
-          .invoice_tbody th {
+          .sale_tbody td,
+          .sale_tbody th {
           color: #495057 !important;
           font-size: 15px !important;
           }
@@ -46,11 +46,14 @@
           #payment_term span {
           color: #000 !important;
           }
-          #informations * {
-          font-size: 14px !important;
-          }
           #informations {
           font-size: 15px !important;
+          margin-bottom: 32px !important;
+          display: table;
+          width: 100%;
+          }
+          #informations > div {
+          display: table-cell;
           }
           .o_total * {
           color: #fff !important;
@@ -61,6 +64,24 @@
           .o_portal_address *,
           div[name="address"] * {
           font-weight: 400 !important;
+          }
+          .o_subtotal td:last-child {
+          border-left-color: #fff !important;
+          }
+
+          .o_subtotal td:first-child {
+          border-right-color: #fff !important;
+          }
+          .o_total_table .fw-bold td, .o_total_table .fw-bold td span {
+          color: #fff !important;
+          background-color: #000;
+          }
+          .sale_tbody tr:not(:last-child) td {
+          border-bottom: none !important;
+          }
+          .table tr td[name="td_section_name"] {
+          border-top: 1px solid #000 !important;
+          border-bottom: 1px solid #000 !important;
           }
         </style>
       </xpath>
