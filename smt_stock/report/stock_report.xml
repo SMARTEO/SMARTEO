@@ -49,6 +49,24 @@
           div[name="address"] * {
           font-weight: 400 !important;
           }
+          .o_subtotal td:last-child {
+          border-left-color: #fff !important;
+          }
+
+          .o_subtotal td:first-child {
+          border-right-color: #fff !important;
+          }
+          .o_total_table .fw-bold td, .o_total_table .fw-bold td span {
+          color: #fff !important;
+          background-color: #000;
+          }
+          .sale_tbody tr:not(:last-child) td {
+          border-bottom: none !important;
+          }
+          .table tr td[name="td_section_name"] {
+          border-top: 1px solid #000 !important;
+          border-bottom: 1px solid #000 !important;
+          }
         </style>
       </xpath>
 
