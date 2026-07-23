@@ -7,7 +7,6 @@
       <xpath expr="//div[hasclass('page')]" position="inside">
         <style>
           * {
-          font-family: arial;
           line-height: 1.5;
           }
           .address *,
@@ -23,9 +22,15 @@
           #payment_term span {
           color: #000 !important;
           }
+          .table td {
+          font-size: 14px !important;
+          color: #495057 !important;
+          }
+          .table th *,
           .table th {
           padding: 5px !important;
           font-weight: 700;
+          font-size: 14px !important;
           color: #495057 !important;
           }
           #informations * {

@@ -19,7 +19,6 @@
       <xpath expr="//div[hasclass('page')]" position="inside">
         <style>
           * {
-          font-family: arial;
           line-height: 1.5;
           }
           .address *,
@@ -31,9 +30,16 @@
           .grey-text {
           color: #6e6e6e !important;
           }
-          .table th {
+          .table td {
+          font-size: 12px !important;
+          color: #495057 !important;
           padding: 5px !important;
+          }
+          .table th *,
+          .table th {
+          padding: 5px 5px 2px !important;
           font-weight: 700;
+          font-size: 11px !important;
           color: #495057 !important;
           }
           #informations p,
@@ -113,7 +119,7 @@
             <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Adresse de facturation:</strong>
             <div t-field="doc.partner_invoice_id"
                  t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-            <div t-if="doc.partner_id.nif or doc.partner_id.stat" style="white-space: nowrap;">
+            <div t-if="doc.partner_id.nif or doc.partner_id.stat">
               <span t-if="doc.partner_id.nif">NIF :
                 <span t-field="doc.partner_id.nif"/>
               </span>
@@ -122,7 +128,7 @@
                 <span t-field="doc.partner_id.stat"/>
               </span>
             </div>
-            <div t-if="doc.partner_id.rcs or doc.partner_id.cif" style="white-space: nowrap;">
+            <div t-if="doc.partner_id.rcs or doc.partner_id.cif">
               <span t-if="doc.partner_id.rcs">RCS :
                 <span t-field="doc.partner_id.rcs"/>
               </span>
