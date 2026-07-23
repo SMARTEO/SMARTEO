@@ -63,6 +63,7 @@
     <xpath expr="//div[hasclass('page')]" position="inside">
       <style>
         * {
+        font-family: arial;
         line-height: 1.5;
         }
         .address *,
@@ -78,14 +79,17 @@
         #payment_term span {
         color: #000 !important;
         }
-        #informations * {
-        font-size: 14px !important;
-        }
         #informations {
         font-size: 15px !important;
+        margin-bottom: 32px !important;
+        display: table;
+        width: 100%;
+        }
+        #informations > div {
+        display: table-cell;
         }
         #right-elements {
-        width: 30% !important;
+        width: 33% !important;
         margin-top: 15px !important;
         }
         .o_total * {
@@ -107,6 +111,20 @@
         .o_portal_address *,
         div[name="address"] * {
         font-weight: 400 !important;
+        }
+        .o_subtotal td:last-child {
+        border-left-color: #fff !important;
+        }
+
+        .o_subtotal td:first-child {
+        border-right-color: #fff !important;
+        }
+        .o_total_table .fw-bold td, .o_total_table .fw-bold td span {
+        color: #fff !important;
+        background-color: #000;
+        }
+        .invoice_tbody tr:not(:last-child) td {
+        border-bottom: none !important;
         }
       </style>
     </xpath>
