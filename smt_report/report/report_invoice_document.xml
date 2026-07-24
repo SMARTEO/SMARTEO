@@ -87,6 +87,7 @@
         }
         #informations > div {
         display: table-cell;
+        width: auto;
         }
         #right-elements {
         width: 33% !important;

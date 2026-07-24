@@ -54,6 +54,7 @@
           }
           #informations > div {
           display: table-cell;
+          width: auto;
           }
           .o_total * {
           color: #fff !important;
