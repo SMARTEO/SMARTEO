@@ -33,12 +33,6 @@
           font-size: 14px !important;
           color: #495057 !important;
           }
-          #informations * {
-          font-size: 14px !important;
-          }
-          #informations {
-          font-size: 15px !important;
-          }
           .o_total * {
           color: #fff !important;
           }

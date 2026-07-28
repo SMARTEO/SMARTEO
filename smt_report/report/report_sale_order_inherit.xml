@@ -47,7 +47,6 @@
           color: #000 !important;
           }
           #informations {
-          font-size: 15px !important;
           margin-bottom: 32px !important;
           display: table;
           width: 100%;
@@ -74,8 +73,8 @@
           border-right-color: #fff !important;
           }
           .o_total_table .fw-bold td, .o_total_table .fw-bold td span {
-          color: #fff !important;
-          background-color: #000;
+          color: #000 !important;
+          background-color: #fff;
           }
           .sale_tbody tr:not(:last-child) td {
           border-bottom: none !important;
@@ -118,7 +117,12 @@
           <div class="col-auto mw-100 mb-1" t-if="doc.user_id" name="informations_user"
                style="white-space: nowrap;">
             <strong>Vendeur :</strong>
-            <div class="m-0" t-field="doc.user_id"/>
+            <t t-set="words" t-value="doc.user_id.name.split(' ')"/>
+            <div class="m-0">
+                <t t-foreach="words" t-as="word">
+                    <span t-esc="word"/><br/>
+                </t>
+            </div>
           </div>
           <div class="col-auto mw-100 mb-1" t-if="doc.payment_term_id"
                name="informations_payment_term">
