@@ -4,7 +4,6 @@
 
   <template id="style_boxed" inherit_id="web.external_layout_boxed">
     <xpath expr="//div[1]" position="inside">
-    <xpath expr="//div[1]" position="inside">
       <style>
         * {
         font-size: 15px !important;
@@ -80,7 +79,6 @@
         color: #000 !important;
         }
         #informations {
-        font-size: 15px !important;
         margin-bottom: 32px !important;
         display: table;
         width: 100%;
@@ -121,8 +119,8 @@
         border-right-color: #fff !important;
         }
         .o_total_table .fw-bold td, .o_total_table .fw-bold td span {
-        color: #fff !important;
-        background-color: #000;
+        color: #000 !important;
+        background-color: #fff;
         }
         .invoice_tbody tr:not(:last-child) td {
         border-bottom: none !important;
@@ -254,9 +252,10 @@
     <xpath expr="//div/t[@t-set='payment_term_details']" position="before">
       <!-- <div t-att-class="'col-8' if report_type != 'html' else 'col-sm-5 col-md-7'"> -->
       <div>
-        <strong class="grey-text">Arrêté la presente facture à la somme de</strong> &#160;
-        <span
-                t-esc="o.currency_id.with_context(lang=o.partner_id.lang or 'en_US').amount_to_text(o.amount_total).upper()"/>
+        <strong style="font-size: 13px !important;" class="grey-text">Arrêté la presente facture à la somme de</strong>
+        &#160;
+        <span style="font-size: 13px !important;"
+              t-esc="o.currency_id.with_context(lang=o.partner_id.lang or 'en_US').amount_to_text(o.amount_total).upper()"/>
         &#160;
       </div>
       <!-- </div> -->
@@ -268,10 +267,10 @@
     <!-- "Lors de votre paiement..." — INCHANGÉ -->
     <xpath expr="//div/p[@name='payment_communication']" position="replace">
       <p name="payment_communication">
-        <b>Lors de votre paiement, merci d'indiquer le numéro de votre
+        <b style="font-size: 13px !important;">Lors de votre paiement, merci d'indiquer le numéro de votre
           facture :
         </b>
-        <span class="fw-bold"
+        <span style="font-size: 13px !important;" class="fw-bold"
               t-field="o.payment_reference">INV/2023/00001
         </span>
         <t t-if="o.partner_bank_id">
