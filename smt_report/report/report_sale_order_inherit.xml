@@ -21,6 +21,9 @@
           * {
           line-height: 1.5;
           }
+          p {
+          font-size: 12px !important;
+          }
           .address *,
           .sale_tbody td,
           .sale_tbody th {
@@ -119,9 +122,10 @@
             <strong>Vendeur :</strong>
             <t t-set="words" t-value="doc.user_id.name.split(' ')"/>
             <div class="m-0">
-                <t t-foreach="words" t-as="word">
-                    <span t-esc="word"/><br/>
-                </t>
+              <t t-foreach="words" t-as="word">
+                <span t-esc="word"/>
+                <br/>
+              </t>
             </div>
           </div>
           <div class="col-auto mw-100 mb-1" t-if="doc.payment_term_id"
