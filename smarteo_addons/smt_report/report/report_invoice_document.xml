@@ -65,6 +65,9 @@
         font-family: arial;
         line-height: 1.5;
         }
+        #right-elements .o_total_table tr * {
+        font-size: 14px !important;
+        }
         .address *,
         .invoice_tbody td,
         .invoice_tbody th {

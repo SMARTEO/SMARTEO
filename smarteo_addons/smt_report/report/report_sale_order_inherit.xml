@@ -24,6 +24,9 @@
           p {
           font-size: 12px !important;
           }
+          #total .o_total_table tr * {
+          font-size: 14px !important;
+          }
           .address *,
           .sale_tbody td,
           .sale_tbody th {
