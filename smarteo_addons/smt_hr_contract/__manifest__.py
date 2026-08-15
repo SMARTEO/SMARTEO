@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "smt_hr_contract",
     "summary": "Smarteo HR Contract — salary breakdown and classification",

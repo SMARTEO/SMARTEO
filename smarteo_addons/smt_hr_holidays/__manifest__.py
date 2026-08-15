@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "smt_hr_holidays",
     "summary": "HR Holidays — paid leave type flag",

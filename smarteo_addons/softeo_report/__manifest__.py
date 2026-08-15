@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "softeo_report",
     "summary": "SOFTEO Reports — custom invoice and sale order QWeb templates",

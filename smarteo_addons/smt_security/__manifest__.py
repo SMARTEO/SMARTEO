@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "smt_security",
     "summary": "Smarteo security module",

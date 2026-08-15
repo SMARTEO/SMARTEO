@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "smt_contact",
     "summary": "Smarteo Contact — partner extensions (NIF, STAT, RCS, CIF, competitor flag)",

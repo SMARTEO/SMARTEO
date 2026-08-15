@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "smt_purchase",
     "summary": "Smarteo Purchase — order date display and report customisation",

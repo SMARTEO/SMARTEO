@@ -53,5 +53,6 @@ coverage.xml
 docs/_build/
 .pre-commit-config.yaml
 .pylintrc
+.ruff_cache/
 pyproject.toml
 requirements.dev.txt

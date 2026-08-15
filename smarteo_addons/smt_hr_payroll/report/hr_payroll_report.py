@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from odoo import fields, models, tools
 from psycopg2 import sql
 

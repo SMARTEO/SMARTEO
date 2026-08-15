@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "smt_hr",
     "summary": "Smarteo HR — employee extensions (CNAPS, OSTIE, classification, dependants)",

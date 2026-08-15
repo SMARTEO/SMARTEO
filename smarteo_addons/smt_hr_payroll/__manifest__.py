@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "smt_hr_payroll",
     "summary": "Smarteo Payroll — custom payslip fields (base, nombre, leave balances)",

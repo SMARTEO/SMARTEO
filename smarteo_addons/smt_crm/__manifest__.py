@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "smt_crm",
     "summary": "CRM — move lost opportunities to the lost stage",

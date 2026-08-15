@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "smt_account",
     "summary": "Smarteo Accounting — date_paid on invoices, payment term extensions",
