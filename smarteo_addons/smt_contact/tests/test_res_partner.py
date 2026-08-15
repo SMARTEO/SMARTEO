@@ -2,45 +2,54 @@
 from odoo.tests.common import TransactionCase, tagged
 
 
-@tagged('post_install', '-at_install')
+@tagged("post_install", "-at_install")
 class TestResPartnerCompete(TransactionCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.competitor = cls.env['res.partner'].create({
-            'name': 'Competitor Corp',
-            'compete': False,
-        })
-        cls.child_of_competitor = cls.env['res.partner'].create({
-            'name': 'Competitor Corp Branch',
-            'parent_id': cls.competitor.id,
-            'compete': False,
-        })
-        cls.non_competitor = cls.env['res.partner'].create({
-            'name': 'Friendly Corp',
-            'compete': False,
-        })
-        cls.child_of_non_competitor = cls.env['res.partner'].create({
-            'name': 'Friendly Corp Branch',
-            'parent_id': cls.non_competitor.id,
-            'compete': False,
-        })
+        cls.competitor = cls.env["res.partner"].create(
+            {
+                "name": "Competitor Corp",
+                "compete": False,
+            }
+        )
+        cls.child_of_competitor = cls.env["res.partner"].create(
+            {
+                "name": "Competitor Corp Branch",
+                "parent_id": cls.competitor.id,
+                "compete": False,
+            }
+        )
+        cls.non_competitor = cls.env["res.partner"].create(
+            {
+                "name": "Friendly Corp",
+                "compete": False,
+            }
+        )
+        cls.child_of_non_competitor = cls.env["res.partner"].create(
+            {
+                "name": "Friendly Corp Branch",
+                "parent_id": cls.non_competitor.id,
+                "compete": False,
+            }
+        )
 
     def test_tax_identifier_fields_round_trip(self):
-        partner = self.env['res.partner'].create({
-            'name': 'Malagasy Company',
-            'nif': 'NIF-001',
-            'stat': 'STAT-001',
-            'rcs': 'RCS-001',
-            'cif': 'CIF-001',
-            'customer': True,
-            'supplier': True,
-        })
-        self.assertEqual(partner.nif, 'NIF-001')
-        self.assertEqual(partner.stat, 'STAT-001')
-        self.assertEqual(partner.rcs, 'RCS-001')
-        self.assertEqual(partner.cif, 'CIF-001')
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Malagasy Company",
+                "nif": "NIF-001",
+                "stat": "STAT-001",
+                "rcs": "RCS-001",
+                "cif": "CIF-001",
+                "customer": True,
+                "supplier": True,
+            }
+        )
+        self.assertEqual(partner.nif, "NIF-001")
+        self.assertEqual(partner.stat, "STAT-001")
+        self.assertEqual(partner.rcs, "RCS-001")
+        self.assertEqual(partner.cif, "CIF-001")
         self.assertTrue(partner.customer)
         self.assertTrue(partner.supplier)
 

@@ -4,7 +4,7 @@ from odoo import api, fields, models
 
 class StockQuant(models.Model):
     _inherit = "stock.quant"
-    _description = 'Quant'
+    _description = "Quant"
 
     standard_price = fields.Float(
         company_dependent=True,

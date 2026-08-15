@@ -3,7 +3,7 @@ from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase, tagged
 
 
-@tagged('post_install', '-at_install')
+@tagged("post_install", "-at_install")
 class TestHrSalaryRuleComputeBaseNombre(TransactionCase):
     """_compute_base()/_compute_nombre() call
     safe_eval(code, localdict, mode="exec", nocopy=True), but this Odoo
@@ -19,16 +19,18 @@ class TestHrSalaryRuleComputeBaseNombre(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.struct = cls.env.ref('hr_payroll.structure_002')
-        cls.category = cls.env.ref('hr_payroll.BASIC')
-        cls.rule = cls.env['hr.salary.rule'].create({
-            'name': 'Custom Report Rule',
-            'code': 'CUSTOMREPORT',
-            'struct_id': cls.struct.id,
-            'category_id': cls.category.id,
-            'salary_rule_base': 'result = 100.0 + 50.0',
-            'salary_rule_nombre': 'result = 3.0 * 2',
-        })
+        cls.struct = cls.env.ref("hr_payroll.structure_002")
+        cls.category = cls.env.ref("hr_payroll.BASIC")
+        cls.rule = cls.env["hr.salary.rule"].create(
+            {
+                "name": "Custom Report Rule",
+                "code": "CUSTOMREPORT",
+                "struct_id": cls.struct.id,
+                "category_id": cls.category.id,
+                "salary_rule_base": "result = 100.0 + 50.0",
+                "salary_rule_nombre": "result = 3.0 * 2",
+            }
+        )
 
     def test_compute_base_currently_raises_due_to_safe_eval_signature(self):
         with self.assertRaises(UserError):

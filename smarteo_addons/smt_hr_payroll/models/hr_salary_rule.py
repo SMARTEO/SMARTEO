@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, models, _
+from odoo import fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
 
 class HrSalaryRule(models.Model):
     _inherit = "hr.salary.rule"
-    _description = 'Salary Rule'
+    _description = "Salary Rule"
 
-    salary_rule_nombre = fields.Text(string="Nombre", help="Value for 'nombre' in the payslip report")
+    salary_rule_nombre = fields.Text(
+        string="Nombre", help="Value for 'nombre' in the payslip report"
+    )
     salary_rule_base = fields.Text(string="Base", help="Value for 'base' in the payslip report")
     is_total = fields.Boolean(string="Total", help="Marks a rule as a totals line in the report")
     currency_salary_rule_nombre = fields.Char(
@@ -29,9 +31,13 @@ class HrSalaryRule(models.Model):
             return float(localdict["result"])
         except Exception as e:
             raise UserError(
-                _("Wrong Python code for base rule %(name)s (%(code)s).\nError: %(error)s",
-                  name=self.name, code=self.code, error=e)
-            )
+                self.env._(
+                    "Wrong Python code for base rule %(name)s (%(code)s).\nError: %(error)s",
+                    name=self.name,
+                    code=self.code,
+                    error=e,
+                )
+            ) from e
 
     def _compute_nombre(self, localdict):
         self.ensure_one()
@@ -42,6 +48,10 @@ class HrSalaryRule(models.Model):
             return float(localdict["result"])
         except Exception as e:
             raise UserError(
-                _("Wrong Python code for nombre rule %(name)s (%(code)s).\nError: %(error)s",
-                  name=self.name, code=self.code, error=e)
-            )
+                self.env._(
+                    "Wrong Python code for nombre rule %(name)s (%(code)s).\nError: %(error)s",
+                    name=self.name,
+                    code=self.code,
+                    error=e,
+                )
+            ) from e

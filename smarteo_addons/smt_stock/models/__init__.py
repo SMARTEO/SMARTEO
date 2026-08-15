@@ -1,7 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from . import stock_valuation
-from . import stock_quant
-from . import product_product
-from . import stock_picking
-
+from . import product_product, stock_picking, stock_quant, stock_valuation

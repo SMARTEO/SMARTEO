@@ -1,3 +1,2 @@
 # -*- coding: utf-8 -*-
-from . import test_hr_child
-from . import test_hr_employee
+from . import test_hr_child, test_hr_employee

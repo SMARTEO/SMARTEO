@@ -3,10 +3,9 @@ from collections import defaultdict
 from datetime import date, timedelta
 
 from dateutil.relativedelta import relativedelta
-from odoo.tools.date_utils import get_timedelta
-
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 from odoo.tools import html2plaintext
+from odoo.tools.date_utils import get_timedelta
 
 # HOURS_PER_DAY moved between Odoo versions; fall back to 8.0 if import fails.
 try:
@@ -20,37 +19,37 @@ except ImportError:
 
 class HrPayslip(models.Model):
     _inherit = "hr.payslip"
-    _description = 'Payslip'
+    _description = "Payslip"
 
     commentaire = fields.Text(string="Comment")
     paid_date = fields.Date(string="Payment Date", readonly=True)
     is_balance_all_account = fields.Boolean(string="Full Account Balance")
     balance_to_date = fields.Float(string="Balance to Date")
     gain_on_current_month = fields.Selection(
-        [('0', '0'), ('2.5', '2.5')],
+        [("0", "0"), ("2.5", "2.5")],
         string="Monthly Accrual",
-        default='2.5',
+        default="2.5",
     )
     balance_on_pay_slip = fields.Float(string="Balance on Payslip")
     payment_method_in_pdf = fields.Char(string="Payment Method (PDF)")
-    is_can_modif_all_balance = fields.Boolean(compute='_compute_is_can_modif_all_balance')
+    is_can_modif_all_balance = fields.Boolean(compute="_compute_is_can_modif_all_balance")
     previous_paid_leave_balance = fields.Float(
-        compute="compute_previous_paid_leave_balance",
+        compute="_compute_previous_paid_leave_balance",
         store=True,
         readonly=False,
         string="Previous Paid Leave Balance",
     )
     days_taken_in_the_month = fields.Float(
-        compute='_compute_days_taken_in_the_month',
+        compute="_compute_days_taken_in_the_month",
         string="Days Taken This Month",
     )
     new_balance_in_the_month = fields.Float(
-        compute='_compute_new_balance_in_the_month',
+        compute="_compute_new_balance_in_the_month",
         string="New Balance This Month",
     )
 
     def _compute_is_can_modif_all_balance(self):
-        can = self.env.user.has_group('smt_hr_payroll.group_can_modif_balance_payroll')
+        can = self.env.user.has_group("smt_hr_payroll.group_can_modif_balance_payroll")
         for slip in self:
             slip.is_can_modif_all_balance = can
 
@@ -60,7 +59,7 @@ class HrPayslip(models.Model):
         for payslip in res:
             if payslip.employee_id and payslip.gain_on_current_month:
                 payslip.balance_to_date = payslip.employee_id.leaves_count
-                if payslip.gain_on_current_month == '2.5':
+                if payslip.gain_on_current_month == "2.5":
                     payslip.balance_on_pay_slip = payslip.employee_id.leaves_count + 2.5
                 else:
                     payslip.balance_on_pay_slip = payslip.employee_id.leaves_count
@@ -68,32 +67,35 @@ class HrPayslip(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
-        if 'gain_on_current_month' in vals and vals['gain_on_current_month']:
+        if "gain_on_current_month" in vals and vals["gain_on_current_month"]:
             for slip in self:
-                if vals['gain_on_current_month'] == '2.5':
+                if vals["gain_on_current_month"] == "2.5":
                     slip.balance_on_pay_slip = slip.balance_to_date + 2.5
                 else:
                     slip.balance_on_pay_slip = slip.balance_to_date
         return res
 
-    @api.depends('worked_days_line_ids', 'worked_days_line_ids.work_entry_type_id',
-                 'worked_days_line_ids.number_of_days')
+    @api.depends(
+        "worked_days_line_ids",
+        "worked_days_line_ids.work_entry_type_id",
+        "worked_days_line_ids.number_of_days",
+    )
     def _compute_days_taken_in_the_month(self):
         for paye in self:
             paye.days_taken_in_the_month = sum(
                 paye.worked_days_line_ids.filtered(
-                    lambda w: w.work_entry_type_id.code == 'LEAVE100'
-                ).mapped('number_of_days')
+                    lambda w: w.work_entry_type_id.code == "LEAVE100"
+                ).mapped("number_of_days")
             )
 
-    @api.onchange('previous_paid_leave_balance')
+    @api.onchange("previous_paid_leave_balance")
     def _onchange_previous_paid_leave_balance(self):
         for paye in self:
             paye.new_balance_in_the_month = (
                 paye.previous_paid_leave_balance + float(paye.gain_on_current_month)
             ) - paye.days_taken_in_the_month
 
-    @api.depends('previous_paid_leave_balance', 'gain_on_current_month', 'days_taken_in_the_month')
+    @api.depends("previous_paid_leave_balance", "gain_on_current_month", "days_taken_in_the_month")
     def _compute_new_balance_in_the_month(self):
         for paye in self:
             paye.new_balance_in_the_month = (
@@ -101,43 +103,53 @@ class HrPayslip(models.Model):
             ) - paye.days_taken_in_the_month
 
     def calculate_cumul_leaves(self, date_ref):
-        holiday_status_id = self.env.ref('hr_holidays.holiday_status_cl')
-        leaves = self.env['hr.leave'].search([
-            ('employee_id', '=', self.employee_id.id),
-            ('state', '=', 'validate'),
-            ('holiday_status_id', '=', holiday_status_id.id),
-            ('request_date_from', '<', date_ref),
-            ('request_date_to', '<=', date_ref),
-        ])
-        return sum(leaves.mapped('number_of_days'))
+        holiday_status_id = self.env.ref("hr_holidays.holiday_status_cl")
+        leaves = self.env["hr.leave"].search(
+            [
+                ("employee_id", "=", self.employee_id.id),
+                ("state", "=", "validate"),
+                ("holiday_status_id", "=", holiday_status_id.id),
+                ("request_date_from", "<", date_ref),
+                ("request_date_to", "<=", date_ref),
+            ]
+        )
+        return sum(leaves.mapped("number_of_days"))
 
     def calculate_cumul_allocation(self, date_ref):
-        # FIXME: The internal accrual plan API (hr.leave.accrual.level._get_next_date,
+        # FIXME: The internal accrual plan API (hr.leave.accrual.level._get_next_date,  # pylint: disable=fixme
         # _get_previous_date, hr.leave.allocation._get_current_accrual_plan_level_id,
         # _process_accrual_plan_level) changed significantly in Odoo 17+.
         # This method needs to be reviewed and updated for v19 compatibility.
-        holiday_status_id = self.env.ref('hr_holidays.holiday_status_cl')
-        allocation_regulars = self.env['hr.leave.allocation'].search([
-            ('state', '=', 'validate'),
-            ('allocation_type', '=', 'regular'),
-            ('holiday_status_id', '=', holiday_status_id.id),
-            ('employee_id', '=', self.employee_id.id),
-            ('date_from', '<=', date_ref),
-            '|', ('date_to', '>=', date_ref), ('date_to', '=', False),
-        ])
-        allocation_accruals = self.env['hr.leave.allocation'].search([
-            ('state', '=', 'validate'),
-            ('allocation_type', '=', 'accrual'),
-            ('holiday_status_id', '=', holiday_status_id.id),
-            ('employee_id', '=', self.employee_id.id),
-            ('date_from', '<=', date_ref),
-            '|', ('date_to', '>=', date_ref), ('date_to', '=', False),
-        ])
+        holiday_status_id = self.env.ref("hr_holidays.holiday_status_cl")
+        allocation_regulars = self.env["hr.leave.allocation"].search(
+            [
+                ("state", "=", "validate"),
+                ("allocation_type", "=", "regular"),
+                ("holiday_status_id", "=", holiday_status_id.id),
+                ("employee_id", "=", self.employee_id.id),
+                ("date_from", "<=", date_ref),
+                "|",
+                ("date_to", ">=", date_ref),
+                ("date_to", "=", False),
+            ]
+        )
+        allocation_accruals = self.env["hr.leave.allocation"].search(
+            [
+                ("state", "=", "validate"),
+                ("allocation_type", "=", "accrual"),
+                ("holiday_status_id", "=", holiday_status_id.id),
+                ("employee_id", "=", self.employee_id.id),
+                ("date_from", "<=", date_ref),
+                "|",
+                ("date_to", ">=", date_ref),
+                ("date_to", "=", False),
+            ]
+        )
         level_value = 0.0
         today = fields.Date.today()
         for allocation_accrual in allocation_accruals:
             date_from = self.date_from - timedelta(days=1)
-            level_ids = allocation_accrual.accrual_plan_id.level_ids.sorted('sequence')
+            level_ids = allocation_accrual.accrual_plan_id.level_ids.sorted("sequence")
             if not level_ids:
                 continue
             first_level = level_ids[0]
@@ -155,7 +167,9 @@ class HrPayslip(models.Model):
                 nextcall = min(second_level_start_date, nextcall)
             days_added_per_level = defaultdict(lambda: 0)
             while nextcall <= date_from:
-                (current_level, current_level_idx) = allocation_accrual._get_current_accrual_plan_level_id(nextcall)
+                (current_level, current_level_idx) = (
+                    allocation_accrual._get_current_accrual_plan_level_id(nextcall)
+                )
                 hours_per_day = (
                     allocation_accrual.employee_id.sudo().resource_id.calendar_id.hours_per_day
                     or HOURS_PER_DAY
@@ -170,7 +184,7 @@ class HrPayslip(models.Model):
                 period_end = current_level._get_next_date(lastcall)
                 if (
                     current_level_idx < (len(level_ids) - 1)
-                    and allocation_accrual.accrual_plan_id.transition_mode == 'immediately'
+                    and allocation_accrual.accrual_plan_id.transition_mode == "immediately"
                 ):
                     next_level = level_ids[current_level_idx + 1]
                     current_level_last_date = allocation_accrual.date_from + get_timedelta(
@@ -178,10 +192,12 @@ class HrPayslip(models.Model):
                     )
                     if nextcall != current_level_last_date:
                         new_nextcall = min(new_nextcall, current_level_last_date)
-                days_added_per_level[current_level] += allocation_accrual._process_accrual_plan_level(
-                    current_level, period_start, lastcall, period_end, nextcall
+                days_added_per_level[current_level] += (
+                    allocation_accrual._process_accrual_plan_level(
+                        current_level, period_start, lastcall, period_end, nextcall
+                    )
                 )
-                if current_level_maximum_leave > 0 and sum(days_added_per_level.values()) > current_level_maximum_leave:
+                if 0 < current_level_maximum_leave < sum(days_added_per_level.values()):
                     days_added_per_level[current_level] -= (
                         sum(days_added_per_level.values()) - current_level_maximum_leave
                     )
@@ -203,43 +219,42 @@ class HrPayslip(models.Model):
                     if current_level_maximum_leave > 0
                     else number_of_days_to_add
                 )
-        return level_value + sum(allocation_regulars.mapped('number_of_days'))
+        return level_value + sum(allocation_regulars.mapped("number_of_days"))
 
-    @api.depends('employee_id', 'date_from')
-    def compute_previous_paid_leave_balance(self):
+    @api.depends("employee_id", "date_from")
+    def _compute_previous_paid_leave_balance(self):
         for payslip in self:
             payslip.previous_paid_leave_balance = 0.0
             if payslip.employee_id:
-                payslip.previous_paid_leave_balance = (
-                    payslip.calculate_cumul_allocation(payslip.date_from)
-                    - payslip.calculate_cumul_leaves(payslip.date_from)
-                )
+                payslip.previous_paid_leave_balance = payslip.calculate_cumul_allocation(
+                    payslip.date_from
+                ) - payslip.calculate_cumul_leaves(payslip.date_from)
 
     def refresh_payslip_leave_situation(self):
         self._compute_days_taken_in_the_month()
         self._compute_new_balance_in_the_month()
-        self.compute_previous_paid_leave_balance()
+        self._compute_previous_paid_leave_balance()
 
-    @api.onchange('employee_id')
+    @api.onchange("employee_id")
     def _onchange_employee_id_balance(self):
         for paye in self:
             paye.balance_to_date = paye.employee_id.leaves_count
-            if paye.gain_on_current_month == '2.5':
+            if paye.gain_on_current_month == "2.5":
                 paye.balance_on_pay_slip = paye.balance_to_date + 2.5
             else:
                 paye.balance_on_pay_slip = paye.balance_to_date
 
-    @api.onchange('gain_on_current_month', 'employee_id')
+    @api.onchange("gain_on_current_month", "employee_id")
     def _onchange_gain_on_current_month(self):
         for paye in self:
-            if paye.gain_on_current_month == '2.5':
+            if paye.gain_on_current_month == "2.5":
                 paye.balance_on_pay_slip = paye.balance_to_date + 2.5
             else:
                 paye.balance_on_pay_slip = paye.balance_to_date
 
     def compute_sheet(self):
         res = super().compute_sheet()
-        self.write({'paid_date': fields.Date.today()})
+        self.write({"paid_date": fields.Date.today()})
         return res
 
     def get_seniority_contract(self, start_contract_date, date_bis):
@@ -265,7 +280,7 @@ class HrPayslip(models.Model):
         return 0
 
     def _get_payslip_lines(self):
-        # FIXME: This override re-implements the base _get_payslip_lines to inject
+        # FIXME: This override re-implements the base _get_payslip_lines to inject  # pylint: disable=fixme
         # custom 'base' and 'nombre' fields. Verify compatibility with v19 payroll API.
         self.ensure_one()
 
@@ -281,12 +296,14 @@ class HrPayslip(models.Model):
         for rule in sorted(self.struct_id.rule_ids, key=lambda x: x.sequence):
             if rule.id in blacklisted_rule_ids:
                 continue
-            localdict.update({
-                "result": None,
-                "result_qty": 1.0,
-                "result_rate": 100,
-                "result_name": False,
-            })
+            localdict.update(
+                {
+                    "result": None,
+                    "result_qty": 1.0,
+                    "result_rate": 100,
+                    "result_name": False,
+                }
+            )
             if rule._satisfy_condition(localdict):
                 amount, qty, rate = rule._compute_rule(localdict)
                 base = rule._compute_base(localdict)
@@ -309,25 +326,28 @@ class HrPayslip(models.Model):
                 elif rule.code in ("BASIC", "GROSS", "NET", "DEDUCTION", "REIMBURSEMENT"):
                     if rule.code == "BASIC":
                         if rule.name == "Double Holiday Pay":
-                            rule_name = _("Double Holiday Pay")
+                            rule_name = self.env._("Double Holiday Pay")
                         elif rule.struct_id.name == "CP200: Employees 13th Month":
-                            rule_name = _("Prorated end-of-year bonus")
+                            rule_name = self.env._("Prorated end-of-year bonus")
                         else:
-                            rule_name = _("Basic Salary")
+                            rule_name = self.env._("Basic Salary")
                     elif rule.code == "GROSS":
-                        rule_name = _("Gross")
+                        rule_name = self.env._("Gross")
                     elif rule.code == "DEDUCTION":
-                        rule_name = _("Deduction")
+                        rule_name = self.env._("Deduction")
                     elif rule.code == "REIMBURSEMENT":
-                        rule_name = _("Reimbursement")
+                        rule_name = self.env._("Reimbursement")
                     elif rule.code == "NET":
-                        rule_name = _("Net Salary")
+                        rule_name = self.env._("Net Salary")
                 else:
                     rule_name = rule.with_context(lang=employee_lang).name
                 result[rule.code] = {
                     "sequence": rule.sequence,
                     "code": rule.code,
-                    "name": rule_name,
+                    # pylint's static analysis can't see that the elif chain above
+                    # covers every code in the "rule.code in (...)" check, so it
+                    # can't prove rule_name is always assigned; it is.
+                    "name": rule_name,  # pylint: disable=possibly-used-before-assignment
                     "note": html2plaintext(rule.note),
                     "salary_rule_id": rule.id,
                     "contract_id": localdict["contract"].id,

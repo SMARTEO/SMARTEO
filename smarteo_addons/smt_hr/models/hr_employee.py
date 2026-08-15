@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields
+from odoo import fields, models
 
 
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
-    _description = 'Employee'
+    _description = "Employee"
 
     phone = fields.Char(
         string="Phone",
@@ -19,23 +19,27 @@ class HrEmployee(models.Model):
     cnaps = fields.Char(string="CNAPS No.")
     ostie = fields.Char(string="OSTIE No.")
     matricule = fields.Char(string="Employee ID")
-    classification_id = fields.Many2one('hr.classification', string="Classification")
-    children_ids = fields.One2many('hr.child', 'employe_id', string="Dependant Children", store=True)
+    classification_id = fields.Many2one("hr.classification", string="Classification")
+    children_ids = fields.One2many(
+        "hr.child", "employe_id", string="Dependant Children", store=True
+    )
 
 
 class HrEmployeePublic(models.Model):
     _inherit = "hr.employee.public"
-    _description = 'Employee (Public)'
+    _description = "Employee (Public)"
 
     cnaps = fields.Char(string="CNAPS No.")
     ostie = fields.Char(string="OSTIE No.")
     matricule = fields.Char(string="Employee ID")
-    classification_id = fields.Many2one('hr.classification', string="Classification")
-    children_ids = fields.One2many('hr.child', 'employe_public_id', string="Dependant Children", store=True)
+    classification_id = fields.Many2one("hr.classification", string="Classification")
+    children_ids = fields.One2many(
+        "hr.child", "employe_public_id", string="Dependant Children", store=True
+    )
 
 
 class HrClassification(models.Model):
-    _name = 'hr.classification'
-    _description = 'Employee Classification'
+    _name = "hr.classification"
+    _description = "Employee Classification"
 
     name = fields.Char(string="Name", required=True)

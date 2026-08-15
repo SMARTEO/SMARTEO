@@ -4,7 +4,7 @@ from odoo import models
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
-    _description = 'Transfer'
+    _description = "Transfer"
 
     def exp_button(self):
         return {

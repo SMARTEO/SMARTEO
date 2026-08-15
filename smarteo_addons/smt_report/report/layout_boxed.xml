@@ -12,7 +12,7 @@
                     </div>
                 </div>
             </xpath>
-            
+
             <!-- Tagline au-dessus de l'adresse -->
             <xpath expr="//div[@name='company_address']" position="before">
                 <div t-if="not is_html_empty(company.report_header)" class="text-end mb2">
