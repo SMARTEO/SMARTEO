@@ -27,13 +27,19 @@ msgid "Is Won Stage?"
 msgstr "Est en étape gagnée ?"
 
 #. module: smt_crm
+#. odoo-python
 #: code:addons/smt_crm/models/crm_stage.py:0
-#, python-format
 msgid "There must be only one lost stage!"
 msgstr "Il ne doit y avoir qu'une seule étape perdue !"
 
 #. module: smt_crm
+#. odoo-python
 #: code:addons/smt_crm/models/crm_lead.py:0
-#, python-format
 msgid "No lost stage — this action cannot be carried on!"
 msgstr "Aucune étape perdue, cette action ne peut pas être poursuivie !"
+
+#. module: smt_crm
+#. odoo-python
+#: code:addons/smt_crm/models/crm_lead.py:0
+msgid "Automatically assigned to %(salesperson)s based on existing customer %(partner)s."
+msgstr "Attribué automatiquement à %(salesperson)s d'après le client existant %(partner)s."
