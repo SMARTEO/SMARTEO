@@ -32,6 +32,11 @@ msgid "Restricted Users"
 msgstr "Utilisateurs restreints"
 
 #. module: smt_crm
+#: model_terms:ir.ui.view,arch_db:smt_crm.crm_stage_form_inherit
+msgid "Hide for"
+msgstr "Cacher pour"
+
+#. module: smt_crm
 #: model:ir.model.fields,help:smt_crm.field_crm_stage__restricted_user_ids
 #: model_terms:ir.ui.view,arch_db:smt_crm.crm_stage_form_inherit
 msgid ""

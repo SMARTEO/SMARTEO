@@ -53,3 +53,32 @@ class TestCrmStageVisibility(TransactionCase):
         found = self.env["crm.lead"].with_user(self.user).search([("id", "=", self.lead.id)])
 
         self.assertEqual(found, self.lead)
+
+    def test_kanban_column_hidden_for_restricted_user(self):
+        # Odoo's stage group_expand normally shows every stage as a column,
+        # even an empty one, so hiding leads alone leaves a visible empty column.
+        self.stage.restricted_user_ids = [(6, 0, self.user.ids)]
+
+        columns = (
+            self.env["crm.lead"]
+            .with_user(self.user)
+            ._read_group_stage_ids(self.env["crm.stage"], [])
+        )
+
+        self.assertNotIn(self.stage, columns)
+
+    def test_kanban_column_visible_for_unrestricted_user(self):
+        other_user = new_test_user(
+            self.env,
+            login="unrestricted_salesperson_kanban",
+            groups="sales_team.group_sale_salesman_all_leads",
+        )
+        self.stage.restricted_user_ids = [(6, 0, self.user.ids)]
+
+        columns = (
+            self.env["crm.lead"]
+            .with_user(other_user)
+            ._read_group_stage_ids(self.env["crm.stage"], [])
+        )
+
+        self.assertIn(self.stage, columns)

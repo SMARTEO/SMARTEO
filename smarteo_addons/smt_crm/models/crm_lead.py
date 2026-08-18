@@ -1,6 +1,6 @@
 import logging
 
-from odoo import models
+from odoo import api, models
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -9,6 +9,11 @@ _logger = logging.getLogger(__name__)
 class CrmLead(models.Model):
     _inherit = "crm.lead"
     _description = "CRM Lead / Opportunity"
+
+    @api.model
+    def _read_group_stage_ids(self, stages, domain):
+        stages = super()._read_group_stage_ids(stages, domain)
+        return stages.filtered(lambda stage: self.env.user not in stage.restricted_user_ids)
 
     def _move_opportunities_to_lost_stage(self):
         lost_stage = self.env["crm.stage"].search([("is_lost", "=", True)], limit=1)
