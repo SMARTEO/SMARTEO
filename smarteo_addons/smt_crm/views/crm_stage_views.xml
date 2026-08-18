@@ -10,6 +10,12 @@
                 <xpath expr="//field[@name='is_won']" position="after">
                     <field name="is_lost"/>
                 </xpath>
+                <xpath expr="//field[@name='requirements']" position="before">
+                    <separator string="Visibility"/>
+                    <field name="restricted_user_ids" widget="many2many_tags"
+                        placeholder="Visible to everyone"
+                        help="Users listed here cannot see this stage or its leads/opportunities anywhere in the CRM."/>
+                </xpath>
             </field>
         </record>
 

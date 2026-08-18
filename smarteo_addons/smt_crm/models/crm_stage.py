@@ -8,6 +8,11 @@ class CrmStage(models.Model):
 
     is_won = fields.Boolean("Is Won Stage?")
     is_lost = fields.Boolean("Is Lost Stage?", default=False, store=True)
+    restricted_user_ids = fields.Many2many(
+        "res.users",
+        string="Restricted Users",
+        help="Users listed here cannot see this stage or its leads/opportunities anywhere in the CRM.",
+    )
 
     @api.constrains("is_lost")
     def _check_lost_stage_more_than_one(self):
