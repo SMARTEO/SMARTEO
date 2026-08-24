@@ -36,6 +36,21 @@
                         <field name="phone3" class="w-100" widget="phone" placeholder="Téléphone3" />
                     </div>
                 </xpath>
+                
+                <xpath expr="//templates/t/main/div[2]" position="after">
+                    <div t-if="record.phone.raw_value">
+                        <i class="fa fa-fw me-1 fa-phone text-primary" title="Téléphone1" />
+                        <field name="phone1" />
+                    </div>
+                    <div t-if="record.phone.raw_value">
+                        <i class="fa fa-fw me-1 fa-phone text-primary" title="Téléphone2" />
+                        <field name="phone2" />
+                    </div>
+                    <div t-if="record.phone.raw_value">
+                        <i class="fa fa-fw me-1 fa-phone text-primary" title="Téléphone3" />
+                        <field name="phone3" />
+                    </div>
+                </xpath>
             </field>
         </record>
     </data>
