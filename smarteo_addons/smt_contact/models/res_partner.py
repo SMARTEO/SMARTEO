@@ -16,6 +16,9 @@ class ResPartner(models.Model):
     customer = fields.Boolean("Customer")
     supplier = fields.Boolean("Supplier")
     compete = fields.Boolean("Competitor")
+    phone1 = fields.Char()
+    phone2 = fields.Char()
+    phone3 = fields.Char()
 
     def update_compete_for_child(self):
         partners = self.search([("compete", "=", True)])
