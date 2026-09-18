@@ -19,6 +19,16 @@ class ResPartner(models.Model):
     phone1 = fields.Char()
     phone2 = fields.Char()
     phone3 = fields.Char()
+    can_edit_payment_terms = fields.Boolean(
+        string="May change the payment terms",
+        compute="_compute_can_edit_payment_terms",
+    )
+
+    @api.depends_context("uid")
+    def _compute_can_edit_payment_terms(self):
+        can_edit = self.env.user.has_group("smt_base.group_can_edit_payment_terms")
+        for partner in self:
+            partner.can_edit_payment_terms = can_edit
 
     def update_compete_for_child(self):
         partners = self.search([("compete", "=", True)])
