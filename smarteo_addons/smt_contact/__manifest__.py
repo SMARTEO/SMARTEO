@@ -5,8 +5,8 @@
     "author": "NEXOURCES",
     "website": "https://www.nexources.com",
     "category": "Contacts",
-    "version": "19.0.1.0.0",
-    "depends": ["base", "contacts", "smt_base"],
+    "version": "19.0.1.0.1",
+    "depends": ["account", "contacts", "smt_base"],
     "data": [
         "views/res_partner_views.xml",
         "data/ir_cron.xml",
