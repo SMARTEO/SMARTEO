@@ -1,0 +1,142 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* smt_contact
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-18 16:08+0000\n"
+"PO-Revision-Date: 2026-09-18 16:08+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: smt_contact
+#: model_terms:ir.ui.view,arch_db:smt_contact.res_partner_contact_inherited
+msgid "<i class=\"fa fa-fw me-1 fa-phone text-primary\" title=\"Phone\"/>"
+msgstr ""
+
+#. module: smt_contact
+#: model_terms:ir.ui.view,arch_db:smt_contact.res_partner_contact_inherited
+msgid "<i class=\"fa fa-fw me-1 fa-phone text-primary\" title=\"Téléphone1\"/>"
+msgstr ""
+
+#. module: smt_contact
+#: model_terms:ir.ui.view,arch_db:smt_contact.res_partner_contact_inherited
+msgid "<i class=\"fa fa-fw me-1 fa-phone text-primary\" title=\"Téléphone2\"/>"
+msgstr ""
+
+#. module: smt_contact
+#: model_terms:ir.ui.view,arch_db:smt_contact.res_partner_contact_inherited
+msgid "<i class=\"fa fa-fw me-1 fa-phone text-primary\" title=\"Téléphone3\"/>"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__cif
+#: model:ir.model.fields,field_description:smt_contact.field_res_users__cif
+msgid "CIF"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__compete
+#: model:ir.model.fields,field_description:smt_contact.field_res_users__compete
+msgid "Competitor"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.model,name:smt_contact.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.actions.server,name:smt_contact.ir_cron_compete_child_ir_actions_server
+msgid "Contact : update child compete"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__customer
+#: model:ir.model.fields,field_description:smt_contact.field_res_users__customer
+msgid "Customer"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: smt_contact
+#: model_terms:ir.ui.view,arch_db:smt_contact.res_partner_contact_inherited
+msgid "Informations contacts"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__can_edit_payment_terms
+#: model:ir.model.fields,field_description:smt_contact.field_res_users__can_edit_payment_terms
+msgid "May change the payment terms"
+msgstr "Peut modifier les conditions de paiement"
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__nif
+#: model:ir.model.fields,field_description:smt_contact.field_res_users__nif
+msgid "NIF"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__phone1
+#: model:ir.model.fields,field_description:smt_contact.field_res_users__phone1
+msgid "Phone1"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__phone2
+#: model:ir.model.fields,field_description:smt_contact.field_res_users__phone2
+msgid "Phone2"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__phone3
+#: model:ir.model.fields,field_description:smt_contact.field_res_users__phone3
+msgid "Phone3"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__rcs
+#: model:ir.model.fields,field_description:smt_contact.field_res_users__rcs
+msgid "RCS"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__stat
+#: model:ir.model.fields,field_description:smt_contact.field_res_users__stat
+msgid "STAT"
+msgstr ""
+
+#. module: smt_contact
+#: model:ir.model.fields,field_description:smt_contact.field_res_partner__supplier
+#: model:ir.model.fields,field_description:smt_contact.field_res_users__supplier
+msgid "Supplier"
+msgstr ""
+
+#. module: smt_contact
+#: model_terms:ir.ui.view,arch_db:smt_contact.res_partner_contact_inherited
+msgid "Téléphone1"
+msgstr ""
+
+#. module: smt_contact
+#: model_terms:ir.ui.view,arch_db:smt_contact.res_partner_contact_inherited
+msgid "Téléphone2"
+msgstr ""
+
+#. module: smt_contact
+#: model_terms:ir.ui.view,arch_db:smt_contact.res_partner_contact_inherited
+msgid "Téléphone3"
+msgstr ""
