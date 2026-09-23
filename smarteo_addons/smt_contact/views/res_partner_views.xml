@@ -53,5 +53,22 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="res_partner_view_form_property_inherit" model="ir.ui.view">
+            <field name="name">res.partner.view.form.property.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <field name="property_payment_term_id" position="before">
+                    <field name="can_edit_payment_terms" invisible="1"/>
+                </field>
+                <field name="property_payment_term_id" position="attributes">
+                    <attribute name="readonly">not can_edit_payment_terms</attribute>
+                </field>
+                <field name="property_supplier_payment_term_id" position="attributes">
+                    <attribute name="readonly">not can_edit_payment_terms</attribute>
+                </field>
+            </field>
+        </record>
     </data>
 </odoo>
