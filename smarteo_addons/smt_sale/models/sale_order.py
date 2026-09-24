@@ -1,4 +1,5 @@
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class SaleOrderLine(models.Model):
@@ -19,7 +20,10 @@ class SaleOrderLine(models.Model):
     def _compute_is_set_desc_lines(self):
         can_edit = self.env.user.has_group("smt_sale.is_set_desc_lines_security")
         for line in self:
-            line.is_set_desc_lines = can_edit or line.display_type in ("line_section", "line_note")
+            line.is_set_desc_lines = can_edit or line.display_type in (
+                "line_section",
+                "line_note",
+            )
 
     @api.depends("purchase_price", "product_uom_qty")
     def _compute_purchase_price_subtotal(self):
@@ -29,7 +33,9 @@ class SaleOrderLine(models.Model):
     @api.depends("price_subtotal", "product_uom_qty", "purchase_price")
     def _compute_margin(self):
         for line in self:
-            line.margin = line.price_subtotal - (line.purchase_price * line.product_uom_qty)
+            line.margin = line.price_subtotal - (
+                line.purchase_price * line.product_uom_qty
+            )
             cost = line.purchase_price * line.product_uom_qty
             line.margin_percent = line.margin / cost if cost else 0
 
@@ -38,10 +44,24 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
     _description = "Sale Order"
 
+    partner_id = fields.Many2one(domain="[('parent_id', '=', False)]")
+
+    @api.constrains("partner_id")
+    def _check_partner_is_main_contact(self):
+        for order in self:
+            if order.partner_id.parent_id:
+                raise ValidationError(
+                    "The client must be the main contact (company). "
+                    "Use the billing/shipping addresses for "
+                    "the attached contacts."
+                )
+
     def action_open_crm(self):
         self.ensure_one()
         crm_id = self.opportunity_id
-        action = self.env["ir.actions.actions"]._for_xml_id("crm.crm_lead_action_pipeline")
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "crm.crm_lead_action_pipeline"
+        )
         if len(crm_id) > 1:
             action["domain"] = [("id", "in", crm_id.ids)]
         elif len(crm_id) == 1:

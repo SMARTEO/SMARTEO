@@ -42,6 +42,11 @@
                 <button class="oe_stat_button" name="action_open_crm" string="CRM" type="object"
                     icon="fa-user" invisible="not opportunity_id"/>
             </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('parent_id', '=', False)]</attribute>
+                <attribute name="options">{"always_reload": True, "no_create": True,
+                    "no_quick_create": True, "no_create_edit": True}</attribute>
+            </xpath>
         </field>
     </record>
 
