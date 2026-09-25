@@ -5,5 +5,9 @@
             <field name="name">Changes to Payment Terms</field>
             <field name="comment">Users authorized to edit the “Payment Terms” field (other users can only view it).</field>
         </record>
+         <record id="group_activity_manager" model="res.groups">
+            <field name="name">Management of all users' activities</field>
+            <field name="comment">Allows you to edit or delete activities scheduled by any user (an exception to the rule that “each user manages their own activities”).</field>
+        </record>
     </data>
 </odoo>

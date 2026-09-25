@@ -6,9 +6,11 @@
     "website": "https://www.nexources.com",
     "category": "Uncategorized",
     "version": "19.0.1.0.0",
-    "depends": ["base"],
+    "depends": ["mail"],
     "data": [
+        # security
         "security/smt_base_security.xml",
+        "security/ir_rules.xml",
     ],
     "license": "LGPL-3",
 }
